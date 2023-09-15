@@ -1,0 +1,54 @@
+(* ::Package:: *)
+
+BeginPackage["psgSolver`symmetryG`"]
+Remove["psgSolver`symmetryG`*"]
+(*Needs["SU2Utils"]*)
+(*List of Symmetries*)
+Needs["psgSolver`definitions`"]
+
+symGenSet={Tx, Ty, Px, Py, Pxy}    
+
+
+(*Coordinates*)
+x; y;
+
+(*Set of Relations*)
+SGset::usage = "set of Symmetry Group Relations";
+
+Begin["Private`"]
+
+(*Define and Transformations, Inverses, Relators*)
+Tx [{x_, y_}] := {x - 1, y};
+Ty [{x_, y_}] := {x, y - 1};
+Px [{x_, y_}] := {-x, y};
+Py [{x_, y_}] := {x, -y};
+Pxy[{x_, y_}] := {y, x};
+T[{x_, y_}] := {x, y};
+(*At some later time, one should let the inverses be automatically \
+computed*)
+Inv[Tx][{x_, y_}]  := {x + 1, y};
+Inv[Ty][{x_, y_}]  := {x, y + 1};
+Inv[Px][{x_, y_}]  := {-x, y};
+Inv[Py][{x_, y_}]  := {x, -y};
+Inv[Pxy][{x_, y_}] := {y, x};
+Inv[T][{x_, y_}]   := {x, y};
+
+SGset = {gmult[Inv[Tx], Inv[Ty], Tx, Ty], 
+         gmult[Inv[Px], Inv[Ty], Px, Ty],
+         gmult[Inv[Px], Tx, Px, Tx],
+         gmult[Inv[Py], Inv[Tx], Py, Tx],
+         gmult[Inv[Py], Ty, Py, Ty],
+         (*gmult[Inv[Pxy], Inv[Tx], Pxy, Ty],*)
+         gmult[Pxy, Inv[Tx], Pxy, Ty],
+         (*gmult[Inv[Pxy], Inv[Ty], Pxy, Tx],*)
+         gmult[Pxy, Inv[Ty], Pxy, Tx],
+         gmult[Inv[Py],Pxy,Px,Pxy],
+         gmult[Inv[Px],Inv[Py],Px,Py],
+         gmult[Py, Py],
+         gmult[Px, Px],
+         gmult[Pxy, Pxy]
+         };
+
+End[]
+EndPackage[]
+
