@@ -71,6 +71,8 @@ Equation[Times[a___, b_/;( FreeQ[b,SU2] && FreeQ[b,F]), c___],rhs_]:=      Equat
 
 
 (*Property of how inverse works with phases*)
+Inv[Inv[F[A_]]]:= F[A]
+SU2[Inv[Inv[A_]]]:=SU2[A]
 (*Inv[F[A_]][coord_]:=Power[F[A][coord],-1]*)
 SU2[Inv[SU2[\[Tau]0]]]=SU2[\[Tau]0]
 SU2[Inv[SU2[\[Tau]1]]]=SU2[\[Tau]1]
