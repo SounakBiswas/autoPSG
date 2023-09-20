@@ -14,6 +14,7 @@ x; y;
 
 (*Set of Relations*)
 SGset::usage = "set of Symmetry Group Relations";
+nrel::usage = "integer, number of etas to start with";
 
 Begin["Private`"]
 
@@ -49,6 +50,7 @@ SGset = {gmult[Inv[Tx], Inv[Ty], Tx, Ty],
          gmult[Pxy, Pxy]
          };
 
+nrel=Length[SGset]
 End[]
 EndPackage[]
 

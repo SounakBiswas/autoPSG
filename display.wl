@@ -6,10 +6,10 @@ Needs["psgSolver`symmetryG`"]
 Needs["psgSolver`su2Utils`"]
 Begin["Private`"]
 
-Format[HoldPattern[Inv[F[x_]][{a_,b_}]],StandardForm] := Superscript[Subscript[F, x],-1][a,b];
-Format[HoldPattern[F[x_][{a_,b_}]],StandardForm] := Subscript[F, x][a,b];
-Format[HoldPattern[SU2[Inv[K_[a_]]][{x_,y_}]],StandardForm]:= Superscript[Subscript[K, a],-1][x,y];
-Format[HoldPattern[SU2[K_[a_]][{x_,y_}]],StandardForm] :=Subscript[K, a][x,y];
+Format[ Inv[F[x_]][{a_,b_}],StandardForm] := Superscript[Subscript[F, x],-1][a,b];
+Format[ F[x_][{a_, b_}], StandardForm] := Subscript[F, x][a, b];
+Format[SU2[Inv[K_[a_]]][{x_,y_}],StandardForm]:= Superscript[Subscript[K, a],-1][x,y];
+Format[SU2[K_[a_]][{x_,y_}],StandardForm] :=Subscript[K, a][x,y];
 (*Format[Unevaluated[Equation[lhs_,rhs_]],StandardForm] := DisplayForm[RowBox[{ToBoxes[lhs],RowBox[{"="}],ToBoxes[rhs]}]]*)
 Format[SU2[Inv[K_[a_]]],StandardForm]:= Superscript[Subscript[K, a],-1];
 Format[SU2[K_[a_]],StandardForm] :=Subscript[K, a];
@@ -18,6 +18,7 @@ Format[\[Eta][x_],StandardForm] := Subscript[\[Eta], x];
 Format[F[x_],StandardForm] := Subscript[F, x];
 Format[Inv[F[x_]],StandardForm] := Superscript[Subscript[F, x],-1];
 Format[HoldPattern[Equation[lhs_,rhs_]],StandardForm] :=  DisplayForm[RowBox[{ToBoxes[lhs],RowBox[{"="}],ToBoxes[rhs]}]]
+
 
 End[]
 EndPackage[]
