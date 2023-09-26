@@ -1,9 +1,9 @@
 (* ::Package:: *)
-
 BeginPackage["psgSolver`display`"]
 Needs["psgSolver`definitions`"]
 Needs["psgSolver`symmetryG`"]
-Needs["psgSolver`su2Utils`"]
+Needs["psgSolver`paulis`"]
+Needs["psgSolver`z2Utils`"]
 Begin["Private`"]
 
 Format[ Inv[F[x_]][{a_,b_}],StandardForm] := Superscript[Subscript[F, x],-1][a,b];
