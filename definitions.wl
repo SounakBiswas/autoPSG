@@ -7,6 +7,10 @@ SU2::usage = "sU2 Matrix object, used for all sorts of things"
 F::usage = "unit cell part of matrix"
 M::usage = "translation independent part of matrix"
 G::usage = "SU2[G[Tx]] is the matrix corresponding to Tx"
+DeleteTrivialEquations::usage="Delete Trivial Equations"
+IfFSolved::usage="check if phase parts are solved"
+SubstFormInvF; SubstFormInvM; DispFormInvF ; DispFormInvM ;
+
 (*Z2 and U1 space dependence part*)
 Begin["Private`"]
 (*Redefining System`CenterDot*)
@@ -23,10 +27,20 @@ CenterDot[a__+b__,c__]:= CenterDot[a,c]+CenterDot[b,c];
 Equation[ a_/;(Not[ SameQ [a,1] ] &&FreeQ[a,SU2] && FreeQ[a,F]),rhs_]:= Equation[1, Times[Power[a,-1], rhs]]
 Equation[Times[a___, b_/;( FreeQ[b,SU2] && FreeQ[b,F]), c___],rhs_]:=      Equation[a c, Power[b,-1] rhs]
 
+IfTrivialEquation[HoldPattern[Equation[a_,b_]]]:=SameQ[a,b];
+DeleteTrivialEquations[eqSet_]:=DeleteCases[eqSet,x_/;IfTrivialEquation[x]];
+
+IfFSolved[eqset_]:= And@@(FreeQ[HoldPattern[#],F]&/@eqset)
+
+SubstFormInvF = {Inv[F[A_]][coord_] -> Power[F[A][coord], -1]};
+SubstFormInvM = {SU2[Inv[M[A_]]] -> SU2[Inv[SU2[M[A]]]]};
+DispFormInvF = {Power[F[A_][coord_], -1] -> Inv[F[A]][coord]};
+DispFormInvM = {SU2[Inv[SU2[M[A_]]]] -> SU2[Inv[M[A]]]};
 
 
 (*Property of how inverse works with phases*)
 Inv[Inv[F[A_]]]:= F[A]
 SU2[Inv[Inv[A_]]]:=SU2[A]
+
 End[]
 EndPackage[]
