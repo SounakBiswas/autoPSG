@@ -1,4 +1,5 @@
 <<psgSolver`definitions`
 <<psgSolver`symmetryG`
-<<psgSolver`su2Utils`
+<<psgSolver`matrixRels`
+<<psgSolver`paulis`
 <<psgSolver`display`

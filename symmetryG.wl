@@ -39,10 +39,10 @@ SGset = {gmult[Inv[Tx], Inv[Ty], Tx, Ty],
          gmult[Inv[Px], Tx, Px, Tx],
          gmult[Inv[Py], Inv[Tx], Py, Tx],
          gmult[Inv[Py], Ty, Py, Ty],
-         (*gmult[Inv[Pxy], Inv[Tx], Pxy, Ty],*)
          gmult[Pxy, Inv[Tx], Pxy, Ty],
-         (*gmult[Inv[Pxy], Inv[Ty], Pxy, Tx],*)
-         gmult[Pxy, Inv[Ty], Pxy, Tx],
+         (*gmult[Pxy, Inv[Tx], Pxy, Ty],*)
+         gmult[Inv[Pxy], Inv[Ty], Pxy, Tx],
+         (*gmult[Pxy, Inv[Ty], Pxy, Tx],*)
          gmult[Inv[Py],Pxy,Px,Pxy],
          gmult[Inv[Px],Inv[Py],Px,Py],
          gmult[Py, Py],
