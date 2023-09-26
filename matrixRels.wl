@@ -1,9 +1,9 @@
 BeginPackage["psgSolver`matrixRels`"]
-Remove["psgSolver`matrixRels*"]
+Remove["psgSolver`matrixRels`*"]
 Needs["psgSolver`definitions`"]
 Needs["psgSolver`symmetryG`"]
+Needs["psgSolver`z2Utils`"]
 
-\[Eta]::usage = "Z2 phases"
 MatrixRelations::usage= "MatrixRelations[sgset] gives the set of psg equations from the symmetry group presentation"
 
 Begin["Private`"]
