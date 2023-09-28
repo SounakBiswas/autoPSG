@@ -32,10 +32,10 @@ coord= If[MatchQ[c,None], {a,b}, {a,b,c}];
 head=If[MatchQ[slat,None],Subscript[K,x], Superscript[Subscript[K,x],slat]];
 head[Sequence@@coord]
 ]
-Format[SU2[Inv[K_[a_]]][slat_:None],StandardForm]:= 
+Format[SU2[Inv[K_[a_][slat_:None]]],StandardForm]:= 
 If[MatchQ[slat,None],Superscript[Subscript[K, a],-1], Superscript[Superscript[Subscript[K, a],slat],-1]];
 
-Format[SU2[K_[a_]][slat_:None],StandardForm] :=If[MatchQ[slat,None],Subscript[K, a],Superscript[Subscript[K, a],slat]];
+Format[SU2[K_[a_][slat_:None]],StandardForm] :=If[MatchQ[slat,None],Subscript[K, a],Superscript[Subscript[K, a],slat]];
 
 
 (*Format[SU2[Inv[K_[a_]]][{x_,y_}],StandardForm]:= Superscript[Subscript[K, a],-1][x,y];*)

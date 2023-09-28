@@ -17,7 +17,7 @@ ToMatrixExp[gmult[a_,b__], coord_:{x,y,z,s}]:=expG[a][coord]\[CenterDot]ToMatrix
 
 (* Converts a symmetry group relator to a Equation[] Object*)
 (*MatrixRelations[rels_]:=ReleaseHold[(Hold[Equation[ToMatrixExp[rels[[#]]], \[Eta][#]]])&/@Range[Length[rels]]];*)
-MatrixRelationsSlat[rels_,slat_]:=ReleaseHold[( Hold[Equation[ToMatrixExp[rels[[#]],{x,y,None,slat}], \[Eta][#]]] )&/@Range[Length[rels]]];
+MatrixRelationsSlat[rels_,slat_]:=ReleaseHold[( Hold[Equation[ToMatrixExp[rels[[#]],{defaultCoords,slat}], \[Eta][#]]] )&/@Range[Length[rels]]];
 MatrixRelations[rels_]:=Join@@( MatrixRelationsSlat[rels,#]&/@slatList)
 
 
