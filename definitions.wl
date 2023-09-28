@@ -33,9 +33,9 @@ DeleteTrivialEquations[eqSet_]:=DeleteCases[eqSet,x_/;IfTrivialEquation[x]];
 IfFSolved[eqset_]:= And@@(FreeQ[HoldPattern[#],F]&/@eqset)
 
 SubstFormInvF = {Inv[F[A_]][coord_] -> Power[F[A][coord], -1]};
-SubstFormInvM = {SU2[Inv[M[A_]]] -> SU2[Inv[SU2[M[A]]]]};
+SubstFormInvM = {SU2[Inv[M[A_][slat_]]] -> SU2[Inv[SU2[M[A][slat]]]]};
 DispFormInvF = {Power[F[A_][coord_], -1] -> Inv[F[A]][coord]};
-DispFormInvM = {SU2[Inv[SU2[M[A_]]]] -> SU2[Inv[M[A]]]};
+DispFormInvM = {SU2[Inv[SU2[M[A_][slat_]]]] -> SU2[Inv[M[A][slat]]]};
 
 
 (*Property of how inverse works with phases*)
