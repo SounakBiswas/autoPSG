@@ -122,6 +122,20 @@ Equation[cond,1],
 Nothing]
 ]
 
+setIGGrules[rels_]:=
+Module[ {iggAssoc, setIGGGen},
+iggAssoc=Association[{}];
+setIGGGen[A_,HoldPattern[Equation[lhs_,rhs_]]]:= 
+If[ ifIGGSet[A]==False 
+&&Not[KeyExistsQ[iggAssoc,rhs]]
+&& OddQ[Count[lhs,G[A],{0,Infinity}, Heads->True]],
+(ifIGGSet[A]=True;
+iggAssoc[rhs]=True;
+rhs:>1),
+Nothing];
+Join@@Function[x, setIGGGen[x,#]&/@rels]/@symGenSet
+]
+
 
 FindRelationConstraints[HoldPattern[Equation[lhs_,rhs_]]]:= 
 If[ FreeQ[lhs,x]&&FreeQ[lhs,y]&& FreeQ[lhs,z] && Not[FreeQ[rhs,x] && FreeQ[rhs,y] &&FreeQ[rhs,z]],
@@ -134,7 +148,8 @@ If[ FreeQ[lhs,x]&&FreeQ[lhs,y]&& FreeQ[lhs,z] && Not[FreeQ[rhs,x] && FreeQ[rhs,y
           IsolateRelationExponent[rhs,z x],
           IsolateRelationExponent[rhs,z y],
           IsolateRelationExponent[rhs,x y z]
-      ]  ]
+      ]],
+      Nothing
      ]
      },
    If[SameQ[lhs,1],
@@ -160,24 +175,30 @@ newRels];
 substAllMsIntoAllEqs[rels_]:= Fold[substMIntoAllEqs[#1,#2]&,rels,Range[Length[rels]]];
 IfFOrInvF[a_]:=MatchQ[a,F[A_]] || MatchQ[a,Inv[F[A_]]];
 (*Again assume that the symmetries don't take a site at [x,y] to [x+y,x-y]*)
-getFSubstitutors[HoldPattern[Equation[Times[(t1_?IfFOrInvF)[{x1_,y1_}],(t2_?IfFOrInvF)[{x2_,y2_}]] ,rhs_]]]:= 
+getFSubstitutors[HoldPattern[Equation[Times[(t1_?IfFOrInvF)[{x1_,y1_,z1_,s1_}],(t2_?IfFOrInvF)[{x2_,y2_,z2_,s2_}]] ,rhs_]]]:= 
 Module[{x1n,y1n,x2n,y2n,rule1,rule2,rule3,rule4,svar,subrules},
-svar[Plus[Times[x, m_:1],k_:0]]:=a;
-svar[Plus[Times[y, m_:1],k_:0]]:=b;
-subrules[Plus[Times[x, m_:1],k_:0]]:= x->m^-1 (a-k);
-subrules[Plus[Times[y, m_:1],k_:0]]:= y->m^-1 (b-k);
-x2n=x2/.{subrules[x1],subrules[y1]};
-y2n=y2/.{subrules[x1],subrules[y1]};
-x1n=x1/.{subrules[x2],subrules[y2]};
-y1n=y1/.{subrules[x2],subrules[y2]};
-If[MatchQ[t1,Inv[A_]],
- rule1=Inv[ t1][{(Pattern[#,_]&)[svar[x1]],(Pattern[#,_]&)[svar[y1]]}]-> ( t2[{#1 ,#2}]rhs^-1)&[x2n,y2n],
-rule1=t1[{(Pattern[#,_]&)[svar[x1]],(Pattern[#,_]&)[svar[y1]]}]-> ( Inv[t2][{#1 ,#2}]rhs)&[x2n,y2n]];
-If[MatchQ[t2,Inv[A_]],
-rule2= Inv[t2][{(Pattern[#,_]&)[svar[x2]],(Pattern[#,_]&)[svar[y2]]}]->  ( t1[{#1 ,#2}]rhs^-1)&[x1n,y1n],
-rule2= t2[{(Pattern[#,_]&)[svar[x2]],(Pattern[#,_]&)[svar[y2]]}]->  ( Inv[t1][{#1 ,#2}]rhs)&[x1n,y1n]];
-;
-List[rule1,rule2]
+       svar[Plus[Times[x, m_:1],k_:0]]:=a;
+       svar[Plus[Times[y, m_:1],k_:0]]:=b;
+       svar[Plus[Times[z, m_:1],k_:0]]:=c;
+       subrules[Plus[Times[x, m_:1],k_:0]]:= x->m^-1 (a-k);
+       subrules[Plus[Times[y, m_:1],k_:0]]:= y->m^-1 (b-k);
+       subrules[Plus[Times[z, m_:1],k_:0]]:= y->m^-1 (c-k);
+       x2n=x2/.{subrules[x1],subrules[y1],subrules[z1]};
+       y2n=y2/.{subrules[x1],subrules[y1],subrules[z1]};
+       z2n=z2/.{subrules[x1],subrules[y1],subrules[z1]};
+
+       x1n=x1/.{subrules[x2],subrules[y2],subrules[z2]};
+       y1n=y1/.{subrules[x2],subrules[y2],subrules[z2]};
+       z1n=z1/.{subrules[x2],subrules[y2],subrules[z2]};
+       If[MatchQ[t1,Inv[A_]],
+        rule1=Inv[ t1][ {(Pattern[#,_]&)[svar[x1]],(Pattern[#,_]&)[svar[y1]]} ]-> ( t2[{#1 ,#2,#3}]rhs^-1)&[x2n,y2n,z2n],
+       rule1=t1[{(Pattern[#,_]&)[svar[x1]],(Pattern[#,_]&)[svar[y1]]}]-> ( Inv[t2][{#1 ,#2,#3}]rhs)&[x2n,y2n,zn]
+       ];
+       If[MatchQ[t2,Inv[A_]],
+       rule2= Inv[t2][{(Pattern[#,_]&)[svar[x2]],(Pattern[#,_]&)[svar[y2]]}]->  ( t1[{#1 ,#2,#3}]rhs^-1)&[x1n,y1n,z1n],
+       rule2= t2[{(Pattern[#,_]&)[svar[x2]],(Pattern[#,_]&)[svar[y2]]}]->  ( Inv[t1][{#1 ,#2,#3}]rhs)&[x1n,y1n,z1n]];
+       ;
+       List[rule1,rule2]
 ]
 
 getFSubstitutors[HoldPattern[x__Equation]]:=Nothing
