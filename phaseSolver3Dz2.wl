@@ -1,5 +1,5 @@
-BeginPackage["psgSolver`phaseSolverPlumbing`"]
-Remove["psgSolver`phaseSolver2Dz2`*"]
+BeginPackage["psgSolver`phaseSolver3Dz2`"]
+Remove["psgSolver`phaseSolver3Dz2`*"]
 Needs["psgSolver`definitions`"] 
 Needs["psgSolver`symmetryG`"] 
 Needs["psgSolver`z2Utils`"] 
@@ -9,7 +9,7 @@ InitPSGSolver::usage="initiate solver, basic associations"
 decomposeGtoFM::usage = "decompose matrices into phase part and matrix"
 phaseSolverIterate ::usage = "solve for phase parts recursively"
 
-Begin["Private`"]
+(*Begin["Private`"]*)
 phaseSolverIterate[rels0_]:=Module[
 {rels1,rules0,rels2,elementaryFReductions,composedFReductions,FCompositionConstraints, etaRelationConstraints,FSubstRules},
   rules0 = DeleteCases[Join[Values[FAssoc],Values[MAssoc]],Null];
@@ -62,7 +62,7 @@ FAssoc[Ty]=(F[Ty][{x_,y_}]-> \[Eta][1]^x);
 nrel=Length[SGset];
 Null)
 (****************************************)
-decomposeGtoFM[expr_]:= expr/.{SU2[G[A_]][{x_,y_}]-> F[A][{x,y}]SU2[M[A]],SU2[Inv[G[A_]]][{x_,y_}]-> Inv[F[A]][{x,y}] SU2[Inv[M[A]]]};
+decomposeGtoFM[expr_]:= expr/.{SU2[G[A_]][{x_,y_,z_,s_}]-> F[A][{x,y,z,s}]SU2[M[A][s]],SU2[Inv[G[A_]]][{x_,y_,z_,s_}]-> Inv[F[A]][{x,y,z,s}] SU2[Inv[M[A][s]]]};
 (****************************************)
 ApplyRules[relations_,subrules_]:= (relations/.SubstFormInvF/.SubstFormInvM/.subrules/.DispFormInvF/.DispFormInvM)//z2Simplify//DeleteTrivialEquations;
 (******************************************)
@@ -84,11 +84,11 @@ rules={};
 (If[MemberQ[z1,#,{Infinity}],Append[rules,{#->c}];];&)/@{x,y,z};
 expr=p//.rules;
 If[Abs[k2]==1,
- {Rule@@{F[A][{a_,b_,c_}], F[A][{a,0,c}]expr^b}},
+ {Rule@@{F[A][{a_,b_,c_,s}], F[A][{a,0,c,s}]expr^b}},
 If[Abs[k1]==1 ,
-{Rule@@{F[A][{a_,b_,c_}], F[A][{0,b,c}]expr^a}},
+{Rule@@{F[A][{a_,b_,c_,s}], F[A][{0,b,c,s}]expr^a}},
 If[Abs[k3]==1 ,
-{Rule@@{F[A][{a_,b_,c_}], F[A][{a,b,c}]expr^c}}]]]];
+{Rule@@{F[A][{a_,b_,c_,s}], F[A][{a,b,0,s}]expr^c}}]]]];
 
 ReduceF[HoldPattern[x_Equation]]:= 
 If[IfFirstOrderDEq2D[x],
@@ -96,15 +96,18 @@ FirstOrderDEqSolve2D[x],
 Nothing]
 
 (*First Order solutions*)
-FilterReductions[F[A_],reductions_]:=Cases[reductions,HoldPattern[Rule[F[A][coord_],x___]]];
+FilterReductions[F[A_],s_,reductions_]:=Cases[reductions,HoldPattern[Rule[F[A][{coord__,s}],x___]]];
 
 FReductions[reductions_]:=Module[{tempList},
 tempList=
-(With[{reds=FilterReductions[F[#],reductions]}, 
+(With[{reds=FilterReductions[F[#1], #2,reductions]}, 
 If[Length[reds]!=0, 
-If[FreeQ[Fold[ReplaceAll,F[#][{x,y}],reds],F[#][coord_/;(MemberQ[coord,x|y])]],
-#->(F[#][{x_,y_}]->Fold[ReplaceAll,F[#][{x,y}],reds]),Nothing],
-Nothing]]& )/@symGenSet /.{F[A_][{0,0,0,s_}]->1,F[A_][{0,0,None,s_}]->1};
+  If[FreeQ[Fold[ReplaceAll,F[#1][{defaultCoords,#2}],reds],F[#1][coord_/;(MemberQ[coord,x|y|z])]],
+    {#1,#2}->(F[#1][{defaultCoordsPattern,#2}]->Fold[ReplaceAll,F[#1][{defaultCoords,#2}],reds]),
+   Nothing
+  ],
+Nothing]]& )@@@ (Distribute[{symGenSet,slatList},List]);
+tempList = tempList//.{F[A_][{0,0,0,s_}]->1,F[A_][{0,0,None,s_}]->1};
 Association[tempList]
 ]
 
@@ -120,13 +123,22 @@ Nothing]
 
 
 FindRelationConstraints[HoldPattern[Equation[lhs_,rhs_]]]:= 
-If[FreeQ[lhs,x]&&FreeQ[lhs,y]&&Not[FreeQ[rhs,x] && FreeQ[rhs,y]],
-{IsolateRelationExponent[rhs,x],
-IsolateRelationExponent[rhs,y],
-IsolateRelationExponent[rhs,x y]},
-If[SameQ[lhs,1],
-{Equation[1,rhs]},
-Nothing
+If[ FreeQ[lhs,x]&&FreeQ[lhs,y]&& FreeQ[lhs,z] && Not[FreeQ[rhs,x] && FreeQ[rhs,y] &&FreeQ[rhs,z]],
+     {IsolateRelationExponent[rhs,x],
+     IsolateRelationExponent[rhs,y],
+     IsolateRelationExponent[rhs,x y],
+     If[Not[twoDim],
+        Unevaluated[Sequence[ 
+          IsolateRelationExponent[rhs,z],
+          IsolateRelationExponent[rhs,z x],
+          IsolateRelationExponent[rhs,z y],
+          IsolateRelationExponent[rhs,x y z]
+      ]  ]
+     ]
+     },
+   If[SameQ[lhs,1],
+   {Equation[1,rhs]},
+   Nothing
 ]
 ]
 RelationConstraintRule[HoldPattern[Equation[1,Times[x_,y__]]]]:= {x->Times[y]};
@@ -204,6 +216,6 @@ eqj]
 
 SetAttributes[addToFSubstAssoc,HoldFirst];
 addToFSubstAssoc[substAssoc_,rule:Rule[F[A_][{x_,y_}],rhs_]]:=(AppendTo[substAssoc[A],rule];)
-End[]
+(*End[]*)
 
 EndPackage[]
