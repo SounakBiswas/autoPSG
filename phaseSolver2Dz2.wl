@@ -1,4 +1,4 @@
-BeginPackage["psgSolver`phaseSolverPlumbing`"]
+BeginPackage["psgSolver`phaseSolver2Dz2`"]
 Remove["psgSolver`phaseSolver2Dz2`*"]
 Needs["psgSolver`definitions`"] 
 Needs["psgSolver`symmetryG`"] 
@@ -78,7 +78,7 @@ IfFirstOrderDEq2D[expr_]:=False;
 
 FirstOrderDEqSolve2D[ HoldPattern[Equation[Inv[F[A_]][{x1_,y1_}] F[A_][{x2_,y2_}], p_]]]:= 
 Module[{k1=x2-x1, k2=y2-y1,expr,a,b},
-expr=If[MemberQ[x1,x,{Infinity}] && MemberQ[y1,y,Infinity],
+expr=If[MemberQ[x1,x,{0,Infinity}] && MemberQ[y1,y,{0,Infinity}],
 p//.{x->a,y->b},
 p//.{x->b,y->a}];
 If[k1==0 && Abs[k2]==1,

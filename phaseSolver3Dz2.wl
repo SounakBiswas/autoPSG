@@ -79,9 +79,9 @@ IfFirstOrderDEq2D[expr_]:=False;
 FirstOrderDEqSolve2D[ HoldPattern[Equation[Inv[F[A_]][{x1_,y1_,z1_,s_}] F[A_][{x2_,y2_,z2_,s_}], p_]]]:= 
 Module[{k1=x2-x1, k2=y2-y1, k3=z2-z1,expr,a,b,c,rules},
 rules={};
-(If[MemberQ[x1,#,{Infinity}],Append[rules,{#->a}];];&)/@{x,y,z};
-(If[MemberQ[y1,#,{Infinity}],Append[rules,{#->b}];];&)/@{x,y,z};
-(If[MemberQ[z1,#,{Infinity}],Append[rules,{#->c}];];&)/@{x,y,z};
+(If[MemberQ[x1,#,{0,Infinity}],AppendTo[rules,#->a];];&)/@{x,y,z};
+(If[MemberQ[y1,#,{0,Infinity}],AppendTo[rules,#->b];];&)/@{x,y,z};
+(If[MemberQ[z1,#,{0,Infinity}],AppendTo[rules,#->c];];&)/@{x,y,z};
 expr=p//.rules;
 If[Abs[k2]==1,
  {Rule@@{F[A][{a_,b_,c_,s}], F[A][{a,0,c,s}]expr^b}},
@@ -89,6 +89,7 @@ If[Abs[k1]==1 ,
 {Rule@@{F[A][{a_,b_,c_,s}], F[A][{0,b,c,s}]expr^a}},
 If[Abs[k3]==1 ,
 {Rule@@{F[A][{a_,b_,c_,s}], F[A][{a,b,0,s}]expr^c}}]]]];
+
 
 ReduceF[HoldPattern[x_Equation]]:= 
 If[IfFirstOrderDEq2D[x],
