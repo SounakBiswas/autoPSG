@@ -1,5 +1,5 @@
-BeginPackage["psgSolver`phaseSolver3Dz2`"]
-Remove["psgSolver`phaseSolver3Dz2`*"]
+BeginPackage["psgSolver`phaseSolverZ2`"]
+Remove["psgSolver`phaseSolverZ2`*"]
 Needs["psgSolver`definitions`"] 
 Needs["psgSolver`symmetryG`"] 
 Needs["psgSolver`z2Utils`"] 
