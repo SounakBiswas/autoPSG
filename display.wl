@@ -9,33 +9,33 @@ Begin["Private`"]
 Format[ Inv[F[x_]][{a_,b_,c_:None,slat_:None}],StandardForm] := 
 Module[{head,coord},
 coord= If[MatchQ[c,None], {a,b}, {a,b,c}];
-head=If[MatchQ[slat,None],Superscript[Subscript[F,x],-1], Superscript[Superscript[Subscript[F,x],slat],-1]];
+head=If[MatchQ[slat,None],Superscript[Subscript[F,x],-1], Superscript[Subscript[Superscript[F,slat],x],-1]];
 head[Sequence@@coord]
 ]
 Format[ F[x_][{a_,b_,c_:None,slat_:None}],StandardForm] := 
 Module[{head,coord},
 coord= If[MatchQ[c,None], {a,b}, {a,b,c}];
-head=If[MatchQ[slat,None],Subscript[F,x], Superscript[Subscript[F,x],slat]];
+head=If[MatchQ[slat,None],Subscript[F,x], Subscript[Superscript[F,slat],x]];
 head[Sequence@@coord]
 ]
 
 Format[ SU2[Inv[K_[x_]]][{a_,b_,c_:None,slat_:None}],StandardForm] := 
 Module[{head,coord},
 coord= If[MatchQ[c,None], {a,b}, {a,b,c}];
-head=If[MatchQ[slat,None],Superscript[Subscript[K,x],-1], Superscript[Superscript[Subscript[K,x],slat],-1]];
+head=If[MatchQ[slat,None],Superscript[Subscript[K,x],-1], Superscript[Subscript[Superscript[K,slat],x],-1]];
 head[Sequence@@coord]
 ]
 
 Format[ SU2[K_[x_]][{a_,b_,c_:None,slat_:None}],StandardForm] := 
 Module[{head,coord},
 coord= If[MatchQ[c,None], {a,b}, {a,b,c}];
-head=If[MatchQ[slat,None],Subscript[K,x], Superscript[Subscript[K,x],slat]];
+head=If[MatchQ[slat,None],Subscript[K,x], Subscript[Superscript[K,slat],x]];
 head[Sequence@@coord]
 ]
 Format[SU2[Inv[K_[a_][slat_:None]]],StandardForm]:= 
-If[MatchQ[slat,None],Superscript[Subscript[K, a],-1], Superscript[Superscript[Subscript[K, a],slat],-1]];
+If[MatchQ[slat,None],Superscript[Subscript[K, a],-1], Superscript[Subscript[Superscript[K, slat],a],-1]];
 
-Format[SU2[K_[a_][slat_:None]],StandardForm] :=If[MatchQ[slat,None],Subscript[K, a],Superscript[Subscript[K, a],slat]];
+Format[SU2[K_[a_][slat_:None]],StandardForm] :=If[MatchQ[slat,None],Subscript[K, a],Subscript[Superscript[K, slat],a]];
 
 
 (*Format[SU2[Inv[K_[a_]]][{x_,y_}],StandardForm]:= Superscript[Subscript[K, a],-1][x,y];*)
