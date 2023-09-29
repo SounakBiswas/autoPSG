@@ -5,9 +5,9 @@ noBasis=False
 
 symGenSet={Tx, Ty, Tz,ga,gb,gc};
 inputRelators = {
-   {Ty - 1, Tx - 1, Ty, Tx},
-   {Ty - 1, Tz - 1, Tz, Ty},
-   {Tz - 1, Tx, Tz, Tx},
+   {Tx - 1, Ty - 1, Tx, Ty},
+   {Ty - 1, Tz - 1, Ty, Tz},
+   {Tz - 1, Tx-1, Tz, Tx},
    {gc, gc, gc},
    {Tz - 1, ga, ga},
    {Ty - 1, gb, gb},
@@ -25,16 +25,16 @@ inputRelators = {
    {gc - 1, gb - 1, Tx - 1, Ty, ga, gb, gc, gb}
    };
 
-Tx[{x_,y_,z_,s_}]={x-1,y,z,s}
-Ty[{x_,y_,z_,s_}]={x,y-1,z,s}
-Tz[{x_,y_,z_,s_}]={x,y,z-1,s}
+Tx[{x_,y_,z_,s_}]={x+1,y,z,s}
+Ty[{x_,y_,z_,s_}]={x,y+1,z,s}
+Tz[{x_,y_,z_,s_}]={x,y,z+1,s}
 ga[{x_,y_,z_,\[Alpha]}]={-x,-y-1,z,\[Delta]}
 ga[{x_,y_,z_,\[Beta]}]={-x-1,-y-1,z+1,\[Gamma]}
 ga[{x_,y_,z_,\[Gamma]}]= {-x-1, -y-1,z,\[Beta]}
 ga[{x_,y_,z_,\[Delta]}]={-x,-y-1,z+1,\[Alpha]}
 
 gb[{x_,y_,z_,\[Alpha]}]={-x-1,y,-z,\[Gamma]}
-gb[{x_,y_,z_,\[Beta]}]={-x-1,y,-z,\[Delta]}
+gb[{x_,y_,z_,\[Beta]}]={-x-1,y,-z-1,\[Delta]}
 gb[{x_,y_,z_,\[Gamma]}]={-x-1,y+1,-z,\[Alpha]}
 gb[{x_,y_,z_,\[Delta]}]={-x-1,y+1,-z-1,\[Beta]}
 
