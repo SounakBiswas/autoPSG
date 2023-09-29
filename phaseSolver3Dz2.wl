@@ -4,12 +4,14 @@ Needs["psgSolver`definitions`"]
 Needs["psgSolver`symmetryG`"] 
 Needs["psgSolver`z2Utils`"] 
 Needs["psgSolver`paulis`"] 
-FAssoc; FSubstAssoc; MAssoc; ifIGGSet;
-InitPSGSolver::usage="initiate solver, basic associations"
+FAssoc; FSubstAssoc; MAssoc; ifIGGSet; iggAssoc;
+initPSGSolver::usage="initiate solver, basic associations"
 decomposeGtoFM::usage = "decompose matrices into phase part and matrix"
-phaseSolverIterate ::usage = "solve for phase parts recursively"
+phaseSolverIterate::usage = "solve for phase parts recursively"
+setIGGrules::usage = "setIGG rules"
 
 (*Begin["Private`"]*)
+
 phaseSolverIterate[rels0_]:=Module[
 {rels1,rules0,rels2,elementaryFReductions,composedFReductions,FCompositionConstraints, etaRelationConstraints,FSubstRules},
   rules0 = DeleteCases[Join[Values[FAssoc],Values[MAssoc]],Null];
@@ -50,17 +52,35 @@ reduceEtas[rels_] := Module[{etaSubRules, etaConstraintEqs, newRels},
    DeleteTrivialEquations[newRels]
 ];
 (****************************************)
-InitPSGSolver[]:=(
-FAssoc=Association@@(#->(Null)&/@symGenSet);
-FSubstAssoc=Association@@((#->{})&/@symGenSet);
-MAssoc=Association@@(#->(Null)&/@symGenSet);
-ifIGGSet=Association@@(#->False&/@symGenSet);
-     MAssoc[Tx]=(SU2[M[Tx]]->SU2[\[Tau]0]); 
-FAssoc[Tx]=(F[Tx][{x_,y_}]->1);
-MAssoc[Ty]=(SU2[M[Ty]]->SU2[\[Tau]0]); 
-FAssoc[Ty]=(F[Ty][{x_,y_}]-> \[Eta][1]^x);
+initPSGSolver[]:=(
+   FAssoc=Association@@(#->(Null)&/@symGenSet);
+   FSubstAssoc=Association@@((#->{})&/@symGenSet);
+   MAssoc=Association@@(#->(Null)&/@symGenSet);
+   ifIGGSet=Association@@(#->False&/@symGenSet);
+
+   FAssoc = Association @@ (({#1, #2} ->Null) &) @@@ (Distribute[{symGenSet, slatList}, List]) ;
+   MAssoc = Association @@ (({#1, #2} ->Null) &) @@@ (Distribute[{symGenSet, slatList}, List]);
+
+
+
+   (MAssoc[{Tx,#}]=(SU2[M[Tx][#]]->SU2[\[Tau]0]);&)/@slatList; 
+   (MAssoc[{Ty,#}]=(SU2[M[Ty][#]]->SU2[\[Tau]0]);&)/@slatList; 
+   If[Not[twoDim],
+     (MAssoc[{Tz,#}]=(SU2[M[Tz][#]]->SU2[\[Tau]0]);&)/@slatList; 
+   ]
+   If[twoDim,
+      ( ( FAssoc[{Tx,#}]=(F[Tx][{x_,y_,None,#}]->1); &)/@slatList;
+        ( FAssoc[{Ty,#}]=(F[Ty][{x_,y_,None,#}]-> \[Eta][1]^x ); &)/@slatList;
+       ),
+   
+      ( (  FAssoc[{Tx,#}]=(F[Tx][{x_,y_,z_,#}]->1); &)/@slatList;
+        (  FAssoc[{Ty,#}]=(F[Ty][{x_,y_,z_,#}]-> \[Eta][1]^x); &)/@slatList;
+        (  FAssoc[{Tz,#}]=(F[Tz][{x_,y_,z_,#}]-> \[Eta][2]^y \[Eta][3]^x); &)/@slatList;
+       )
+   ]
+)
+
 nrel=Length[SGset];
-Null)
 (****************************************)
 decomposeGtoFM[expr_]:= expr/.{SU2[G[A_]][{x_,y_,z_,s_}]-> F[A][{x,y,z,s}]SU2[M[A][s]],SU2[Inv[G[A_]]][{x_,y_,z_,s_}]-> Inv[F[A]][{x,y,z,s}] SU2[Inv[M[A][s]]]};
 (****************************************)
@@ -157,8 +177,9 @@ If[ FreeQ[lhs,x]&&FreeQ[lhs,y]&& FreeQ[lhs,z] && Not[FreeQ[rhs,x] && FreeQ[rhs,y
    Nothing
 ]
 ]
-RelationConstraintRule[HoldPattern[Equation[1,Times[x_,y__]]]]:= {x->Times[y]};
+(*RelationConstraintRule[HoldPattern[Equation[1,Times[x_,y__]]]]:=Module[{min},min= First[Last[List[y]]]; {min->Times[y*Power[min,-1]]}];*)
 RelationConstraintRule[HoldPattern[Equation[1,x_]]] := {x->1};
+RelationConstraintRule[HoldPattern[Equation[1,Times[y__]]]]:=Module[{min},min= Last[List[y]]; {min->Times[y*Power[min,-1]]}];
 
 
 (*****Further substitutions by FM separation***)
@@ -173,16 +194,19 @@ newRels= substMIntoEq[rels[[relNum]],#]&/@rels;
 newRels[[relNum]]=rels[[relNum]];
 newRels];
 substAllMsIntoAllEqs[rels_]:= Fold[substMIntoAllEqs[#1,#2]&,rels,Range[Length[rels]]];
+
 IfFOrInvF[a_]:=MatchQ[a,F[A_]] || MatchQ[a,Inv[F[A_]]];
 (*Again assume that the symmetries don't take a site at [x,y] to [x+y,x-y]*)
 getFSubstitutors[HoldPattern[Equation[Times[(t1_?IfFOrInvF)[{x1_,y1_,z1_,s1_}],(t2_?IfFOrInvF)[{x2_,y2_,z2_,s2_}]] ,rhs_]]]:= 
-Module[{x1n,y1n,x2n,y2n,rule1,rule2,rule3,rule4,svar,subrules},
+Module[{x1n,y1n,x2n,y2n,rule1,rule2,rule3,rule4,svar,subrules,pattFunc},
        svar[Plus[Times[x, m_:1],k_:0]]:=a;
        svar[Plus[Times[y, m_:1],k_:0]]:=b;
        svar[Plus[Times[z, m_:1],k_:0]]:=c;
+       svar[m_]:=m;
        subrules[Plus[Times[x, m_:1],k_:0]]:= x->m^-1 (a-k);
        subrules[Plus[Times[y, m_:1],k_:0]]:= y->m^-1 (b-k);
        subrules[Plus[Times[z, m_:1],k_:0]]:= y->m^-1 (c-k);
+       subrules[None]:=Nothing;
        x2n=x2/.{subrules[x1],subrules[y1],subrules[z1]};
        y2n=y2/.{subrules[x1],subrules[y1],subrules[z1]};
        z2n=z2/.{subrules[x1],subrules[y1],subrules[z1]};
@@ -190,13 +214,19 @@ Module[{x1n,y1n,x2n,y2n,rule1,rule2,rule3,rule4,svar,subrules},
        x1n=x1/.{subrules[x2],subrules[y2],subrules[z2]};
        y1n=y1/.{subrules[x2],subrules[y2],subrules[z2]};
        z1n=z1/.{subrules[x2],subrules[y2],subrules[z2]};
+
+       PattFunc[None]:=None;
+       PattFunc[m_/;MemberQ[slatList,m]]:=m;
+       PattFunc[x_] := Pattern[x,_];
+
        If[MatchQ[t1,Inv[A_]],
-        rule1=Inv[ t1][ {(Pattern[#,_]&)[svar[x1]],(Pattern[#,_]&)[svar[y1]]} ]-> ( t2[{#1 ,#2,#3}]rhs^-1)&[x2n,y2n,z2n],
-       rule1=t1[{(Pattern[#,_]&)[svar[x1]],(Pattern[#,_]&)[svar[y1]]}]-> ( Inv[t2][{#1 ,#2,#3}]rhs)&[x2n,y2n,zn]
+        rule1=Inv[ t1][ PattFunc/@{svar[x1],svar[y1],svar[z1],s1} ]-> ( t2[{#1 ,#2,#3,#4}]rhs^-1)&[x2n,y2n,z2n,s2],
+       rule1=t1[PattFunc/@{svar[x1],svar[y1],svar[z1],s1}]-> ( Inv[t2][{#1 ,#2,#3,#4}]rhs)&[x2n,y2n,z2n,s2]
        ];
        If[MatchQ[t2,Inv[A_]],
-       rule2= Inv[t2][{(Pattern[#,_]&)[svar[x2]],(Pattern[#,_]&)[svar[y2]]}]->  ( t1[{#1 ,#2,#3}]rhs^-1)&[x1n,y1n,z1n],
-       rule2= t2[{(Pattern[#,_]&)[svar[x2]],(Pattern[#,_]&)[svar[y2]]}]->  ( Inv[t1][{#1 ,#2,#3}]rhs)&[x1n,y1n,z1n]];
+        rule2=Inv[ t2][ PattFunc/@{svar[x2],svar[y2],svar[z2],s2} ]-> ( t1[{#1 ,#2,#3,#4}]rhs^-1)&[x1n,y1n,z1n,s1],
+       rule2=t2[PattFunc/@{svar[x2],svar[y2],svar[z2],s2}]-> ( Inv[t1][{#1 ,#2,#3,#4}]rhs)&[x1n,y1n,z1n,s1]
+       ];
        ;
        List[rule1,rule2]
 ]
@@ -215,18 +245,20 @@ newEq,
 Nothing
 ]]
 
-solveByFSubstitutions[FSubstAssoc_,HoldPattern[eq:Equation[Times[(F1:F[A_][coord1_]|Inv[F[A_]][coord1_]),(F2:F[B_][coord2_]|Inv[F[B_]][coord2_])],rhs_]]]:=Module[
-{newList},
-newList=((substituteFRule[F1,F2,rhs,#,1]&)/@FSubstAssoc[A]);
-If[Length[newList]!=0,
-First[newList],
-If[Not[SameQ[A,B]],
-(newList=(substituteFRule[F1,F2,rhs,#,2]&)/@FSubstAssoc[B];
-If[Length[newList]!=0 && Not[SameQ[A,B]],
-First[newList],
-Nothing]),
-Nothing]
+solveByFSubstitutions[FSubstAssoc_,HoldPattern[eq:Equation[Times[(F1:F[A_][coord1_]|Inv[F[A_]][coord1_]),(F2:F[B_][coord2_]|Inv[F[B_]][coord2_])],rhs_]]]:=
+Module[{newList},
+  newList=((substituteFRule[F1,F2,rhs,#,1]&)/@FSubstAssoc[A]);
+  If[Length[newList]!=0,
+    First[newList],
+    If[Not[SameQ[A,B]],
+      (newList=(substituteFRule[F1,F2,rhs,#,2]&)/@FSubstAssoc[B];
+      If[Length[newList]!=0 && Not[SameQ[A,B]],
+         First[newList],
+         Nothing
+      ]),
+    Nothing]
 ]]
+
 solveByFSubstitutions[FSubstAssoc_,HoldPattern[eq_Equation]]:=Nothing;
 substFIntoEq[HoldPattern[eqi:Equation[Times[(F1i:F[Ai_][coord1i_]|Inv[F[Ai_]][coord1i_]),(F2i:F[Bi_][coord2i_]|Inv[F[Bi_]][coord2i_])],rhsi_]],HoldPattern[eqj:Equation[Times[(F1j:F[Aj_][coord1j_]|Inv[F[Aj_]][coord1j_]),(F2j:F[Bj_][coord2j_]|Inv[F[Bj_]][coord2j_])],rhsj_]]]:=Module[{newList,substitutors},
 substitutors=getFSubstitutors[eqi];
@@ -237,7 +269,7 @@ eqj]
 ]
 
 SetAttributes[addToFSubstAssoc,HoldFirst];
-addToFSubstAssoc[substAssoc_,rule:Rule[F[A_][{x_,y_}],rhs_]]:=(AppendTo[substAssoc[A],rule];)
+addToFSubstAssoc[substAssoc_,rule:Rule[F[A_][coord_],rhs_]]:=(AppendTo[substAssoc[A],rule];)
 (*End[]*)
 
 EndPackage[]
