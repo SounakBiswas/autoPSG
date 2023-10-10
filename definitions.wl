@@ -10,7 +10,8 @@ G::usage = "SU2[G[Tx]] is the matrix corresponding to Tx"
 DeleteTrivialEquations::usage="Delete Trivial Equations"
 IfFSolved::usage="check if phase parts are solved"
 SubstFormInvF; SubstFormInvM; DispFormInvF ; DispFormInvM ;
-MatrixInvert::usage="product invert"
+matrixInvert::usage="product invert"
+e::usage ="group identity"
 
 (*Z2 and U1 space dependence part*)
 Begin["Private`"]
@@ -25,11 +26,11 @@ CenterDot[a_,b_+c__]:=CenterDot[a,b]+CenterDot[a,Plus[c]];
 CenterDot[a_+b__,c_]:= CenterDot[a,c]+CenterDot[Plus[b],c];
 
 
-MatrixInvert[1]:=1
-MatrixInvert[HoldPattern[CenterDot[y__,x_]]]:= CenterDot[MatrixInvert[x],MatrixInvert[CenterDot[y]]]
-MatrixInvert[SU2[x_]] := SU2[Inv[x]];
-MatrixInvert[SU2[Inv[x_]]] := SU2[x];
-MatrixInvert[x_/;FreeQ[x,SU2]] :=Power[x,-1];
+matrixInvert[1]:=1
+matrixInvert[HoldPattern[CenterDot[y__,x_]]]:= CenterDot[matrixInvert[x],matrixInvert[CenterDot[y]]]
+matrixInvert[SU2[x_]] := SU2[Inv[x]];
+matrixInvert[SU2[Inv[x_]]] := SU2[x];
+matrixInvert[x_/;FreeQ[x,SU2]] :=Power[x,-1];
 
 
 
@@ -37,6 +38,7 @@ MatrixInvert[x_/;FreeQ[x,SU2]] :=Power[x,-1];
 (*Transfer space independent phases and constants to the right*)
 Equation[ a_/;(Not[ SameQ [a,1] ] &&FreeQ[a,SU2] && FreeQ[a,F]),rhs_]:= Equation[1, Times[Power[a,-1], rhs]]
 Equation[Times[a___, b_/;( FreeQ[b,SU2] && FreeQ[b,F]), c___],rhs_]:=      Equation[a c, Power[b,-1] rhs]
+CancelInverses[HoldPattern[Equation[ CenterDot[SU2[x_],y___,SU2[Inv[x_]]],rhs_]]] := Equation[CenterDot[y],rhs];
 
 IfTrivialEquation[HoldPattern[Equation[a_,b_]]]:=SameQ[a,b];
 DeleteTrivialEquations[eqSet_]:=DeleteCases[eqSet,x_/;IfTrivialEquation[x]];
@@ -48,13 +50,18 @@ SubstFormInvM = {SU2[Inv[M[A_][slat_]]] -> SU2[Inv[SU2[M[A][slat]]]]};
 DispFormInvF = {Power[F[A_][coord_], -1] -> Inv[F[A]][coord]};
 DispFormInvM = {SU2[Inv[SU2[M[A_][slat_]]]] -> SU2[Inv[M[A][slat]]],
 SU2[Inv[SU2[Inv[M[A_][slat_]]]]] -> SU2[M[A][slat]]};
+SU2[Inv[SU2[M[A_][slat_]]]] -> SU2[Inv[M[A][slat]]];
 
 
 (*Property of how inverse works with phases*)
 Inv[Inv[F[A_]]]:= F[A]
 SU2[Inv[Inv[A_]]]:=SU2[A]
 SU2[Inv[Verbatim[Times][SU2[x_],y__]]]:= Power[Times[y],-1] SU2[Inv[x]]
-SU2[Inv[Verbatim[CenterDot][x_,y__]]]:= CenterDot[SU2[Inv[y]],SU2[Inv[x]]]
+SU2[Verbatim[Times][SU2[x_],y__]]:= Times[y] SU2[x]
+SU2[Inv[Verbatim[Times][CenterDot[x__],y__]]]:= Power[Times[y],-1] SU2[Inv[CenterDot[x]]]
+SU2[Inv[Verbatim[CenterDot][x_,y__]]]:= CenterDot[SU2[Inv[CenterDot[y]]],SU2[Inv[x]]]
+
+
 
 
 End[]
