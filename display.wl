@@ -43,6 +43,7 @@ Format[SU2[K_[a_][slat_:None]],StandardForm] :=If[MatchQ[slat,None],Subscript[K,
 Format[SU2[Inv[K_[a_]]],StandardForm]:= Superscript[Subscript[K, a],-1];
 Format[SU2[K_[a_]],StandardForm] :=Subscript[K, a];
 Format[SU2[x_],StandardForm] := x;
+Format[SU2[Inv[x_]],StandardForm] := Superscript[x,-1];
 Format[\[Eta][x_],StandardForm] := Subscript[\[Eta], x];
 (*Format[F[x_],StandardForm] := Subscript[F, x];
 Format[Inv[F[x_]],StandardForm] := Superscript[Subscript[F, x],-1];*)
