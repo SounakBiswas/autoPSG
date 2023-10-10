@@ -3,7 +3,8 @@ slatList={\[Alpha],\[Beta], \[Gamma], \[Delta]}
 twoDim=False
 noBasis=False
 
-symGenSet={Tx, Ty, Tz,ga,gb,gc};
+(*symGenSet={Tx, Ty, Tz,ga,gb,gc};*)
+symGenSet={Tx, Ty, Tz,ga,gb,gc,T};
 inputRelators = {
    {Tx - 1, Ty - 1, Tx, Ty},
    {Ty - 1, Tz - 1, Ty, Tz},
@@ -23,6 +24,13 @@ inputRelators = {
    {ga - 1, gc - 1, gb - 1, Tx - 1, Ty, ga, gc},
    {gb - 1, ga - 1, Tx, Ty - 1, Tz, gb, ga},
    {gc - 1, gb - 1, Tx - 1, Ty, ga, gb, gc, gb}
+   ,{T-1, Tx-1,T,Tx},
+   {T-1, Ty-1,T,Ty},
+   {T-1, Tz-1,T,Tz},
+   {T-1, ga-1,T,ga},
+   {T-1, gb-1,T,gb},
+   {T-1, gc-1,T,gc},
+   {T,T}
    };
 
 Tx[{x_,y_,z_,s_}]={x+1,y,z,s}
@@ -43,3 +51,4 @@ gc[{x_,y_,z_,\[Beta]}]= {z,x,y,\[Gamma]}
 gc[{x_,y_,z_,\[Gamma]}]= {z,x,y,\[Delta]}
 gc[{x_,y_,z_,\[Delta]}]={z,x,y,\[Beta]}
 
+T[{x_,y_,z_,s_}]={x,y,z,s}
