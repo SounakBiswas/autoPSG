@@ -49,6 +49,11 @@ Format[\[Eta][x_],StandardForm] := Subscript[\[Eta], x];
 Format[Inv[F[x_]],StandardForm] := Superscript[Subscript[F, x],-1];*)
 Format[HoldPattern[Equation[lhs_,rhs_]],StandardForm] :=  DisplayForm[RowBox[{ToBoxes[lhs],RowBox[{"="}],ToBoxes[rhs]}]]
 
+(*gmult display*)
+gmultToM[gmult[Inv[x_]]] := SU2[Inv[x]];
+gmultToM[gmult[x_]] := SU2[x];
+gmultToM[gmult[x_, y__]] := CenterDot[gmultToM[gmult[x]], gmultToM[gmult[y]]]
+Format[gmult[x__],StandardForm]:= Equation[ gmultToM[gmult[x]], e ]
 
 End[]
 EndPackage[]
