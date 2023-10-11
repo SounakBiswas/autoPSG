@@ -10,16 +10,14 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     96931,       2634]
-NotebookOptionsPosition[     93892,       2577]
-NotebookOutlinePosition[     94259,       2593]
-CellTagsIndexPosition[     94216,       2590]
+NotebookDataLength[    230313,       6532]
+NotebookOptionsPosition[    227265,       6477]
+NotebookOutlinePosition[    227632,       6493]
+CellTagsIndexPosition[    227589,       6490]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
-
-Cell[CellGroupData[{
 Cell[BoxData[{
  RowBox[{
   RowBox[{"ClearAll", "[", "\"\<Global`*\>\"", "]"}], 
@@ -46,19 +44,8 @@ Cell[BoxData[{
    3.9048239112663107`*^9}, {3.9048249079467688`*^9, 3.904824908237998*^9}, 
    3.9048251482035723`*^9, 3.9059138787839937`*^9, {3.905915292212929*^9, 
    3.9059152932192593`*^9}, 3.905993225314118*^9},
- CellLabel->"In[26]:=",ExpressionUUID->"a09fce4c-3eaf-43dd-aa45-100587eef3a0"],
-
-Cell[BoxData[
- TemplateBox[{
-  "Remove","rmnsm",
-   "\"There are no symbols matching \\\"\\!\\(\\*RowBox[{\\\"\\\\\\\"Global`*\
-\\\\\\\"\\\"}]\\)\\\".\"",2,27,12,22055390601476072657,"Local"},
-  "MessageTemplate"]], "Message", "MSG",
- CellChangeTimes->{{3.905993219913959*^9, 3.905993263380303*^9}},
  CellLabel->
-  "During evaluation of \
-In[26]:=",ExpressionUUID->"e75abfcf-d969-486e-a096-d3ba43833b59"]
-}, Open  ]],
+  "In[1550]:=",ExpressionUUID->"a09fce4c-3eaf-43dd-aa45-100587eef3a0"],
 
 Cell[BoxData[
  RowBox[{"SGSet", ";"}]], "Input",
@@ -66,7 +53,7 @@ Cell[BoxData[
   3.9059156474576178`*^9, 3.905915649095154*^9}, {3.905932355833218*^9, 
   3.905932358071786*^9}},
  CellLabel->
-  "In[372]:=",ExpressionUUID->"c4f57930-4ee1-4b3c-8bf6-9f5fd51a02a2"],
+  "In[977]:=",ExpressionUUID->"c4f57930-4ee1-4b3c-8bf6-9f5fd51a02a2"],
 
 Cell[BoxData[{
  RowBox[{
@@ -88,7 +75,8 @@ Cell[BoxData[{
   RowBox[{"Column", "[", "%", "]"}], ";"}], "\[IndentingNewLine]"}], "Input",
  CellChangeTimes->{{3.90591811428916*^9, 3.905918118824448*^9}, 
    3.905931990462675*^9, 3.905935374198481*^9, 3.905993272165143*^9},
- CellLabel->"In[36]:=",ExpressionUUID->"b26a987a-068c-4729-a3fe-9859ce0e6601"],
+ CellLabel->
+  "In[1555]:=",ExpressionUUID->"b26a987a-068c-4729-a3fe-9859ce0e6601"],
 
 Cell[BoxData[{
  RowBox[{
@@ -104,7 +92,9 @@ Cell[BoxData[{
            RowBox[{"SU2", "[", 
             RowBox[{
              RowBox[{"M", "[", "A_", "]"}], "[", "s_", "]"}], "]"}], ",", 
-           "y__"}], "]"}], ",", "rhs_"}], "]"}], "]"}], "]"}], "/;", 
+           RowBox[{"y", ":", 
+            RowBox[{"SU2", "[", "p_", "]"}]}]}], "]"}], ",", "rhs_"}], "]"}], 
+       "]"}], "]"}], "/;", 
      RowBox[{"FreeQ", "[", 
       RowBox[{
        RowBox[{"List", "[", "y", "]"}], ",", 
@@ -143,7 +133,10 @@ Cell[BoxData[{
            RowBox[{"Inv", "[", 
             RowBox[{
              RowBox[{"M", "[", "A_", "]"}], "[", "s_", "]"}], "]"}], "]"}], 
-          ",", "y__"}], "]"}], ",", "rhs_"}], "]"}], "]"}], "]"}], "/;", 
+          ",", 
+          RowBox[{"y", ":", 
+           RowBox[{"SU2", "[", "p_", "]"}]}]}], "]"}], ",", "rhs_"}], "]"}], 
+      "]"}], "]"}], "/;", 
     RowBox[{"FreeQ", "[", 
      RowBox[{
       RowBox[{"List", "[", "y", "]"}], ",", 
@@ -178,34 +171,37 @@ Cell[BoxData[{
    "Nothing"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
-   RowBox[{"updateMAssoc", "[", 
-    RowBox[{"A_", ",", "s_", ",", "subRule_"}], "]"}], ":=", 
-   "\[IndentingNewLine]", 
-   RowBox[{"Module", "[", 
-    RowBox[{
-     RowBox[{"{", 
-      RowBox[{"newRHS", ",", "oldRule"}], "}"}], ",", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"updateMAssoc", "[", 
+     RowBox[{"A_", ",", "s_", ",", "subRule_"}], "]"}], ":=", 
+    "\[IndentingNewLine]", 
+    RowBox[{"Module", "[", 
      RowBox[{
-      RowBox[{"oldRule", "=", 
-       RowBox[{"MAssoc", "[", 
-        RowBox[{"{", 
-         RowBox[{"A", ",", "s"}], "}"}], "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{"newRHS", ",", "oldRule"}], "}"}], ",", "\[IndentingNewLine]", 
       
-      RowBox[{"newRHS", "=", 
-       RowBox[{"CancelInverses", "[", 
-        RowBox[{
-         RowBox[{"oldRule", "[", 
-          RowBox[{"[", "2", "]"}], "]"}], "//.", 
-         RowBox[{"{", "subRule", "}"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
       RowBox[{
-       RowBox[{"MAssoc", "[", 
-        RowBox[{"{", 
-         RowBox[{"A", ",", "s"}], "}"}], "]"}], "=", 
-       RowBox[{"Rule", "[", 
+       RowBox[{"oldRule", "=", 
+        RowBox[{"MAssoc", "[", 
+         RowBox[{"{", 
+          RowBox[{"A", ",", "s"}], "}"}], "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"newRHS", "=", 
         RowBox[{
-         RowBox[{"oldRule", "[", 
-          RowBox[{"[", "1", "]"}], "]"}], ",", "newRHS"}], "]"}]}], ";"}]}], 
-    "\[IndentingNewLine]", "]"}]}], "\n"}], "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"oldRule", "[", 
+            RowBox[{"[", "2", "]"}], "]"}], "//.", "SubstFormInvM"}], "//.", 
+          RowBox[{"{", "subRule", "}"}]}], "//.", "DispFormInvM"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"MAssoc", "[", 
+         RowBox[{"{", 
+          RowBox[{"A", ",", "s"}], "}"}], "]"}], "=", 
+        RowBox[{"Rule", "[", 
+         RowBox[{
+          RowBox[{"oldRule", "[", 
+           RowBox[{"[", "1", "]"}], "]"}], ",", "newRHS"}], "]"}]}], ";"}]}], 
+     "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]"}], "\n", 
  RowBox[{
   RowBox[{
    RowBox[{"substM", "[", 
@@ -258,8 +254,181 @@ Cell[BoxData[{
     RowBox[{"substM", ",", "eqSet", ",", 
      RowBox[{"Range", "[", 
       RowBox[{"1", ",", 
-       RowBox[{"Length", "[", "eqSet", "]"}]}], "]"}]}], "]"}]}], 
-  ";"}]}], "Input",
+       RowBox[{"Length", "[", "eqSet", "]"}]}], "]"}]}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"substEq", "[", 
+    RowBox[{
+     RowBox[{"HoldPattern", "[", 
+      RowBox[{"Equation", "[", 
+       RowBox[{
+        RowBox[{"CenterDot", "[", "y__", "]"}], ",", "rhs1_"}], "]"}], "]"}], 
+     ",", " ", 
+     RowBox[{"HoldPattern", "[", 
+      RowBox[{"Equation", "[", 
+       RowBox[{
+        RowBox[{"CenterDot", "[", 
+         RowBox[{"x___", ",", "y__", ",", "z___"}], "]"}], ",", "rhs2_"}], 
+       "]"}], "]"}]}], "]"}], ":=", "\[IndentingNewLine]", 
+   RowBox[{"Equation", "[", 
+    RowBox[{
+     RowBox[{"CenterDot", "[", 
+      RowBox[{"x", ",", "z"}], "]"}], ",", 
+     RowBox[{"rhs2", " ", 
+      SuperscriptBox["rhs1", 
+       RowBox[{"-", "1"}]]}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"substEq", "[", 
+    RowBox[{"eq1_Equation", ",", "eq2_Equation"}], "]"}], ":=", "Nothing"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"replaceMEqIntoMEq", "[", 
+    RowBox[{
+     RowBox[{"eq1", ":", 
+      RowBox[{"HoldPattern", "[", 
+       RowBox[{"Equation", "[", 
+        RowBox[{
+         RowBox[{"CenterDot", "[", "x1__", "]"}], ",", "rhs1_"}], "]"}], 
+       "]"}]}], ",", 
+     RowBox[{"eq2", ":", 
+      RowBox[{"HoldPattern", "[", 
+       RowBox[{"Equation", "[", 
+        RowBox[{
+         RowBox[{"CenterDot", "[", "x2__", "]"}], ",", "rhs2_"}], "]"}], 
+       "]"}]}]}], "]"}], ":=", " ", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"newEq1", ",", "newEq2", ",", "newEq", ",", "lhs2"}], "}"}], 
+     ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"newEq1", "=", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"substEq", "[", 
+          RowBox[{
+           RowBox[{"Equation", "[", 
+            RowBox[{
+             RowBox[{"RotateLeft", "[", 
+              RowBox[{
+               RowBox[{"eq1", "[", 
+                RowBox[{"[", "1", "]"}], "]"}], ",", "#"}], "]"}], ",", 
+             "rhs1"}], "]"}], ",", "eq2"}], "]"}], "&"}], "/@", 
+        RowBox[{"Range", "[", 
+         RowBox[{"1", ",", 
+          RowBox[{"Length", "[", 
+           RowBox[{"eq1", "[", 
+            RowBox[{"[", "1", "]"}], "]"}], "]"}]}], "]"}]}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"lhs2", "=", 
+       RowBox[{"matrixInvert", "[", 
+        RowBox[{"eq1", "[", 
+         RowBox[{"[", "1", "]"}], "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+      
+      RowBox[{"newEq2", "=", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"substEq", "[", 
+          RowBox[{
+           RowBox[{"Equation", "[", 
+            RowBox[{
+             RowBox[{"RotateLeft", "[", 
+              RowBox[{"lhs2", ",", "#"}], "]"}], ",", "rhs1"}], "]"}], ",", 
+           "eq2"}], "]"}], "&"}], "/@", 
+        RowBox[{"Range", "[", 
+         RowBox[{"1", ",", 
+          RowBox[{"Length", "[", 
+           RowBox[{"eq1", "[", 
+            RowBox[{"[", "1", "]"}], "]"}], "]"}]}], "]"}]}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"newEq", "=", 
+       RowBox[{"Join", "[", 
+        RowBox[{"newEq1", ",", "newEq2"}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"Length", "[", "newEq", "]"}], "\[NotEqual]", " ", "0"}], 
+        ",", "\[IndentingNewLine]", 
+        RowBox[{"newEq", "[", 
+         RowBox[{"[", "1", "]"}], "]"}], ",", "\[IndentingNewLine]", "eq2"}], 
+       "\[IndentingNewLine]", "]"}]}]}], "\[IndentingNewLine]", "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"replaceMEqIntoMEq", "[", 
+    RowBox[{"eq1_", ",", "eq2_"}], "]"}], ":=", "eq2"}], " ", 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"replaceMEqIntoAllMEqs", "[", 
+    RowBox[{"eqSet_", ",", "eqNo_"}], "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", "newEqSet", "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"newEqSet", "=", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"replaceMEqIntoMEq", "[", 
+          RowBox[{
+           RowBox[{"eqSet", "[", 
+            RowBox[{"[", "eqNo", "]"}], "]"}], ",", "#"}], "]"}], "&"}], "/@",
+         "eqSet"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"newEqSet", "[", 
+        RowBox[{"[", "eqNo", "]"}], "]"}], "=", 
+       RowBox[{"eqSet", "[", 
+        RowBox[{"[", "eqNo", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+      "newEqSet"}]}], "\[IndentingNewLine]", "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"replaceAllMEqsIntoAllMEqs", "[", "eqSet_", "]"}], ":=", 
+    RowBox[{"Fold", "[", 
+     RowBox[{"replaceMEqIntoAllMEqs", ",", "eqSet", ",", 
+      RowBox[{"Range", "[", 
+       RowBox[{"1", ",", 
+        RowBox[{"Length", "[", "eqSet", "]"}]}], "]"}]}], "]"}]}], ";"}], 
+  "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"CancelInverses", "[", 
+    RowBox[{"HoldPattern", "[", 
+     RowBox[{"Equation", "[", 
+      RowBox[{
+       RowBox[{"CenterDot", "[", 
+        RowBox[{
+         RowBox[{"SU2", "[", "x_", "]"}], ",", "y___", ",", 
+         RowBox[{"SU2", "[", 
+          RowBox[{"Inv", "[", "x_", "]"}], "]"}]}], "]"}], ",", "rhs_"}], 
+      "]"}], " ", "]"}], "]"}], "=", " ", 
+   RowBox[{"Equation", "[", 
+    RowBox[{
+     RowBox[{"CenterDot", "[", "y", "]"}], ",", "rhs"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"CancelInverses", "[", 
+    RowBox[{"HoldPattern", "[", 
+     RowBox[{"Equation", "[", 
+      RowBox[{
+       RowBox[{"CenterDot", "[", 
+        RowBox[{
+         RowBox[{"SU2", "[", 
+          RowBox[{"Inv", "[", "x_", "]"}], "]"}], ",", "y___", ",", 
+         RowBox[{"SU2", "[", "x_", "]"}]}], "]"}], ",", "rhs_"}], "]"}], " ", 
+     "]"}], "]"}], "=", " ", 
+   RowBox[{"Equation", "[", 
+    RowBox[{
+     RowBox[{"CenterDot", "[", "y", "]"}], ",", "rhs"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"CancelInverses", "[", "x_", "]"}], ":=", "x"}], ";"}]}], "Input",
  CellChangeTimes->{{3.905925891675321*^9, 3.905925915721099*^9}, {
    3.905925950992527*^9, 3.905925954128622*^9}, {3.905926023671666*^9, 
    3.90592608570348*^9}, 3.905926126758956*^9, {3.9059261697187433`*^9, 
@@ -282,54 +451,13 @@ Cell[BoxData[{
    3.905934669126321*^9}, {3.9059349505111713`*^9, 3.905934951839892*^9}, {
    3.905935243229766*^9, 3.905935266528735*^9}, {3.9059365502391663`*^9, 
    3.905936607156443*^9}, 3.9059933520494013`*^9, {3.905996532146907*^9, 
-   3.905996538221315*^9}},
+   3.905996538221315*^9}, {3.9059969601408052`*^9, 3.90599697397549*^9}, {
+   3.9059978063782043`*^9, 3.905997870606621*^9}, {3.905999114035523*^9, 
+   3.905999141234042*^9}, {3.905999680687735*^9, 3.90599970159715*^9}, {
+   3.9059997336885223`*^9, 3.905999748849484*^9}, 3.906001468449168*^9, {
+   3.906001516226872*^9, 3.9060015165861177`*^9}},
  CellLabel->
-  "In[502]:=",ExpressionUUID->"d21c944a-a893-4e18-b7a9-af92accde3c5"],
-
-Cell[BoxData["|"], "Input",
- CellChangeTimes->{
-  3.905993354034389*^9},ExpressionUUID->"7287ab7a-79d5-4ebe-8a09-\
-db71f5d08035"],
-
-Cell[BoxData[{
- RowBox[{
-  RowBox[{
-   RowBox[{"CancelInverses", "[", 
-    RowBox[{"HoldPattern", "[", 
-     RowBox[{"Equation", "[", 
-      RowBox[{
-       RowBox[{"CenterDot", "[", 
-        RowBox[{
-         RowBox[{"SU2", "[", "x_", "]"}], ",", "y___", ",", 
-         RowBox[{"SU2", "[", 
-          RowBox[{"Inv", "[", "x_", "]"}], "]"}]}], "]"}], ",", "rhs_"}], 
-      "]"}], "]"}], "]"}], ":=", 
-   RowBox[{"Equation", "[", 
-    RowBox[{
-     RowBox[{"CenterDot", "[", "y", "]"}], ",", "rhs"}], "]"}]}], 
-  ";"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"CancelInverses", "[", 
-    RowBox[{"HoldPattern", "[", 
-     RowBox[{"Equation", "[", 
-      RowBox[{
-       RowBox[{"CenterDot", "[", 
-        RowBox[{
-         RowBox[{"SU2", "[", 
-          RowBox[{"Inv", "[", "x_", "]"}], "]"}], ",", "y___", ",", 
-         RowBox[{"SU2", "[", "x_", "]"}]}], "]"}], ",", "rhs_"}], "]"}], 
-     "]"}], "]"}], ":=", 
-   RowBox[{"Equation", "[", 
-    RowBox[{
-     RowBox[{"CenterDot", "[", "y", "]"}], ",", "rhs"}], "]"}]}], 
-  ";"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"CancelInverses", "[", "x_", "]"}], "=", "x"}], ";"}]}], "Input",
- CellChangeTimes->{{3.9059366326170464`*^9, 3.905936658771389*^9}, {
-  3.9059368653365*^9, 3.905936873865658*^9}},
- CellLabel->"In[75]:=",ExpressionUUID->"6d7fe496-8846-456f-8616-02fb10dcb816"],
+  "In[1587]:=",ExpressionUUID->"d21c944a-a893-4e18-b7a9-af92accde3c5"],
 
 Cell[CellGroupData[{
 
@@ -344,9 +472,11 @@ Cell[BoxData[{
   RowBox[{"iggRules", "=", 
    RowBox[{"setIGGrules", "[", "rels", "]"}]}], 
   ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Column", "[", "%", "]"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"rels", "=", 
    RowBox[{"rels", "//.", "iggRules"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Column", "[", "%", "]"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"rels", "=", 
    RowBox[{"decomposeGtoFM", "[", "rels", "]"}]}], 
@@ -355,6 +485,7 @@ Cell[BoxData[{
   RowBox[{"rels2", "=", 
    RowBox[{"phaseSolverIterate", "[", "rels", "]"}]}], 
   ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Values", "[", "FAssoc", "]"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"rels3", "=", 
    RowBox[{
@@ -368,9 +499,7 @@ Cell[BoxData[{
   ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"rels3", "=", 
-   RowBox[{
-    RowBox[{
-     RowBox[{"CancelInverses", "[", "#", "]"}], "&"}], "/@", "rels3"}]}], 
+   RowBox[{"rels3", "//", "CancelInverses"}]}], 
   ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"rels3", "=", 
@@ -385,9 +514,27 @@ Cell[BoxData[{
   ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"rels3", "=", 
+   RowBox[{"rels3", "//", "CancelInverses"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"rels3", "=", 
    RowBox[{
     RowBox[{
-     RowBox[{"CancelInverses", "[", "#", "]"}], "&"}], "/@", "rels3"}]}], 
+     RowBox[{"performMSubstitutions", "[", "rels3", "]"}], "//", 
+     "z2Simplify"}], "//", "DeleteTrivialEquations"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"rels3", "=", 
+   RowBox[{"reduceEtas", "[", "rels3", "]"}]}], ";"}], "\[IndentingNewLine]", 
+
+ RowBox[{
+  RowBox[{
+   RowBox[{"rels3", "=", 
+    RowBox[{"rels3", "//", "CancelInverses"}]}], ";"}], "\[IndentingNewLine]",
+   "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"rels3", "=", 
+   RowBox[{"replaceAllMEqsIntoAllMEqs", "[", "rels3", "]"}]}], 
   ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"rels3", "=", 
@@ -402,60 +549,7 @@ Cell[BoxData[{
   ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"rels3", "=", 
-   RowBox[{
-    RowBox[{
-     RowBox[{"CancelInverses", "[", "#", "]"}], "&"}], "/@", "rels3"}]}], 
-  ";"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{"rels3", "=", 
-   RowBox[{
-    RowBox[{
-     RowBox[{"performMSubstitutions", "[", "rels3", "]"}], "//", 
-     "z2Simplify"}], "//", "DeleteTrivialEquations"}]}], 
-  ";"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{"rels3", "=", 
-   RowBox[{"reduceEtas", "[", "rels3", "]"}]}], 
-  ";"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{"rels3", "=", 
-   RowBox[{
-    RowBox[{
-     RowBox[{"CancelInverses", "[", "#", "]"}], "&"}], "/@", "rels3"}]}], 
-  ";"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{"rels3", "=", 
-   RowBox[{
-    RowBox[{
-     RowBox[{"performMSubstitutions", "[", "rels3", "]"}], "//", 
-     "z2Simplify"}], "//", "DeleteTrivialEquations"}]}], 
-  ";"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{"rels3", "=", 
-   RowBox[{"reduceEtas", "[", "rels3", "]"}]}], 
-  ";"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{"rels3", "=", 
-   RowBox[{
-    RowBox[{
-     RowBox[{"CancelInverses", "[", "#", "]"}], "&"}], "/@", "rels3"}]}], 
-  ";"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{"rels3", "=", 
-   RowBox[{
-    RowBox[{
-     RowBox[{"performMSubstitutions", "[", "rels3", "]"}], "//", 
-     "z2Simplify"}], "//", "DeleteTrivialEquations"}]}], 
-  ";"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{"rels3", "=", 
-   RowBox[{"reduceEtas", "[", "rels3", "]"}]}], 
-  ";"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{"rels3", "=", 
-   RowBox[{
-    RowBox[{
-     RowBox[{"CancelInverses", "[", "#", "]"}], "&"}], "/@", "rels3"}]}], 
+   RowBox[{"rels3", "//", "CancelInverses"}]}], 
   ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"rels3", "=", 
@@ -474,19 +568,11 @@ Cell[BoxData[{
   ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"rels3", "=", 
-   RowBox[{
-    RowBox[{
-     RowBox[{"CancelInverses", "[", "#", "]"}], "&"}], "/@", "rels3"}]}], 
+   RowBox[{"rels3", "//", "CancelInverses"}]}], 
   ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"rels3", "=", 
    RowBox[{"replaceAllMEqsIntoAllMEqs", "[", "rels3", "]"}]}], 
-  ";"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{"rels3", "=", 
-   RowBox[{
-    RowBox[{
-     RowBox[{"CancelInverses", "[", "#", "]"}], "&"}], "/@", "rels3"}]}], 
   ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"rels3", "=", 
@@ -501,9 +587,7 @@ Cell[BoxData[{
   ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"rels3", "=", 
-   RowBox[{
-    RowBox[{
-     RowBox[{"CancelInverses", "[", "#", "]"}], "&"}], "/@", "rels3"}]}], 
+   RowBox[{"rels3", "//", "CancelInverses"}]}], 
   ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"rels3", "=", 
@@ -513,22 +597,106 @@ Cell[BoxData[{
   RowBox[{"rels3", "=", 
    RowBox[{
     RowBox[{
-     RowBox[{"CancelInverses", "[", "#", "]"}], "&"}], "/@", "rels3"}]}], 
+     RowBox[{"performMSubstitutions", "[", "rels3", "]"}], "//", 
+     "z2Simplify"}], "//", "DeleteTrivialEquations"}]}], 
   ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"rels3", "=", 
+   RowBox[{"reduceEtas", "[", "rels3", "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"rels3", "=", 
+   RowBox[{"rels3", "//", "CancelInverses"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"rels3", "=", 
+   RowBox[{"replaceAllMEqsIntoAllMEqs", "[", "rels3", "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"rels3", "=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"performMSubstitutions", "[", "rels3", "]"}], "//", 
+     "z2Simplify"}], "//", "DeleteTrivialEquations"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"rels3", "=", 
+   RowBox[{"reduceEtas", "[", "rels3", "]"}]}], ";"}], "\[IndentingNewLine]", 
+
+ RowBox[{
+  RowBox[{
+   RowBox[{"rels3", "=", 
+    RowBox[{"rels3", "//", "CancelInverses"}]}], ";"}], "\[IndentingNewLine]",
+   "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
  RowBox[{"Column", "[", "%", 
   "]"}], "\[IndentingNewLine]", "MAssoc", "\[IndentingNewLine]", 
  RowBox[{"Values", "[", "FAssoc", "]"}]}], "Input",
  CellChangeTimes->CompressedData["
-1:eJxTTMoPSmViYGCQAGIQXXOdneGn5FtHA59URhDd1eeoCqJ1wjerg+g67zv2
-ILq7+y+YFlO0KgPRdnZbK0D0qrzLs0G0TFn9HBB9ydyj/BeQ3m3xphJEi1qe
-rgfRe4+xtoFoI+t3O0E0w2zDXSC6hPfuIxAtMekNmF5R8/w7iJ644v1fEO3j
-9orpN5D+ID6DF0QH2i4SBtEXFV1EQfSi9q2SIDpjhrMciF7wf58KiK6Ifa0D
-ovd9l9oKojfxv9wBopdNNH8BomXyNoHpiuK1f0F01fYn/0G0cc4l5j9AOoSP
-gQVEt1daGUlIvXV8VWJgAqK3VhVEgehzK16C6Qt1MxtBNMfub2D62fcvrSA6
-Zv8PMN2zbv1eEP0tSeMIiN4we8dbEL0rLvwLiAYACh7Ezg==
+1:eJwdzEsowwEAx/G/V1xwkNesZUWoHeZR82jTskSWZonyWJmUg2axZtOyJrMy
+j6YWGqUd1lIeTctYm4MlInkcXOyiNTYbDjKvNf/f//Dtc/sypaPioWSCIBhk
+UHOfTnwXRvls4VASnFvkl0JW934ZnGp7aIRGY5wyj1mvhDyeUwW3ZHcWSFdq
+1+Etp2Xih9RdG1HD3LoLLfScps3CqobXQ0hYKo+gItP/CAuWI5R2zVMMmuxv
+cShsDif/kr7nr2bCDq41B94wBbnQanAWwuHVJgbcTHhLoKr/hQW9MZoTOrJD
+LmgzcZ4hXeagVI1vx+HkQSABq0duU/5IO7OIVGhQ11cV0KL8sIJdA52T8h54
+ZQ9RXk+t6WCG+5MyGPvQw77jL8r5nV0P/JSW++CexRWFR5LuDyhYEYlopA79
+hhgGZn66oM5w2QvNSwsDcFrDH4R+2cEJlMu4PihpHzuDxRW2c+gN5rQW4ecx
+t8F/ycbuOw==
   "],
  CellLabel->
-  "In[719]:=",ExpressionUUID->"270dc76f-e2b1-431d-8ded-b19866ec76a4"],
+  "In[1602]:=",ExpressionUUID->"270dc76f-e2b1-431d-8ded-b19866ec76a4"],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {
+     RowBox[{
+      SubscriptBox["\[Eta]", "13"], "\[RuleDelayed]", "1"}]},
+    {
+     RowBox[{
+      SubscriptBox["\[Eta]", "6"], "\[RuleDelayed]", "1"}]},
+    {
+     RowBox[{
+      SubscriptBox["\[Eta]", "5"], "\[RuleDelayed]", "1"}]},
+    {
+     RowBox[{
+      SubscriptBox["\[Eta]", "18"], "\[RuleDelayed]", "1"}]},
+    {
+     RowBox[{
+      SubscriptBox["\[Eta]", "16"], "\[RuleDelayed]", "1"}]},
+    {
+     RowBox[{
+      SubscriptBox["\[Eta]", "4"], "\[RuleDelayed]", "1"}]}
+   },
+   DefaultBaseStyle->"Column",
+   GridBoxAlignment->{"Columns" -> {{Left}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+  "Column"]], "Output",
+ CellChangeTimes->{
+  3.905931582295342*^9, 3.9059316199584513`*^9, {3.905931677800426*^9, 
+   3.9059316926236267`*^9}, 3.905931776643998*^9, 3.905932005864579*^9, {
+   3.9059322057736998`*^9, 3.905932230378846*^9}, {3.905932383739608*^9, 
+   3.905932416673719*^9}, 3.905932465478685*^9, 3.9059325165672607`*^9, 
+   3.905933643517638*^9, 3.905933688765397*^9, 3.905934254630271*^9, 
+   3.905934288306807*^9, {3.9059343613760557`*^9, 3.905934386448378*^9}, 
+   3.905934676176865*^9, 3.905934802637993*^9, {3.905934961224682*^9, 
+   3.905934964694075*^9}, {3.905935127918683*^9, 3.9059351993031273`*^9}, 
+   3.905935285282855*^9, {3.9059353916847353`*^9, 3.905935407480302*^9}, 
+   3.905935510722773*^9, 3.9059355704947*^9, {3.905935605218925*^9, 
+   3.905935610348446*^9}, {3.905935658898169*^9, 3.9059357213350782`*^9}, 
+   3.905935825143835*^9, 3.905936789173609*^9, {3.905936854305271*^9, 
+   3.905936879317822*^9}, 3.905937224776668*^9, 3.9059373584428663`*^9, {
+   3.905937392689014*^9, 3.90593741151622*^9}, 3.9059374420487127`*^9, {
+   3.905993386916082*^9, 3.905993399914689*^9}, 3.905995171718251*^9, 
+   3.9059952520825863`*^9, 3.9059952867466717`*^9, 3.90599533849372*^9, 
+   3.905995411891343*^9, 3.905995482668151*^9, 3.905995794126555*^9, 
+   3.9059958269864388`*^9, 3.905996280735124*^9, 3.905996323354013*^9, 
+   3.905996547870973*^9, 3.905996822325613*^9, 3.905996978994576*^9, 
+   3.9059975519231052`*^9, 3.905997877138351*^9, 3.905997912636615*^9, 
+   3.905998060039908*^9, 3.905999153979335*^9, 3.905999585822748*^9, {
+   3.9059996333700113`*^9, 3.90599964562354*^9}, 3.905999710428709*^9, 
+   3.905999756746866*^9, 3.9060004200586977`*^9, 3.9060004618654537`*^9, 
+   3.90600077701724*^9, 3.9060009055443087`*^9, 3.9060015214010057`*^9},
+ CellLabel->
+  "Out[1605]=",ExpressionUUID->"93663e8f-839b-4b6b-a4bf-db554ab06fe0"],
 
 Cell[BoxData[
  TagBox[GridBox[{
@@ -536,59 +704,3053 @@ Cell[BoxData[
      TagBox[
       RowBox[{
        RowBox[{
-        SubscriptBox[
-         TemplateBox[{"M","\[Gamma]"},
-          "Superscript"], "ga"], "\[CenterDot]", 
-        TemplateBox[{SubscriptBox[
-           
-           TemplateBox[{"M", "\[Delta]"}, "Superscript", SyntaxForm -> 
-            SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
-         "Superscript"], "\[CenterDot]", 
-        SubscriptBox[
-         TemplateBox[{"M","\[Delta]"},
-          "Superscript"], "ga"], "\[CenterDot]", 
-        SubscriptBox[
-         TemplateBox[{"M","\[Gamma]"},
-          "Superscript"], "ga"], "\[CenterDot]", 
-        TemplateBox[{SubscriptBox[
-           
-           TemplateBox[{"M", "\[Delta]"}, "Superscript", SyntaxForm -> 
-            SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
-         "Superscript"], "\[CenterDot]", 
-        SubscriptBox[
-         TemplateBox[{"M","\[Delta]"},
-          "Superscript"], "ga"]}], "=", "1"}],
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Tx"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "x"}], ",", "y", ",", "z"}], "]"}], 
+        "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Ty"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "x"}], ",", 
+          RowBox[{"1", "+", "y"}], ",", "z"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "Tx"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "x"}], ",", 
+          RowBox[{"1", "+", "y"}], ",", "z"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "Ty"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"1", "+", "y"}], ",", "z"}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "1"]}],
       DisplayForm]},
     {
      TagBox[
       RowBox[{
        RowBox[{
-        TemplateBox[{SubscriptBox[
-           
-           TemplateBox[{"M", "\[Delta]"}, "Superscript", SyntaxForm -> 
-            SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
-         "Superscript"], "\[CenterDot]", 
-        SubscriptBox[
-         TemplateBox[{"M","\[Delta]"},
-          "Superscript"], "gb"], "\[CenterDot]", 
-        TemplateBox[{SubscriptBox[
-           
-           TemplateBox[{"M", "\[Gamma]"}, "Superscript", SyntaxForm -> 
-            SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
-         "Superscript"], "\[CenterDot]", 
-        TemplateBox[{SubscriptBox[
-           
-           TemplateBox[{"M", "\[Delta]"}, "Superscript", SyntaxForm -> 
-            SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
-         "Superscript"], "\[CenterDot]", 
-        SubscriptBox[
-         TemplateBox[{"M","\[Delta]"},
-          "Superscript"], "gb"], "\[CenterDot]", 
-        TemplateBox[{SubscriptBox[
-           
-           TemplateBox[{"M", "\[Gamma]"}, "Superscript", SyntaxForm -> 
-            SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
-         "Superscript"]}], "=", "1"}],
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Ty"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"1", "+", "y"}], ",", "z"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Tz"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"1", "+", "y"}], ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "Ty"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"1", "+", "y"}], ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "Tz"], "[", 
+         RowBox[{"x", ",", "y", ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "2"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Tz"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"x", ",", "y", ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Tx"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "x"}], ",", "y", ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "Tz"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "x"}], ",", "y", ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "Tx"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "x"}], ",", "y", ",", "z"}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "3"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "gc"], "[", 
+         RowBox[{"x", ",", "y", ",", "z"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "gc"], "[", 
+         RowBox[{"y", ",", "z", ",", "x"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "gc"], "[", 
+         RowBox[{"z", ",", "x", ",", "y"}], "]"}]}], "=", "1"}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Tz"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"x", ",", "y", ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "ga"], "[", 
+         RowBox[{"x", ",", "y", ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "ga"], "[", 
+         RowBox[{
+          RowBox[{"-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", "z"}], "]"}]}], "=", "1"}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Ty"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"1", "+", "y"}], ",", "z"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "gb"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"1", "+", "y"}], ",", "z"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "gb"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", "y", ",", 
+          RowBox[{"-", "z"}]}], "]"}]}], "=", "1"}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Delta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{"-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", "z"}], "]"}], "\[CenterDot]", 
+        
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "Tx"], "[", 
+         RowBox[{
+          RowBox[{"-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", "z"}], "]"}], "\[CenterDot]", 
+        
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "ga"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", "z"}], "]"}], "\[CenterDot]", 
+        
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "Tx"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "x"}], ",", "y", ",", "z"}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "7"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Delta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{"-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", "z"}], "]"}], "\[CenterDot]", 
+        
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "Ty"], "[", 
+         RowBox[{
+          RowBox[{"-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", "z"}], "]"}], "\[CenterDot]", 
+        
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "ga"], "[", 
+         RowBox[{
+          RowBox[{"-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "2"}], "-", "y"}], ",", "z"}], "]"}], "\[CenterDot]", 
+        
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "Ty"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"1", "+", "y"}], ",", "z"}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "8"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Delta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{"-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", "z"}], "]"}], "\[CenterDot]", 
+        
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Delta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Tz"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{"-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "ga"], "[", 
+         RowBox[{
+          RowBox[{"-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "Tz"], "[", 
+         RowBox[{"x", ",", "y", ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "9"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", "y", ",", 
+          RowBox[{"-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "Tx"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", "y", ",", 
+          RowBox[{"-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "gb"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "2"}], "-", "x"}], ",", "y", ",", 
+          RowBox[{"-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "Tx"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "x"}], ",", "y", ",", "z"}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "10"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", "y", ",", 
+          RowBox[{"-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Ty"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{"1", "+", "y"}], ",", 
+          RowBox[{"-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "gb"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{"1", "+", "y"}], ",", 
+          RowBox[{"-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "Ty"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"1", "+", "y"}], ",", "z"}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "11"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", "y", ",", 
+          RowBox[{"-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "Tz"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", "y", ",", 
+          RowBox[{"-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "gb"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", "y", ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "Tz"], "[", 
+         RowBox[{"x", ",", "y", ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "12"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gc"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"z", ",", "x", ",", "y"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Ty"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"z", ",", 
+          RowBox[{"1", "+", "x"}], ",", "y"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "gc"], "[", 
+         RowBox[{"z", ",", 
+          RowBox[{"1", "+", "x"}], ",", "y"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "Tx"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "x"}], ",", "y", ",", "z"}], "]"}]}], "=", "1"}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gc"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"z", ",", "x", ",", "y"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Tz"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"z", ",", "x", ",", 
+          RowBox[{"1", "+", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "gc"], "[", 
+         RowBox[{"z", ",", "x", ",", 
+          RowBox[{"1", "+", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "Ty"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"1", "+", "y"}], ",", "z"}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "14"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gc"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"z", ",", "x", ",", "y"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Tx"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "z"}], ",", "x", ",", "y"}], "]"}], 
+        "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "gc"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "z"}], ",", "x", ",", "y"}], "]"}], 
+        "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "Tz"], "[", 
+         RowBox[{"x", ",", "y", ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "15"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Delta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{"-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", "z"}], "]"}], "\[CenterDot]", 
+        
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Beta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gc"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"z", ",", 
+          RowBox[{"-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Delta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}], ",", 
+          RowBox[{"-", "x"}], ",", "y"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Delta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Tx"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{"-", "z"}], ",", 
+          RowBox[{"-", "x"}], ",", "y"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "Ty"], "[", 
+         RowBox[{
+          RowBox[{"-", "z"}], ",", 
+          RowBox[{"-", "x"}], ",", "y"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "ga"], "[", 
+         RowBox[{
+          RowBox[{"-", "z"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", "y"}], "]"}], "\[CenterDot]", 
+        
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "gc"], "[", 
+         RowBox[{"z", ",", "x", ",", "y"}], "]"}]}], "=", "1"}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", "y", ",", 
+          RowBox[{"-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Beta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", 
+          RowBox[{"-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "Tx"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", 
+          RowBox[{"-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Beta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Ty"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "+", "x"}], ",", 
+          RowBox[{"-", "y"}], ",", 
+          RowBox[{"-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "Tz"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "+", "x"}], ",", 
+          RowBox[{"-", "y"}], ",", 
+          RowBox[{"-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "gb"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "+", "x"}], ",", 
+          RowBox[{"-", "y"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "ga"], "[", 
+         RowBox[{
+          RowBox[{"-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", "z"}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "17"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gc"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"z", ",", "x", ",", "y"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}], ",", "x", ",", 
+          RowBox[{"-", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Tx"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{"-", "z"}], ",", "x", ",", 
+          RowBox[{"-", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "Ty"], "[", 
+         RowBox[{
+          RowBox[{"-", "z"}], ",", "x", ",", 
+          RowBox[{"-", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "ga"], "[", 
+         RowBox[{
+          RowBox[{"-", "z"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "+", "x"}], ",", 
+          RowBox[{"-", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "gb"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "+", "z"}], ",", 
+          RowBox[{"-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "gc"], "[", 
+         RowBox[{
+          RowBox[{"-", "z"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", "y"}], "]"}], "\[CenterDot]", 
+        
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "gb"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", "y", ",", 
+          RowBox[{"-", "z"}]}], "]"}]}], "=", "1"}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Beta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Tx"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "x"}], ",", "y", ",", "z"}], "]"}], 
+        "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Beta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Ty"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "x"}], ",", 
+          RowBox[{"1", "+", "y"}], ",", "z"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "Tx"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "x"}], ",", 
+          RowBox[{"1", "+", "y"}], ",", "z"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "Ty"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"1", "+", "y"}], ",", "z"}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "1"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Beta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Ty"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"1", "+", "y"}], ",", "z"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Beta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Tz"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"1", "+", "y"}], ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "Ty"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"1", "+", "y"}], ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "Tz"], "[", 
+         RowBox[{"x", ",", "y", ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "2"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Beta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Tz"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"x", ",", "y", ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Beta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Tx"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "x"}], ",", "y", ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "Tz"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "x"}], ",", "y", ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "Tx"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "x"}], ",", "y", ",", "z"}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "3"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "gc"], "[", 
+         RowBox[{"x", ",", "y", ",", "z"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "gc"], "[", 
+         RowBox[{"y", ",", "z", ",", "x"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "gc"], "[", 
+         RowBox[{"z", ",", "x", ",", "y"}], "]"}]}], "=", "1"}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Beta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Tz"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"x", ",", "y", ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "ga"], "[", 
+         RowBox[{"x", ",", "y", ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "ga"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}]}], "=", "1"}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Beta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Ty"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"1", "+", "y"}], ",", "z"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "gb"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"1", "+", "y"}], ",", "z"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "gb"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", "y", ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}]}], "]"}]}], "=", "1"}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "Tx"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "ga"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "2"}], "-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "Tx"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "x"}], ",", "y", ",", "z"}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "7"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "Ty"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "ga"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "2"}], "-", "y"}], ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "Ty"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"1", "+", "y"}], ",", "z"}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "8"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Tz"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", 
+          RowBox[{"2", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "ga"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", 
+          RowBox[{"2", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "Tz"], "[", 
+         RowBox[{"x", ",", "y", ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "9"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Delta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", "y", ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "Tx"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", "y", ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "gb"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "2"}], "-", "x"}], ",", "y", ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "Tx"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "x"}], ",", "y", ",", "z"}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "10"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Delta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", "y", ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Delta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Ty"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{"1", "+", "y"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "gb"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{"1", "+", "y"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "Ty"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"1", "+", "y"}], ",", "z"}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "11"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Delta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", "y", ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "Tz"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", "y", ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "gb"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", "y", ",", 
+          RowBox[{
+           RowBox[{"-", "2"}], "-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "Tz"], "[", 
+         RowBox[{"x", ",", "y", ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "12"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gc"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"z", ",", "x", ",", "y"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Ty"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"z", ",", 
+          RowBox[{"1", "+", "x"}], ",", "y"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "gc"], "[", 
+         RowBox[{"z", ",", 
+          RowBox[{"1", "+", "x"}], ",", "y"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "Tx"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "x"}], ",", "y", ",", "z"}], "]"}]}], "=", "1"}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gc"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"z", ",", "x", ",", "y"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Tz"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"z", ",", "x", ",", 
+          RowBox[{"1", "+", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "gc"], "[", 
+         RowBox[{"z", ",", "x", ",", 
+          RowBox[{"1", "+", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "Ty"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"1", "+", "y"}], ",", "z"}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "14"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gc"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"z", ",", "x", ",", "y"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Tx"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "z"}], ",", "x", ",", "y"}], "]"}], 
+        "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "gc"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "z"}], ",", "x", ",", "y"}], "]"}], 
+        "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "Tz"], "[", 
+         RowBox[{"x", ",", "y", ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "15"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Delta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gc"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "z"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Beta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "2"}], "-", "z"}], ",", 
+          RowBox[{"-", "x"}], ",", "y"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Beta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Tx"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}], ",", 
+          RowBox[{"-", "x"}], ",", "y"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "Ty"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}], ",", 
+          RowBox[{"-", "x"}], ",", "y"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "ga"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", "y"}], "]"}], "\[CenterDot]", 
+        
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "gc"], "[", 
+         RowBox[{"z", ",", "x", ",", "y"}], "]"}]}], "=", "1"}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Delta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", "y", ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", 
+          RowBox[{"-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "Tx"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", 
+          RowBox[{"-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Ty"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"-", "y"}], ",", 
+          RowBox[{"-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "Tz"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"-", "y"}], ",", 
+          RowBox[{"-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "gb"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"-", "y"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "ga"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "17"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gc"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"z", ",", "x", ",", "y"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}], ",", 
+          RowBox[{"1", "+", "x"}], ",", 
+          RowBox[{"-", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Tx"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{"-", "z"}], ",", 
+          RowBox[{"1", "+", "x"}], ",", 
+          RowBox[{"-", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "Ty"], "[", 
+         RowBox[{
+          RowBox[{"-", "z"}], ",", 
+          RowBox[{"1", "+", "x"}], ",", 
+          RowBox[{"-", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "ga"], "[", 
+         RowBox[{
+          RowBox[{"-", "z"}], ",", "x", ",", 
+          RowBox[{"-", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "gb"], "[", 
+         RowBox[{"z", ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "gc"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", "y"}], "]"}], "\[CenterDot]", 
+        
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "gb"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", "y", ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}]}], "]"}]}], "=", "1"}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Tx"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "x"}], ",", "y", ",", "z"}], "]"}], 
+        "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Ty"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "x"}], ",", 
+          RowBox[{"1", "+", "y"}], ",", "z"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "Tx"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "x"}], ",", 
+          RowBox[{"1", "+", "y"}], ",", "z"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "Ty"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"1", "+", "y"}], ",", "z"}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "1"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Ty"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"1", "+", "y"}], ",", "z"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Tz"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"1", "+", "y"}], ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "Ty"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"1", "+", "y"}], ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "Tz"], "[", 
+         RowBox[{"x", ",", "y", ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "2"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Tz"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"x", ",", "y", ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Tx"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "x"}], ",", "y", ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "Tz"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "x"}], ",", "y", ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "Tx"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "x"}], ",", "y", ",", "z"}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "3"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "gc"], "[", 
+         RowBox[{"x", ",", "y", ",", "z"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "gc"], "[", 
+         RowBox[{"y", ",", "z", ",", "x"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "gc"], "[", 
+         RowBox[{"z", ",", "x", ",", "y"}], "]"}]}], "=", "1"}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Tz"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"x", ",", "y", ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "ga"], "[", 
+         RowBox[{"x", ",", "y", ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "ga"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", "z"}], "]"}]}], "=", "1"}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Ty"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"1", "+", "y"}], ",", "z"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "gb"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"1", "+", "y"}], ",", "z"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "gb"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{"1", "+", "y"}], ",", 
+          RowBox[{"-", "z"}]}], "]"}]}], "=", "1"}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Beta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", "z"}], "]"}], "\[CenterDot]", 
+        
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "Tx"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", "z"}], "]"}], "\[CenterDot]", 
+        
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "ga"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "2"}], "-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", "z"}], "]"}], "\[CenterDot]", 
+        
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "Tx"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "x"}], ",", "y", ",", "z"}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "7"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Beta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", "z"}], "]"}], "\[CenterDot]", 
+        
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "Ty"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", "z"}], "]"}], "\[CenterDot]", 
+        
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "ga"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "2"}], "-", "y"}], ",", "z"}], "]"}], "\[CenterDot]", 
+        
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "Ty"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"1", "+", "y"}], ",", "z"}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "8"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Beta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", "z"}], "]"}], "\[CenterDot]", 
+        
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Beta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Tz"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "ga"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "Tz"], "[", 
+         RowBox[{"x", ",", "y", ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "9"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{"1", "+", "y"}], ",", 
+          RowBox[{"-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "Tx"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{"1", "+", "y"}], ",", 
+          RowBox[{"-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "gb"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "2"}], "-", "x"}], ",", 
+          RowBox[{"1", "+", "y"}], ",", 
+          RowBox[{"-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "Tx"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "x"}], ",", "y", ",", "z"}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "10"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{"1", "+", "y"}], ",", 
+          RowBox[{"-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Ty"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{"2", "+", "y"}], ",", 
+          RowBox[{"-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "gb"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{"2", "+", "y"}], ",", 
+          RowBox[{"-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "Ty"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"1", "+", "y"}], ",", "z"}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "11"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{"1", "+", "y"}], ",", 
+          RowBox[{"-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "Tz"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{"1", "+", "y"}], ",", 
+          RowBox[{"-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "gb"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{"1", "+", "y"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "Tz"], "[", 
+         RowBox[{"x", ",", "y", ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "12"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Delta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gc"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"z", ",", "x", ",", "y"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Delta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Ty"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"z", ",", 
+          RowBox[{"1", "+", "x"}], ",", "y"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "gc"], "[", 
+         RowBox[{"z", ",", 
+          RowBox[{"1", "+", "x"}], ",", "y"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "Tx"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "x"}], ",", "y", ",", "z"}], "]"}]}], "=", "1"}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Delta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gc"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"z", ",", "x", ",", "y"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Delta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Tz"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"z", ",", "x", ",", 
+          RowBox[{"1", "+", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "gc"], "[", 
+         RowBox[{"z", ",", "x", ",", 
+          RowBox[{"1", "+", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "Ty"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"1", "+", "y"}], ",", "z"}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "14"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Delta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gc"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"z", ",", "x", ",", "y"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Delta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Tx"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "z"}], ",", "x", ",", "y"}], "]"}], 
+        "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "gc"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "z"}], ",", "x", ",", "y"}], "]"}], 
+        "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "Tz"], "[", 
+         RowBox[{"x", ",", "y", ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "15"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Beta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", "z"}], "]"}], "\[CenterDot]", 
+        
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gc"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"z", ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}], ",", 
+          RowBox[{"-", "x"}], ",", 
+          RowBox[{"1", "+", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Tx"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{"-", "z"}], ",", 
+          RowBox[{"-", "x"}], ",", 
+          RowBox[{"1", "+", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "Ty"], "[", 
+         RowBox[{
+          RowBox[{"-", "z"}], ",", 
+          RowBox[{"-", "x"}], ",", 
+          RowBox[{"1", "+", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "ga"], "[", 
+         RowBox[{
+          RowBox[{"-", "z"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{"1", "+", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "gc"], "[", 
+         RowBox[{"z", ",", "x", ",", "y"}], "]"}]}], "=", "1"}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{"1", "+", "y"}], ",", 
+          RowBox[{"-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Delta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "2"}], "-", "y"}], ",", 
+          RowBox[{"-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "Tx"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "2"}], "-", "y"}], ",", 
+          RowBox[{"-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Delta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Ty"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", 
+          RowBox[{"-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "Tz"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", 
+          RowBox[{"-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "gb"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "ga"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", "z"}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "17"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Delta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gc"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"z", ",", "x", ",", "y"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Beta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}], ",", 
+          RowBox[{"1", "+", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Beta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Tx"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{"-", "z"}], ",", 
+          RowBox[{"1", "+", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "Ty"], "[", 
+         RowBox[{
+          RowBox[{"-", "z"}], ",", 
+          RowBox[{"1", "+", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "ga"], "[", 
+         RowBox[{
+          RowBox[{"-", "z"}], ",", "x", ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "gb"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "+", "z"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "gc"], "[", 
+         RowBox[{
+          RowBox[{"-", "z"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{"1", "+", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "gb"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{"1", "+", "y"}], ",", 
+          RowBox[{"-", "z"}]}], "]"}]}], "=", "1"}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Delta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Tx"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "x"}], ",", "y", ",", "z"}], "]"}], 
+        "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Delta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Ty"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "x"}], ",", 
+          RowBox[{"1", "+", "y"}], ",", "z"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "Tx"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "x"}], ",", 
+          RowBox[{"1", "+", "y"}], ",", "z"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "Ty"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"1", "+", "y"}], ",", "z"}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "1"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Delta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Ty"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"1", "+", "y"}], ",", "z"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Delta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Tz"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"1", "+", "y"}], ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "Ty"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"1", "+", "y"}], ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "Tz"], "[", 
+         RowBox[{"x", ",", "y", ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "2"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Delta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Tz"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"x", ",", "y", ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Delta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Tx"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "x"}], ",", "y", ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "Tz"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "x"}], ",", "y", ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "Tx"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "x"}], ",", "y", ",", "z"}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "3"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "gc"], "[", 
+         RowBox[{"x", ",", "y", ",", "z"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "gc"], "[", 
+         RowBox[{"y", ",", "z", ",", "x"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "gc"], "[", 
+         RowBox[{"z", ",", "x", ",", "y"}], "]"}]}], "=", "1"}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Delta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Tz"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"x", ",", "y", ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "ga"], "[", 
+         RowBox[{"x", ",", "y", ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "ga"], "[", 
+         RowBox[{
+          RowBox[{"-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}]}], "=", "1"}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Delta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Ty"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"1", "+", "y"}], ",", "z"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "gb"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"1", "+", "y"}], ",", "z"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "gb"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{"1", "+", "y"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}]}], "]"}]}], "=", "1"}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{"-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "Tx"], "[", 
+         RowBox[{
+          RowBox[{"-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "ga"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "Tx"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "x"}], ",", "y", ",", "z"}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "7"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{"-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "Ty"], "[", 
+         RowBox[{
+          RowBox[{"-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "ga"], "[", 
+         RowBox[{
+          RowBox[{"-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "2"}], "-", "y"}], ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "Ty"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"1", "+", "y"}], ",", "z"}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "8"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{"-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Tz"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{"-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", 
+          RowBox[{"2", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "ga"], "[", 
+         RowBox[{
+          RowBox[{"-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", 
+          RowBox[{"2", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "Tz"], "[", 
+         RowBox[{"x", ",", "y", ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "9"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Beta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{"1", "+", "y"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "Tx"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{"1", "+", "y"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "gb"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "2"}], "-", "x"}], ",", 
+          RowBox[{"1", "+", "y"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "Tx"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "x"}], ",", "y", ",", "z"}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "10"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Beta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{"1", "+", "y"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Beta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Ty"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{"2", "+", "y"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "gb"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{"2", "+", "y"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "Ty"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"1", "+", "y"}], ",", "z"}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "11"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Beta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{"1", "+", "y"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "Tz"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{"1", "+", "y"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "gb"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{"1", "+", "y"}], ",", 
+          RowBox[{
+           RowBox[{"-", "2"}], "-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "Tz"], "[", 
+         RowBox[{"x", ",", "y", ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "12"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Beta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gc"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"z", ",", "x", ",", "y"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Beta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Ty"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"z", ",", 
+          RowBox[{"1", "+", "x"}], ",", "y"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "gc"], "[", 
+         RowBox[{"z", ",", 
+          RowBox[{"1", "+", "x"}], ",", "y"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "Tx"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "x"}], ",", "y", ",", "z"}], "]"}]}], "=", "1"}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Beta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gc"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"z", ",", "x", ",", "y"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Beta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Tz"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"z", ",", "x", ",", 
+          RowBox[{"1", "+", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "gc"], "[", 
+         RowBox[{"z", ",", "x", ",", 
+          RowBox[{"1", "+", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "Ty"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"1", "+", "y"}], ",", "z"}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "14"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Beta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gc"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"z", ",", "x", ",", "y"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Beta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Tx"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "z"}], ",", "x", ",", "y"}], "]"}], 
+        "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "gc"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "z"}], ",", "x", ",", "y"}], "]"}], 
+        "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "Tz"], "[", 
+         RowBox[{"x", ",", "y", ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "15"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{"-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gc"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{"1", "+", "z"}], ",", 
+          RowBox[{"-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "2"}], "-", "z"}], ",", 
+          RowBox[{"-", "x"}], ",", 
+          RowBox[{"1", "+", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Tx"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}], ",", 
+          RowBox[{"-", "x"}], ",", 
+          RowBox[{"1", "+", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "Ty"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}], ",", 
+          RowBox[{"-", "x"}], ",", 
+          RowBox[{"1", "+", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "ga"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{"1", "+", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "gc"], "[", 
+         RowBox[{"z", ",", "x", ",", "y"}], "]"}]}], "=", "1"}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Beta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{"1", "+", "y"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{
+           RowBox[{"-", "2"}], "-", "y"}], ",", 
+          RowBox[{"-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "Tx"], "[", 
+         RowBox[{"x", ",", 
+          RowBox[{
+           RowBox[{"-", "2"}], "-", "y"}], ",", 
+          RowBox[{"-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Ty"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "+", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", 
+          RowBox[{"-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "Tz"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "+", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", 
+          RowBox[{"-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "gb"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "+", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "ga"], "[", 
+         RowBox[{
+          RowBox[{"-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}], ",", 
+          RowBox[{"1", "+", "z"}]}], "]"}]}], "=", 
+       SubscriptBox["\[Eta]", "17"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Beta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gc"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{"z", ",", "x", ",", "y"}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Delta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}], ",", "x", ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         TemplateBox[{SubscriptBox[
+            
+            TemplateBox[{"G", "\[Delta]"}, "Superscript", SyntaxForm -> 
+             SuperscriptBox], "Tx"],RowBox[{"-", "1"}]},
+          "Superscript"], "[", 
+         RowBox[{
+          RowBox[{"-", "z"}], ",", "x", ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "Ty"], "[", 
+         RowBox[{
+          RowBox[{"-", "z"}], ",", "x", ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Delta]"},
+           "Superscript"], "ga"], "[", 
+         RowBox[{
+          RowBox[{"-", "z"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "+", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Alpha]"},
+           "Superscript"], "gb"], "[", 
+         RowBox[{"z", ",", 
+          RowBox[{"-", "x"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Gamma]"},
+           "Superscript"], "gc"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{"1", "+", "y"}]}], "]"}], "\[CenterDot]", 
+        RowBox[{
+         SubscriptBox[
+          TemplateBox[{"G","\[Beta]"},
+           "Superscript"], "gb"], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "x"}], ",", 
+          RowBox[{"1", "+", "y"}], ",", 
+          RowBox[{
+           RowBox[{"-", "1"}], "-", "z"}]}], "]"}]}], "=", "1"}],
       DisplayForm]}
    },
    DefaultBaseStyle->"Column",
@@ -614,9 +3776,479 @@ Cell[BoxData[
    3.9059952520825863`*^9, 3.9059952867466717`*^9, 3.90599533849372*^9, 
    3.905995411891343*^9, 3.905995482668151*^9, 3.905995794126555*^9, 
    3.9059958269864388`*^9, 3.905996280735124*^9, 3.905996323354013*^9, 
-   3.905996547870973*^9, 3.905996822325613*^9},
+   3.905996547870973*^9, 3.905996822325613*^9, 3.905996978994576*^9, 
+   3.9059975519231052`*^9, 3.905997877138351*^9, 3.905997912636615*^9, 
+   3.905998060039908*^9, 3.905999153979335*^9, 3.905999585822748*^9, {
+   3.9059996333700113`*^9, 3.90599964562354*^9}, 3.905999710428709*^9, 
+   3.905999756746866*^9, 3.9060004200586977`*^9, 3.9060004618654537`*^9, 
+   3.90600077701724*^9, 3.9060009055443087`*^9, 3.9060015214430037`*^9},
  CellLabel->
-  "Out[754]=",ExpressionUUID->"83d2fc2e-4af9-403f-a0c3-bbdcd14449f3"],
+  "Out[1607]=",ExpressionUUID->"4b3e0914-8644-4d2a-a2dd-5beaf8d93c8f"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     SubscriptBox[
+      TemplateBox[{"F","\[Alpha]"},
+       "Superscript"], "Tx"], "[", 
+     RowBox[{"x_", ",", "y_", ",", "z_"}], "]"}], "\[Rule]", "1"}], ",", 
+   RowBox[{
+    RowBox[{
+     SubscriptBox[
+      TemplateBox[{"F","\[Beta]"},
+       "Superscript"], "Tx"], "[", 
+     RowBox[{"x_", ",", "y_", ",", "z_"}], "]"}], "\[Rule]", "1"}], ",", 
+   RowBox[{
+    RowBox[{
+     SubscriptBox[
+      TemplateBox[{"F","\[Gamma]"},
+       "Superscript"], "Tx"], "[", 
+     RowBox[{"x_", ",", "y_", ",", "z_"}], "]"}], "\[Rule]", "1"}], ",", 
+   RowBox[{
+    RowBox[{
+     SubscriptBox[
+      TemplateBox[{"F","\[Delta]"},
+       "Superscript"], "Tx"], "[", 
+     RowBox[{"x_", ",", "y_", ",", "z_"}], "]"}], "\[Rule]", "1"}], ",", 
+   RowBox[{
+    RowBox[{
+     SubscriptBox[
+      TemplateBox[{"F","\[Alpha]"},
+       "Superscript"], "Ty"], "[", 
+     RowBox[{"x_", ",", "y_", ",", "z_"}], "]"}], "\[Rule]", "1"}], ",", 
+   RowBox[{
+    RowBox[{
+     SubscriptBox[
+      TemplateBox[{"F","\[Beta]"},
+       "Superscript"], "Ty"], "[", 
+     RowBox[{"x_", ",", "y_", ",", "z_"}], "]"}], "\[Rule]", "1"}], ",", 
+   RowBox[{
+    RowBox[{
+     SubscriptBox[
+      TemplateBox[{"F","\[Gamma]"},
+       "Superscript"], "Ty"], "[", 
+     RowBox[{"x_", ",", "y_", ",", "z_"}], "]"}], "\[Rule]", "1"}], ",", 
+   RowBox[{
+    RowBox[{
+     SubscriptBox[
+      TemplateBox[{"F","\[Delta]"},
+       "Superscript"], "Ty"], "[", 
+     RowBox[{"x_", ",", "y_", ",", "z_"}], "]"}], "\[Rule]", "1"}], ",", 
+   RowBox[{
+    RowBox[{
+     SubscriptBox[
+      TemplateBox[{"F","\[Alpha]"},
+       "Superscript"], "Tz"], "[", 
+     RowBox[{"x_", ",", "y_", ",", "z_"}], "]"}], "\[Rule]", "1"}], ",", 
+   RowBox[{
+    RowBox[{
+     SubscriptBox[
+      TemplateBox[{"F","\[Beta]"},
+       "Superscript"], "Tz"], "[", 
+     RowBox[{"x_", ",", "y_", ",", "z_"}], "]"}], "\[Rule]", "1"}], ",", 
+   RowBox[{
+    RowBox[{
+     SubscriptBox[
+      TemplateBox[{"F","\[Gamma]"},
+       "Superscript"], "Tz"], "[", 
+     RowBox[{"x_", ",", "y_", ",", "z_"}], "]"}], "\[Rule]", "1"}], ",", 
+   RowBox[{
+    RowBox[{
+     SubscriptBox[
+      TemplateBox[{"F","\[Delta]"},
+       "Superscript"], "Tz"], "[", 
+     RowBox[{"x_", ",", "y_", ",", "z_"}], "]"}], "\[Rule]", "1"}], ",", 
+   RowBox[{
+    RowBox[{
+     SubscriptBox[
+      TemplateBox[{"F","\[Alpha]"},
+       "Superscript"], "ga"], "[", 
+     RowBox[{"x_", ",", "y_", ",", "z_"}], "]"}], "\[Rule]", 
+    RowBox[{
+     SubsuperscriptBox["\[Eta]", "7", 
+      RowBox[{"x", "+", "z"}]], " ", 
+     SubsuperscriptBox["\[Eta]", "8", 
+      RowBox[{"y", "+", "z"}]]}]}], ",", 
+   RowBox[{
+    RowBox[{
+     SubscriptBox[
+      TemplateBox[{"F","\[Beta]"},
+       "Superscript"], "ga"], "[", 
+     RowBox[{"x_", ",", "y_", ",", "z_"}], "]"}], "\[Rule]", 
+    RowBox[{
+     SubsuperscriptBox["\[Eta]", "7", 
+      RowBox[{"x", "+", "z"}]], " ", 
+     SubsuperscriptBox["\[Eta]", "8", 
+      RowBox[{"y", "+", "z"}]]}]}], ",", 
+   RowBox[{
+    RowBox[{
+     SubscriptBox[
+      TemplateBox[{"F","\[Gamma]"},
+       "Superscript"], "ga"], "[", 
+     RowBox[{"x_", ",", "y_", ",", "z_"}], "]"}], "\[Rule]", 
+    RowBox[{
+     SubsuperscriptBox["\[Eta]", "7", 
+      RowBox[{"x", "+", "z"}]], " ", 
+     SubsuperscriptBox["\[Eta]", "8", 
+      RowBox[{"y", "+", "z"}]]}]}], ",", 
+   RowBox[{
+    RowBox[{
+     SubscriptBox[
+      TemplateBox[{"F","\[Delta]"},
+       "Superscript"], "ga"], "[", 
+     RowBox[{"x_", ",", "y_", ",", "z_"}], "]"}], "\[Rule]", 
+    RowBox[{
+     SubsuperscriptBox["\[Eta]", "7", 
+      RowBox[{"x", "+", "z"}]], " ", 
+     SubsuperscriptBox["\[Eta]", "8", 
+      RowBox[{"y", "+", "z"}]]}]}], ",", 
+   RowBox[{
+    RowBox[{
+     SubscriptBox[
+      TemplateBox[{"F","\[Alpha]"},
+       "Superscript"], "gb"], "[", 
+     RowBox[{"x_", ",", "y_", ",", "z_"}], "]"}], "\[Rule]", 
+    RowBox[{
+     SubsuperscriptBox["\[Eta]", "7", 
+      RowBox[{"y", "+", "z"}]], " ", 
+     SubsuperscriptBox["\[Eta]", "8", 
+      RowBox[{"x", "+", "y"}]]}]}], ",", 
+   RowBox[{
+    RowBox[{
+     SubscriptBox[
+      TemplateBox[{"F","\[Beta]"},
+       "Superscript"], "gb"], "[", 
+     RowBox[{"x_", ",", "y_", ",", "z_"}], "]"}], "\[Rule]", 
+    RowBox[{
+     SubsuperscriptBox["\[Eta]", "7", 
+      RowBox[{"y", "+", "z"}]], " ", 
+     SubsuperscriptBox["\[Eta]", "8", 
+      RowBox[{"x", "+", "y"}]]}]}], ",", 
+   RowBox[{
+    RowBox[{
+     SubscriptBox[
+      TemplateBox[{"F","\[Gamma]"},
+       "Superscript"], "gb"], "[", 
+     RowBox[{"x_", ",", "y_", ",", "z_"}], "]"}], "\[Rule]", 
+    RowBox[{
+     SubsuperscriptBox["\[Eta]", "7", 
+      RowBox[{"y", "+", "z"}]], " ", 
+     SubsuperscriptBox["\[Eta]", "8", 
+      RowBox[{"x", "+", "y"}]]}]}], ",", 
+   RowBox[{
+    RowBox[{
+     SubscriptBox[
+      TemplateBox[{"F","\[Delta]"},
+       "Superscript"], "gb"], "[", 
+     RowBox[{"x_", ",", "y_", ",", "z_"}], "]"}], "\[Rule]", 
+    RowBox[{
+     SubsuperscriptBox["\[Eta]", "7", 
+      RowBox[{"y", "+", "z"}]], " ", 
+     SubsuperscriptBox["\[Eta]", "8", 
+      RowBox[{"x", "+", "y"}]]}]}], ",", 
+   RowBox[{
+    RowBox[{
+     SubscriptBox[
+      TemplateBox[{"F","\[Alpha]"},
+       "Superscript"], "gc"], "[", 
+     RowBox[{"x_", ",", "y_", ",", "z_"}], "]"}], "\[Rule]", 
+    SubsuperscriptBox["\[Eta]", "14", 
+     RowBox[{"x", "+", "z"}]]}], ",", 
+   RowBox[{
+    RowBox[{
+     SubscriptBox[
+      TemplateBox[{"F","\[Beta]"},
+       "Superscript"], "gc"], "[", 
+     RowBox[{"x_", ",", "y_", ",", "z_"}], "]"}], "\[Rule]", 
+    SubsuperscriptBox["\[Eta]", "14", 
+     RowBox[{"x", "+", "z"}]]}], ",", 
+   RowBox[{
+    RowBox[{
+     SubscriptBox[
+      TemplateBox[{"F","\[Gamma]"},
+       "Superscript"], "gc"], "[", 
+     RowBox[{"x_", ",", "y_", ",", "z_"}], "]"}], "\[Rule]", 
+    SubsuperscriptBox["\[Eta]", "14", 
+     RowBox[{"x", "+", "z"}]]}], ",", 
+   RowBox[{
+    RowBox[{
+     SubscriptBox[
+      TemplateBox[{"F","\[Delta]"},
+       "Superscript"], "gc"], "[", 
+     RowBox[{"x_", ",", "y_", ",", "z_"}], "]"}], "\[Rule]", 
+    SubsuperscriptBox["\[Eta]", "14", 
+     RowBox[{"x", "+", "z"}]]}], ",", "Null", ",", "Null", ",", "Null", ",", 
+   "Null"}], "}"}]], "Output",
+ CellChangeTimes->{
+  3.905931582295342*^9, 3.9059316199584513`*^9, {3.905931677800426*^9, 
+   3.9059316926236267`*^9}, 3.905931776643998*^9, 3.905932005864579*^9, {
+   3.9059322057736998`*^9, 3.905932230378846*^9}, {3.905932383739608*^9, 
+   3.905932416673719*^9}, 3.905932465478685*^9, 3.9059325165672607`*^9, 
+   3.905933643517638*^9, 3.905933688765397*^9, 3.905934254630271*^9, 
+   3.905934288306807*^9, {3.9059343613760557`*^9, 3.905934386448378*^9}, 
+   3.905934676176865*^9, 3.905934802637993*^9, {3.905934961224682*^9, 
+   3.905934964694075*^9}, {3.905935127918683*^9, 3.9059351993031273`*^9}, 
+   3.905935285282855*^9, {3.9059353916847353`*^9, 3.905935407480302*^9}, 
+   3.905935510722773*^9, 3.9059355704947*^9, {3.905935605218925*^9, 
+   3.905935610348446*^9}, {3.905935658898169*^9, 3.9059357213350782`*^9}, 
+   3.905935825143835*^9, 3.905936789173609*^9, {3.905936854305271*^9, 
+   3.905936879317822*^9}, 3.905937224776668*^9, 3.9059373584428663`*^9, {
+   3.905937392689014*^9, 3.90593741151622*^9}, 3.9059374420487127`*^9, {
+   3.905993386916082*^9, 3.905993399914689*^9}, 3.905995171718251*^9, 
+   3.9059952520825863`*^9, 3.9059952867466717`*^9, 3.90599533849372*^9, 
+   3.905995411891343*^9, 3.905995482668151*^9, 3.905995794126555*^9, 
+   3.9059958269864388`*^9, 3.905996280735124*^9, 3.905996323354013*^9, 
+   3.905996547870973*^9, 3.905996822325613*^9, 3.905996978994576*^9, 
+   3.9059975519231052`*^9, 3.905997877138351*^9, 3.905997912636615*^9, 
+   3.905998060039908*^9, 3.905999153979335*^9, 3.905999585822748*^9, {
+   3.9059996333700113`*^9, 3.90599964562354*^9}, 3.905999710428709*^9, 
+   3.905999756746866*^9, 3.9060004200586977`*^9, 3.9060004618654537`*^9, 
+   3.90600077701724*^9, 3.9060009055443087`*^9, 3.906001522765685*^9},
+ CellLabel->
+  "Out[1610]=",ExpressionUUID->"a54193dc-9bb3-493e-8a9f-3de460f57022"],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        SubscriptBox[
+         TemplateBox[{"M","\[Alpha]"},
+          "Superscript"], "gc"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Alpha]"},
+          "Superscript"], "gc"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Alpha]"},
+          "Superscript"], "gc"]}], "=", "1"}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Delta]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Beta]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "gc"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Delta]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Delta]"},
+          "Superscript"], "ga"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Alpha]"},
+          "Superscript"], "gc"]}], "=", "1"}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Gamma]"},
+          "Superscript"], "ga"], "\[CenterDot]", 
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Delta]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Delta]"},
+          "Superscript"], "ga"]}], "=", 
+       SubscriptBox["\[Eta]", "17"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "gc"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Gamma]"},
+          "Superscript"], "ga"], "\[CenterDot]", 
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Delta]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Delta]"},
+          "Superscript"], "gc"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Gamma]"},
+          "Superscript"], "gb"]}], "=", "1"}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        SubscriptBox[
+         TemplateBox[{"M","\[Beta]"},
+          "Superscript"], "gc"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Delta]"},
+          "Superscript"], "gc"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Gamma]"},
+          "Superscript"], "gc"]}], "=", "1"}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Delta]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "gc"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Delta]"},
+          "Superscript"], "gb"], "\[CenterDot]", 
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Gamma]"},
+          "Superscript"], "gc"]}], "=", "1"}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "gc"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Gamma]"},
+          "Superscript"], "gb"], "\[CenterDot]", 
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Delta]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Delta]"},
+          "Superscript"], "gb"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Beta]"},
+          "Superscript"], "gc"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Delta]"},
+          "Superscript"], "gb"]}], "=", "1"}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        SubscriptBox[
+         TemplateBox[{"M","\[Gamma]"},
+          "Superscript"], "ga"], "\[CenterDot]", 
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "gc"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Gamma]"},
+          "Superscript"], "gb"], "\[CenterDot]", 
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Delta]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Delta]"},
+          "Superscript"], "gc"]}], "=", "1"}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        SubscriptBox[
+         TemplateBox[{"M","\[Delta]"},
+          "Superscript"], "ga"], "\[CenterDot]", 
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "gc"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Gamma]"},
+          "Superscript"], "ga"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Beta]"},
+          "Superscript"], "gc"]}], "=", "1"}],
+      DisplayForm]}
+   },
+   DefaultBaseStyle->"Column",
+   GridBoxAlignment->{"Columns" -> {{Left}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+  "Column"]], "Output",
+ CellChangeTimes->{
+  3.905931582295342*^9, 3.9059316199584513`*^9, {3.905931677800426*^9, 
+   3.9059316926236267`*^9}, 3.905931776643998*^9, 3.905932005864579*^9, {
+   3.9059322057736998`*^9, 3.905932230378846*^9}, {3.905932383739608*^9, 
+   3.905932416673719*^9}, 3.905932465478685*^9, 3.9059325165672607`*^9, 
+   3.905933643517638*^9, 3.905933688765397*^9, 3.905934254630271*^9, 
+   3.905934288306807*^9, {3.9059343613760557`*^9, 3.905934386448378*^9}, 
+   3.905934676176865*^9, 3.905934802637993*^9, {3.905934961224682*^9, 
+   3.905934964694075*^9}, {3.905935127918683*^9, 3.9059351993031273`*^9}, 
+   3.905935285282855*^9, {3.9059353916847353`*^9, 3.905935407480302*^9}, 
+   3.905935510722773*^9, 3.9059355704947*^9, {3.905935605218925*^9, 
+   3.905935610348446*^9}, {3.905935658898169*^9, 3.9059357213350782`*^9}, 
+   3.905935825143835*^9, 3.905936789173609*^9, {3.905936854305271*^9, 
+   3.905936879317822*^9}, 3.905937224776668*^9, 3.9059373584428663`*^9, {
+   3.905937392689014*^9, 3.90593741151622*^9}, 3.9059374420487127`*^9, {
+   3.905993386916082*^9, 3.905993399914689*^9}, 3.905995171718251*^9, 
+   3.9059952520825863`*^9, 3.9059952867466717`*^9, 3.90599533849372*^9, 
+   3.905995411891343*^9, 3.905995482668151*^9, 3.905995794126555*^9, 
+   3.9059958269864388`*^9, 3.905996280735124*^9, 3.905996323354013*^9, 
+   3.905996547870973*^9, 3.905996822325613*^9, 3.905996978994576*^9, 
+   3.9059975519231052`*^9, 3.905997877138351*^9, 3.905997912636615*^9, 
+   3.905998060039908*^9, 3.905999153979335*^9, 3.905999585822748*^9, {
+   3.9059996333700113`*^9, 3.90599964562354*^9}, 3.905999710428709*^9, 
+   3.905999756746866*^9, 3.9060004200586977`*^9, 3.9060004618654537`*^9, 
+   3.90600077701724*^9, 3.9060009055443087`*^9, 3.906001523032908*^9},
+ CellLabel->
+  "Out[1640]=",ExpressionUUID->"5462bbc4-aa29-4ae9-8b2d-e07cfc0237cf"],
 
 Cell[BoxData[
  RowBox[{"\[LeftAssociation]", 
@@ -757,130 +4389,22 @@ Cell[BoxData[
       "Superscript"]}]}], ",", 
    RowBox[{
     RowBox[{"{", 
-     RowBox[{"gb", ",", "\[Gamma]"}], "}"}], "\[Rule]", 
-    RowBox[{
-     SubscriptBox[
-      TemplateBox[{"M","\[Gamma]"},
-       "Superscript"], "gb"], "\[Rule]", 
-     RowBox[{
-      TemplateBox[{SubscriptBox[
-         TemplateBox[{"M", "\[Delta]"}, "Superscript", SyntaxForm -> 
-          SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
-       "Superscript"], "\[CenterDot]", 
-      TemplateBox[{SubscriptBox[
-         TemplateBox[{"M", "\[Beta]"}, "Superscript", SyntaxForm -> 
-          SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
-       "Superscript"], "\[CenterDot]", 
-      SubscriptBox[
-       TemplateBox[{"M","\[Beta]"},
-        "Superscript"], "ga"]}]}]}], ",", 
+     RowBox[{"gb", ",", "\[Gamma]"}], "}"}], "\[Rule]", "Null"}], ",", 
    RowBox[{
     RowBox[{"{", 
      RowBox[{"gb", ",", "\[Delta]"}], "}"}], "\[Rule]", "Null"}], ",", 
    RowBox[{
     RowBox[{"{", 
-     RowBox[{"gc", ",", "\[Alpha]"}], "}"}], "\[Rule]", 
-    RowBox[{
-     SubscriptBox[
-      TemplateBox[{"M","\[Alpha]"},
-       "Superscript"], "gc"], "\[Rule]", 
-     RowBox[{
-      TemplateBox[{SubscriptBox[
-         TemplateBox[{"M", "\[Beta]"}, "Superscript", SyntaxForm -> 
-          SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
-       "Superscript"], "\[CenterDot]", 
-      SubscriptBox[
-       TemplateBox[{"M","\[Beta]"},
-        "Superscript"], "gb"], "\[CenterDot]", 
-      SubscriptBox[
-       TemplateBox[{"M","\[Delta]"},
-        "Superscript"], "ga"], "\[CenterDot]", 
-      TemplateBox[{SubscriptBox[
-         TemplateBox[{"M", "\[Delta]"}, "Superscript", SyntaxForm -> 
-          SuperscriptBox], "gc"],RowBox[{"-", "1"}]},
-       "Superscript"], "\[CenterDot]", 
-      TemplateBox[{SubscriptBox[
-         TemplateBox[{"M", "\[Beta]"}, "Superscript", SyntaxForm -> 
-          SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
-       "Superscript"], "\[CenterDot]", 
-      TemplateBox[{SubscriptBox[
-         TemplateBox[{"M", "\[Gamma]"}, "Superscript", SyntaxForm -> 
-          SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
-       "Superscript"], "\[CenterDot]", 
-      TemplateBox[{SubscriptBox[
-         TemplateBox[{"M", "\[Delta]"}, "Superscript", SyntaxForm -> 
-          SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
-       "Superscript"], "\[CenterDot]", 
-      TemplateBox[{SubscriptBox[
-         TemplateBox[{"M", "\[Beta]"}, "Superscript", SyntaxForm -> 
-          SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
-       "Superscript"], "\[CenterDot]", 
-      SubscriptBox[
-       TemplateBox[{"M","\[Beta]"},
-        "Superscript"], "ga"]}]}]}], ",", 
+     RowBox[{"gc", ",", "\[Alpha]"}], "}"}], "\[Rule]", "Null"}], ",", 
    RowBox[{
     RowBox[{"{", 
-     RowBox[{"gc", ",", "\[Beta]"}], "}"}], "\[Rule]", 
-    RowBox[{
-     SubscriptBox[
-      TemplateBox[{"M","\[Beta]"},
-       "Superscript"], "gc"], "\[Rule]", 
-     RowBox[{
-      TemplateBox[{SubscriptBox[
-         TemplateBox[{"M", "\[Gamma]"}, "Superscript", SyntaxForm -> 
-          SuperscriptBox], "gc"],RowBox[{"-", "1"}]},
-       "Superscript"], "\[CenterDot]", 
-      TemplateBox[{SubscriptBox[
-         TemplateBox[{"M", "\[Delta]"}, "Superscript", SyntaxForm -> 
-          SuperscriptBox], "gc"],RowBox[{"-", "1"}]},
-       "Superscript"]}]}]}], ",", 
+     RowBox[{"gc", ",", "\[Beta]"}], "}"}], "\[Rule]", "Null"}], ",", 
    RowBox[{
     RowBox[{"{", 
-     RowBox[{"gc", ",", "\[Gamma]"}], "}"}], "\[Rule]", 
-    RowBox[{
-     SubscriptBox[
-      TemplateBox[{"M","\[Gamma]"},
-       "Superscript"], "gc"], "\[Rule]", 
-     SubscriptBox[
-      TemplateBox[{"M","\[Gamma]"},
-       "Superscript"], "ga"]}]}], ",", 
+     RowBox[{"gc", ",", "\[Gamma]"}], "}"}], "\[Rule]", "Null"}], ",", 
    RowBox[{
     RowBox[{"{", 
-     RowBox[{"gc", ",", "\[Delta]"}], "}"}], "\[Rule]", 
-    RowBox[{
-     SubscriptBox[
-      TemplateBox[{"M","\[Delta]"},
-       "Superscript"], "gc"], "\[Rule]", 
-     RowBox[{
-      SubscriptBox[
-       TemplateBox[{"M","\[Delta]"},
-        "Superscript"], "gb"], "\[CenterDot]", 
-      TemplateBox[{SubscriptBox[
-         TemplateBox[{"M", "\[Gamma]"}, "Superscript", SyntaxForm -> 
-          SuperscriptBox], "gc"],RowBox[{"-", "1"}]},
-       "Superscript"], "\[CenterDot]", 
-      TemplateBox[{SubscriptBox[
-         TemplateBox[{"M", "\[Delta]"}, "Superscript", SyntaxForm -> 
-          SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
-       "Superscript"], "\[CenterDot]", 
-      SubscriptBox[
-       TemplateBox[{"M","\[Delta]"},
-        "Superscript"], "gb"], "\[CenterDot]", 
-      TemplateBox[{SubscriptBox[
-         TemplateBox[{"M", "\[Gamma]"}, "Superscript", SyntaxForm -> 
-          SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
-       "Superscript"], "\[CenterDot]", 
-      TemplateBox[{SubscriptBox[
-         TemplateBox[{"M", "\[Delta]"}, "Superscript", SyntaxForm -> 
-          SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
-       "Superscript"], "\[CenterDot]", 
-      SubscriptBox[
-       TemplateBox[{"M","\[Delta]"},
-        "Superscript"], "gb"], "\[CenterDot]", 
-      TemplateBox[{SubscriptBox[
-         TemplateBox[{"M", "\[Gamma]"}, "Superscript", SyntaxForm -> 
-          SuperscriptBox], "gc"],RowBox[{"-", "1"}]},
-       "Superscript"]}]}]}], ",", 
+     RowBox[{"gc", ",", "\[Delta]"}], "}"}], "\[Rule]", "Null"}], ",", 
    RowBox[{
     RowBox[{"{", 
      RowBox[{"T", ",", "\[Alpha]"}], "}"}], "\[Rule]", "Null"}], ",", 
@@ -913,9 +4437,14 @@ Cell[BoxData[
    3.9059952520825863`*^9, 3.9059952867466717`*^9, 3.90599533849372*^9, 
    3.905995411891343*^9, 3.905995482668151*^9, 3.905995794126555*^9, 
    3.9059958269864388`*^9, 3.905996280735124*^9, 3.905996323354013*^9, 
-   3.905996547870973*^9, 3.905996822330183*^9},
+   3.905996547870973*^9, 3.905996822325613*^9, 3.905996978994576*^9, 
+   3.9059975519231052`*^9, 3.905997877138351*^9, 3.905997912636615*^9, 
+   3.905998060039908*^9, 3.905999153979335*^9, 3.905999585822748*^9, {
+   3.9059996333700113`*^9, 3.90599964562354*^9}, 3.905999710428709*^9, 
+   3.905999756746866*^9, 3.9060004200586977`*^9, 3.9060004618654537`*^9, 
+   3.90600077701724*^9, 3.9060009055443087`*^9, 3.906001523039978*^9},
  CellLabel->
-  "Out[755]=",ExpressionUUID->"1d41d4cd-6a7a-4e4b-bd0e-e36ed8a7e934"],
+  "Out[1641]=",ExpressionUUID->"38774634-22ef-4b3c-b6c9-3bd2b69c4a0b"],
 
 Cell[BoxData[
  RowBox[{"{", 
@@ -1084,31 +4613,511 @@ Cell[BoxData[
    3.9059952520825863`*^9, 3.9059952867466717`*^9, 3.90599533849372*^9, 
    3.905995411891343*^9, 3.905995482668151*^9, 3.905995794126555*^9, 
    3.9059958269864388`*^9, 3.905996280735124*^9, 3.905996323354013*^9, 
-   3.905996547870973*^9, 3.905996822338192*^9},
+   3.905996547870973*^9, 3.905996822325613*^9, 3.905996978994576*^9, 
+   3.9059975519231052`*^9, 3.905997877138351*^9, 3.905997912636615*^9, 
+   3.905998060039908*^9, 3.905999153979335*^9, 3.905999585822748*^9, {
+   3.9059996333700113`*^9, 3.90599964562354*^9}, 3.905999710428709*^9, 
+   3.905999756746866*^9, 3.9060004200586977`*^9, 3.9060004618654537`*^9, 
+   3.90600077701724*^9, 3.9060009055443087`*^9, 3.906001523044464*^9},
  CellLabel->
-  "Out[756]=",ExpressionUUID->"ca9f730b-2137-4009-84e6-e261706c0476"]
+  "Out[1642]=",ExpressionUUID->"bb854231-2c53-4fd9-b650-e8f2d1bd1b11"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
 Cell[BoxData[
- RowBox[{"getMSubstitutor", "[", 
-  RowBox[{"rels3", "[", 
-   RowBox[{"[", "2", "]"}], "]"}], "]"}]], "Input",
- CellChangeTimes->{{3.905937305839632*^9, 3.905937314711084*^9}},
+ RowBox[{"rels2", "//", "Column"}]], "Input",
+ CellChangeTimes->{{3.905937305839632*^9, 3.905937314711084*^9}, {
+  3.905997158120802*^9, 3.905997167286482*^9}},
  CellLabel->
-  "In[834]:=",ExpressionUUID->"d833c1df-e33b-4cd2-bd59-aeabd305c6d3"],
+  "In[802]:=",ExpressionUUID->"d833c1df-e33b-4cd2-bd59-aeabd305c6d3"],
 
 Cell[BoxData[
- RowBox[{
-  SubscriptBox[
-   TemplateBox[{"M", "\[Gamma]"},
-    "Superscript"], "gc"], "\[Rule]", 
-  RowBox[{
-   SubscriptBox[
-    TemplateBox[{"M", "\[Gamma]"},
-     "Superscript"], "ga"], " ", 
-   SubscriptBox["\[Eta]", "7"]}]}]], "Output",
+ TagBox[GridBox[{
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        SubscriptBox[
+         TemplateBox[{"M","\[Alpha]"},
+          "Superscript"], "gc"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Alpha]"},
+          "Superscript"], "gc"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Alpha]"},
+          "Superscript"], "gc"]}], "=", "1"}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        SubscriptBox[
+         TemplateBox[{"M","\[Alpha]"},
+          "Superscript"], "ga"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Delta]"},
+          "Superscript"], "ga"]}], "=", 
+       SubscriptBox["\[Eta]", "7"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        SubscriptBox[
+         TemplateBox[{"M","\[Alpha]"},
+          "Superscript"], "gb"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Gamma]"},
+          "Superscript"], "gb"]}], "=", 
+       SubscriptBox["\[Eta]", "7"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Delta]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Beta]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "gc"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Delta]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Delta]"},
+          "Superscript"], "ga"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Alpha]"},
+          "Superscript"], "gc"]}], "=", 
+       RowBox[{
+        SubscriptBox["\[Eta]", "8"], " ", 
+        SubscriptBox["\[Eta]", "14"]}]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Beta]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Beta]"},
+          "Superscript"], "gb"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Delta]"},
+          "Superscript"], "ga"]}], "=", 
+       RowBox[{
+        SubscriptBox["\[Eta]", "7"], " ", 
+        SubscriptBox["\[Eta]", "17"]}]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "gc"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Gamma]"},
+          "Superscript"], "ga"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Beta]"},
+          "Superscript"], "gb"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Delta]"},
+          "Superscript"], "gc"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Gamma]"},
+          "Superscript"], "gb"]}], "=", 
+       SubscriptBox["\[Eta]", "7"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        SubscriptBox[
+         TemplateBox[{"M","\[Beta]"},
+          "Superscript"], "gc"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Delta]"},
+          "Superscript"], "gc"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Gamma]"},
+          "Superscript"], "gc"]}], "=", "1"}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        SubscriptBox[
+         TemplateBox[{"M","\[Beta]"},
+          "Superscript"], "ga"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Gamma]"},
+          "Superscript"], "ga"]}], "=", 
+       RowBox[{
+        SubscriptBox["\[Eta]", "7"], " ", 
+        SubscriptBox["\[Eta]", "8"]}]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        SubscriptBox[
+         TemplateBox[{"M","\[Beta]"},
+          "Superscript"], "gb"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Delta]"},
+          "Superscript"], "gb"]}], "=", "1"}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Delta]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "gc"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Beta]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Beta]"},
+          "Superscript"], "ga"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Gamma]"},
+          "Superscript"], "gc"]}], "=", 
+       RowBox[{
+        SubscriptBox["\[Eta]", "7"], " ", 
+        SubscriptBox["\[Eta]", "8"]}]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Delta]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Alpha]"},
+          "Superscript"], "gb"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Gamma]"},
+          "Superscript"], "ga"]}], "=", 
+       RowBox[{
+        SubscriptBox["\[Eta]", "7"], " ", 
+        SubscriptBox["\[Eta]", "17"]}]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "gc"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Alpha]"},
+          "Superscript"], "ga"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Delta]"},
+          "Superscript"], "gb"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Beta]"},
+          "Superscript"], "gc"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Delta]"},
+          "Superscript"], "gb"]}], "=", 
+       SubscriptBox["\[Eta]", "14"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        SubscriptBox[
+         TemplateBox[{"M","\[Gamma]"},
+          "Superscript"], "gc"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Beta]"},
+          "Superscript"], "gc"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Delta]"},
+          "Superscript"], "gc"]}], "=", "1"}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        SubscriptBox[
+         TemplateBox[{"M","\[Gamma]"},
+          "Superscript"], "ga"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Beta]"},
+          "Superscript"], "ga"]}], "=", "1"}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        SubscriptBox[
+         TemplateBox[{"M","\[Gamma]"},
+          "Superscript"], "gb"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Alpha]"},
+          "Superscript"], "gb"]}], "=", 
+       SubscriptBox["\[Eta]", "8"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Beta]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "gc"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Alpha]"},
+          "Superscript"], "ga"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Delta]"},
+          "Superscript"], "gc"]}], "=", 
+       RowBox[{
+        SubscriptBox["\[Eta]", "7"], " ", 
+        SubscriptBox["\[Eta]", "14"]}]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Delta]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Delta]"},
+          "Superscript"], "gb"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Beta]"},
+          "Superscript"], "ga"]}], "=", 
+       RowBox[{
+        SubscriptBox["\[Eta]", "7"], " ", 
+        SubscriptBox["\[Eta]", "17"]}]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Delta]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "gc"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Beta]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Beta]"},
+          "Superscript"], "ga"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Gamma]"},
+          "Superscript"], "gb"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Alpha]"},
+          "Superscript"], "gc"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Alpha]"},
+          "Superscript"], "gb"]}], "=", 
+       RowBox[{
+        SubscriptBox["\[Eta]", "8"], " ", 
+        SubscriptBox["\[Eta]", "14"]}]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        SubscriptBox[
+         TemplateBox[{"M","\[Delta]"},
+          "Superscript"], "gc"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Gamma]"},
+          "Superscript"], "gc"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Beta]"},
+          "Superscript"], "gc"]}], "=", "1"}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        SubscriptBox[
+         TemplateBox[{"M","\[Delta]"},
+          "Superscript"], "ga"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Alpha]"},
+          "Superscript"], "ga"]}], "=", 
+       SubscriptBox["\[Eta]", "8"]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        SubscriptBox[
+         TemplateBox[{"M","\[Delta]"},
+          "Superscript"], "gb"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Beta]"},
+          "Superscript"], "gb"]}], "=", 
+       RowBox[{
+        SubscriptBox["\[Eta]", "7"], " ", 
+        SubscriptBox["\[Eta]", "8"]}]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Alpha]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "gc"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Gamma]"},
+          "Superscript"], "ga"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Beta]"},
+          "Superscript"], "gc"]}], "=", "1"}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Beta]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Gamma]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "ga"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Gamma]"},
+          "Superscript"], "gb"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Alpha]"},
+          "Superscript"], "ga"]}], "=", 
+       RowBox[{
+        SubscriptBox["\[Eta]", "7"], " ", 
+        SubscriptBox["\[Eta]", "17"]}]}],
+      DisplayForm]},
+    {
+     TagBox[
+      RowBox[{
+       RowBox[{
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Beta]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "gc"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        TemplateBox[{SubscriptBox[
+           
+           TemplateBox[{"M", "\[Delta]"}, "Superscript", SyntaxForm -> 
+            SuperscriptBox], "gb"],RowBox[{"-", "1"}]},
+         "Superscript"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Delta]"},
+          "Superscript"], "ga"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Alpha]"},
+          "Superscript"], "gb"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Gamma]"},
+          "Superscript"], "gc"], "\[CenterDot]", 
+        SubscriptBox[
+         TemplateBox[{"M","\[Beta]"},
+          "Superscript"], "gb"]}], "=", 
+       RowBox[{
+        SubscriptBox["\[Eta]", "7"], " ", 
+        SubscriptBox["\[Eta]", "8"]}]}],
+      DisplayForm]}
+   },
+   DefaultBaseStyle->"Column",
+   GridBoxAlignment->{"Columns" -> {{Left}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+  "Column"]], "Output",
  CellChangeTimes->{
   3.905931582295342*^9, 3.9059316199584513`*^9, {3.905931677800426*^9, 
    3.9059316926236267`*^9}, 3.905931776643998*^9, 3.905932005864579*^9, {
@@ -1122,9 +5131,10 @@ Cell[BoxData[
    3.905935510722773*^9, 3.9059355704947*^9, {3.905935605218925*^9, 
    3.905935610348446*^9}, {3.905935658898169*^9, 3.9059357213350782`*^9}, 
    3.905935825143835*^9, 3.905936789173609*^9, {3.905936854305271*^9, 
-   3.905936879317822*^9}, 3.905937224787668*^9, 3.905937315610116*^9},
+   3.905936879317822*^9}, 3.905937224787668*^9, 3.905937315610116*^9, {
+   3.9059971597971973`*^9, 3.90599716787805*^9}},
  CellLabel->
-  "Out[834]=",ExpressionUUID->"74660cd7-04de-4ba3-9bba-1e05c6e7a60c"]
+  "Out[802]=",ExpressionUUID->"be14c3c1-fb0d-41ea-9c37-2368a5e07785"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -1855,118 +5865,7 @@ Cell[BoxData[
   "Out[105]=",ExpressionUUID->"07e12778-fab6-4523-9b76-e8e17a310480"]
 }, Open  ]],
 
-Cell[BoxData[{
- RowBox[{
-  RowBox[{
-   RowBox[{"substEq", "[", 
-    RowBox[{
-     RowBox[{"HoldPattern", "[", 
-      RowBox[{"Equation", "[", 
-       RowBox[{
-        RowBox[{"CenterDot", "[", "y__", "]"}], ",", "rhs1_"}], "]"}], "]"}], 
-     ",", " ", 
-     RowBox[{"HoldPattern", "[", 
-      RowBox[{"Equation", "[", 
-       RowBox[{
-        RowBox[{"CenterDot", "[", 
-         RowBox[{"x___", ",", "y__", ",", "z___"}], "]"}], ",", "rhs2_"}], 
-       "]"}], "]"}]}], "]"}], ":=", "\[IndentingNewLine]", 
-   RowBox[{"Equation", "[", 
-    RowBox[{
-     RowBox[{"CenterDot", "[", 
-      RowBox[{"x", ",", "z"}], "]"}], ",", 
-     RowBox[{"rhs2", " ", 
-      SuperscriptBox["rhs1", 
-       RowBox[{"-", "1"}]]}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"substEq", "[", 
-    RowBox[{"eq1_Equation", ",", "eq2_Equation"}], "]"}], ":=", "Nothing"}], 
-  ";"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"replaceMEqIntoMEq", "[", 
-    RowBox[{
-     RowBox[{"eq1", ":", 
-      RowBox[{"HoldPattern", "[", 
-       RowBox[{"Equation", "[", 
-        RowBox[{
-         RowBox[{"CenterDot", "[", "x1__", "]"}], ",", "rhs1_"}], "]"}], 
-       "]"}]}], ",", 
-     RowBox[{"eq2", ":", 
-      RowBox[{"HoldPattern", "[", 
-       RowBox[{"Equation", "[", 
-        RowBox[{
-         RowBox[{"CenterDot", "[", "x2__", "]"}], ",", "rhs2_"}], "]"}], 
-       "]"}]}]}], "]"}], ":=", " ", 
-   RowBox[{"Module", "[", 
-    RowBox[{
-     RowBox[{"{", "newEq", "}"}], ",", "\[IndentingNewLine]", 
-     RowBox[{
-      RowBox[{"newEq", "=", 
-       RowBox[{
-        RowBox[{
-         RowBox[{"substEq", "[", 
-          RowBox[{
-           RowBox[{"Equation", "[", 
-            RowBox[{
-             RowBox[{"RotateLeft", "[", 
-              RowBox[{
-               RowBox[{"eq1", "[", 
-                RowBox[{"[", "1", "]"}], "]"}], ",", "#"}], "]"}], ",", 
-             "rhs1"}], "]"}], ",", "eq2"}], "]"}], "&"}], "/@", 
-        RowBox[{"Range", "[", 
-         RowBox[{"1", ",", 
-          RowBox[{"Length", "[", 
-           RowBox[{"eq1", "[", 
-            RowBox[{"[", "1", "]"}], "]"}], "]"}]}], "]"}]}]}], ";", 
-      "\[IndentingNewLine]", 
-      RowBox[{"If", "[", 
-       RowBox[{
-        RowBox[{
-         RowBox[{"Length", "[", "newEq", "]"}], "\[NotEqual]", " ", "0"}], 
-        ",", "\[IndentingNewLine]", 
-        RowBox[{"newEq", "[", 
-         RowBox[{"[", "1", "]"}], "]"}], ",", "\[IndentingNewLine]", "eq2"}], 
-       "\[IndentingNewLine]", "]"}]}]}], "\[IndentingNewLine]", "]"}]}], 
-  ";"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"replaceMEqIntoMEq", "[", 
-    RowBox[{"eq1_", ",", "eq2_"}], "]"}], ":=", "eq2"}], 
-  ";"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"replaceMEqIntoAllMEqs", "[", 
-    RowBox[{"eqSet_", ",", "eqNo_"}], "]"}], ":=", 
-   RowBox[{"Module", "[", 
-    RowBox[{
-     RowBox[{"{", "newEqSet", "}"}], ",", "\[IndentingNewLine]", 
-     RowBox[{
-      RowBox[{"newEqSet", "=", 
-       RowBox[{
-        RowBox[{
-         RowBox[{"replaceMEqIntoMEq", "[", 
-          RowBox[{
-           RowBox[{"eqSet", "[", 
-            RowBox[{"[", "eqNo", "]"}], "]"}], ",", "#"}], "]"}], "&"}], "/@",
-         "eqSet"}]}], ";", "\[IndentingNewLine]", 
-      RowBox[{
-       RowBox[{"newEqSet", "[", 
-        RowBox[{"[", "eqNo", "]"}], "]"}], "=", 
-       RowBox[{"eqSet", "[", 
-        RowBox[{"[", "eqNo", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
-      "newEqSet"}]}], "\[IndentingNewLine]", "]"}]}], 
-  ";"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"replaceAllMEqsIntoAllMEqs", "[", "eqSet_", "]"}], ":=", 
-   RowBox[{"Fold", "[", 
-    RowBox[{"replaceMEqIntoAllMEqs", ",", "eqSet", ",", 
-     RowBox[{"Range", "[", 
-      RowBox[{"1", ",", 
-       RowBox[{"Length", "[", "eqSet", "]"}]}], "]"}]}], "]"}]}], 
-  ";"}]}], "Input",
+Cell[BoxData[""], "Input",
  CellChangeTimes->{{3.905993412917466*^9, 3.9059934440774593`*^9}, {
    3.9059935083499527`*^9, 3.905993612469953*^9}, {3.905993687550212*^9, 
    3.9059937082304068`*^9}, {3.9059938236758432`*^9, 3.9059939929207*^9}, {
@@ -1979,9 +5878,10 @@ Cell[BoxData[{
    3.905995190430637*^9, 3.9059952761553707`*^9}, {3.905995318088799*^9, 
    3.905995327476707*^9}, {3.9059953660012703`*^9, 3.905995403241441*^9}, 
    3.9059955706031103`*^9, 3.9059957644536467`*^9, {3.905996186998452*^9, 
-   3.905996192456332*^9}, {3.905996228971385*^9, 3.9059962459237967`*^9}},
- CellLabel->
-  "In[392]:=",ExpressionUUID->"e634178e-347c-4b3c-a830-3f392a118db9"],
+   3.905996192456332*^9}, {3.905996228971385*^9, 3.9059962459237967`*^9}, {
+   3.905997420127006*^9, 3.905997545915126*^9}, 3.905997585349525*^9, 
+   3.9059977852407627`*^9},ExpressionUUID->"e634178e-347c-4b3c-a830-\
+3f392a118db9"],
 
 Cell[CellGroupData[{
 
@@ -2592,49 +6492,47 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
+Cell[558, 20, 1354, 27, 179, "Input",ExpressionUUID->"a09fce4c-3eaf-43dd-aa45-100587eef3a0"],
+Cell[1915, 49, 297, 6, 38, "Input",ExpressionUUID->"c4f57930-4ee1-4b3c-8bf6-9f5fd51a02a2"],
+Cell[2215, 57, 769, 21, 207, "Input",ExpressionUUID->"b26a987a-068c-4729-a3fe-9859ce0e6601"],
+Cell[2987, 80, 14194, 379, 1896, "Input",ExpressionUUID->"d21c944a-a893-4e18-b7a9-af92accde3c5"],
 Cell[CellGroupData[{
-Cell[580, 22, 1349, 26, 179, "Input",ExpressionUUID->"a09fce4c-3eaf-43dd-aa45-100587eef3a0"],
-Cell[1932, 50, 404, 9, 28, "Message",ExpressionUUID->"e75abfcf-d969-486e-a096-d3ba43833b59"]
-}, Open  ]],
-Cell[2351, 62, 297, 6, 38, "Input",ExpressionUUID->"c4f57930-4ee1-4b3c-8bf6-9f5fd51a02a2"],
-Cell[2651, 70, 764, 20, 207, "Input",ExpressionUUID->"b26a987a-068c-4729-a3fe-9859ce0e6601"],
-Cell[3418, 92, 7671, 194, 913, "Input",ExpressionUUID->"d21c944a-a893-4e18-b7a9-af92accde3c5"],
-Cell[11092, 288, 129, 3, 38, "Input",ExpressionUUID->"7287ab7a-79d5-4ebe-8a09-db71f5d08035"],
-Cell[11224, 293, 1361, 38, 207, "Input",ExpressionUUID->"6d7fe496-8846-456f-8616-02fb10dcb816"],
-Cell[CellGroupData[{
-Cell[12610, 335, 6105, 195, 1075, "Input",ExpressionUUID->"270dc76f-e2b1-431d-8ded-b19866ec76a4"],
-Cell[18718, 532, 3773, 86, 70, "Output",ExpressionUUID->"83d2fc2e-4af9-403f-a0c3-bbdcd14449f3"],
-Cell[22494, 620, 11179, 297, 279, "Output",ExpressionUUID->"1d41d4cd-6a7a-4e4b-bd0e-e36ed8a7e934"],
-Cell[33676, 919, 6119, 169, 217, "Output",ExpressionUUID->"ca9f730b-2137-4009-84e6-e261706c0476"]
+Cell[17206, 463, 6015, 182, 1271, "Input",ExpressionUUID->"270dc76f-e2b1-431d-8ded-b19866ec76a4"],
+Cell[23224, 647, 2543, 51, 154, "Output",ExpressionUUID->"93663e8f-839b-4b6b-a4bf-db554ab06fe0"],
+Cell[25770, 700, 104577, 3085, 2877, "Output",ExpressionUUID->"4b3e0914-8644-4d2a-a2dd-5beaf8d93c8f"],
+Cell[130350, 3787, 8038, 222, 245, "Output",ExpressionUUID->"a54193dc-9bb3-493e-8a9f-3de460f57022"],
+Cell[138391, 4011, 9157, 239, 257, "Output",ExpressionUUID->"5462bbc4-aa29-4ae9-8b2d-e07cfc0237cf"],
+Cell[147551, 4252, 7274, 194, 223, "Output",ExpressionUUID->"38774634-22ef-4b3c-b6c9-3bd2b69c4a0b"],
+Cell[154828, 4448, 6502, 174, 250, "Output",ExpressionUUID->"bb854231-2c53-4fd9-b650-e8f2d1bd1b11"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[39832, 1093, 273, 6, 38, "Input",ExpressionUUID->"d833c1df-e33b-4cd2-bd59-aeabd305c6d3"],
-Cell[40108, 1101, 1302, 25, 42, "Output",ExpressionUUID->"74660cd7-04de-4ba3-9bba-1e05c6e7a60c"]
+Cell[161367, 4627, 257, 5, 38, "Input",ExpressionUUID->"d833c1df-e33b-4cd2-bd59-aeabd305c6d3"],
+Cell[161627, 4634, 16890, 502, 658, "Output",ExpressionUUID->"be14c3c1-fb0d-41ea-9c37-2368a5e07785"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[41447, 1131, 183, 3, 38, "Input",ExpressionUUID->"b1401f58-030d-4704-a6e5-4f869287a167"],
-Cell[41633, 1136, 10898, 342, 307, "Output",ExpressionUUID->"8b81b9d7-e091-436c-8484-311c5ca23026"]
+Cell[178554, 5141, 183, 3, 38, "Input",ExpressionUUID->"b1401f58-030d-4704-a6e5-4f869287a167"],
+Cell[178740, 5146, 10898, 342, 139, "Output",ExpressionUUID->"8b81b9d7-e091-436c-8484-311c5ca23026"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[52568, 1483, 184, 3, 38, "Input",ExpressionUUID->"6f3696cc-4851-4c63-ac0d-2a5cea3b4905"],
-Cell[52755, 1488, 14374, 366, 245, "Output",ExpressionUUID->"07e12778-fab6-4523-9b76-e8e17a310480"]
+Cell[189675, 5493, 184, 3, 38, "Input",ExpressionUUID->"6f3696cc-4851-4c63-ac0d-2a5cea3b4905"],
+Cell[189862, 5498, 14374, 366, 133, "Output",ExpressionUUID->"07e12778-fab6-4523-9b76-e8e17a310480"]
 }, Open  ]],
-Cell[67144, 1857, 4885, 126, 602, "Input",ExpressionUUID->"e634178e-347c-4b3c-a830-3f392a118db9"],
+Cell[204251, 5867, 1151, 16, 38, "Input",ExpressionUUID->"e634178e-347c-4b3c-a830-3f392a118db9"],
 Cell[CellGroupData[{
-Cell[72054, 1987, 180, 3, 38, "Input",ExpressionUUID->"16f04950-3e23-4f44-8221-1d796a7a2db5"],
-Cell[72237, 1992, 14353, 366, 245, "Output",ExpressionUUID->"6115fbaa-c500-465a-892d-5874ad7df3f0"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[86627, 2363, 352, 9, 38, "Input",ExpressionUUID->"6acc1ac8-6a07-4585-959b-79016bc8f536"],
-Cell[86982, 2374, 335, 10, 42, "Output",ExpressionUUID->"6ce1d927-feb4-421d-8806-d1f962530a4e"]
+Cell[205427, 5887, 180, 3, 38, "Input",ExpressionUUID->"16f04950-3e23-4f44-8221-1d796a7a2db5"],
+Cell[205610, 5892, 14353, 366, 133, "Output",ExpressionUUID->"6115fbaa-c500-465a-892d-5874ad7df3f0"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[87354, 2389, 335, 6, 38, "Input",ExpressionUUID->"06417b78-1f88-4e21-92cf-cd74d43b7033"],
-Cell[87692, 2397, 4860, 135, 202, "Output",ExpressionUUID->"25207075-41b7-4033-ba28-d835be20f3f2"]
+Cell[220000, 6263, 352, 9, 38, "Input",ExpressionUUID->"6acc1ac8-6a07-4585-959b-79016bc8f536"],
+Cell[220355, 6274, 335, 10, 42, "Output",ExpressionUUID->"6ce1d927-feb4-421d-8806-d1f962530a4e"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[92589, 2537, 234, 5, 38, "Input",ExpressionUUID->"e5e34ab7-b37c-494e-a1cf-849eb3a6c122"],
-Cell[92826, 2544, 1050, 30, 42, "Output",ExpressionUUID->"f7bae588-e1a1-4509-8d08-5a4667be36ea"]
+Cell[220727, 6289, 335, 6, 38, "Input",ExpressionUUID->"06417b78-1f88-4e21-92cf-cd74d43b7033"],
+Cell[221065, 6297, 4860, 135, 103, "Output",ExpressionUUID->"25207075-41b7-4033-ba28-d835be20f3f2"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[225962, 6437, 234, 5, 38, "Input",ExpressionUUID->"e5e34ab7-b37c-494e-a1cf-849eb3a6c122"],
+Cell[226199, 6444, 1050, 30, 42, "Output",ExpressionUUID->"f7bae588-e1a1-4509-8d08-5a4667be36ea"]
 }, Open  ]]
 }
 ]
