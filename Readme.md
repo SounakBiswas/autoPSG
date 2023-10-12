@@ -2,7 +2,9 @@
 
 This is an attempt to classify PSG (projective symmetry groups), corresponding to a given space group and an IGG. The idea is to use symbolic manipulations to automate the steps required to achieve such a classification. This project is under construction. The broad workflow plan is as follows:
 - [x] set up symmetry group inputs: in terms of a finite presentation and action on sites and sublattices.
-- [x] solve for IGG z2 
+- [x] z2: solve for  phase parts 
+- [x] z2: Reduce matrix equations to minimal set 
+- [ ] Set matrices using global gauge freedom and enumerate psgs
 - [ ] solve for IGG u1
 - [ ] solve for IGG su2
 - [ ] bosons (?)
