@@ -93,7 +93,7 @@ ApplyRules[relations_,subrules_]:= (relations/.SubstFormInvF/.SubstFormInvM/.sub
 
 IfFirstOrderDEq2D[HoldPattern[Equation[Times[ Inv[F[B_]][{x1_,y1_,z1_,s1_}], F[A_][{x2_,y2_,z2_,s2_}]],rhs_]]]:=
 With[{k1=x2-x1, k2=y2-y1,k3=z2-z1},
-If[((NumericQ[k1]&&Abs[k1]<=1) && (NumericQ[k2] && Abs[k2]<= 1 )&& (NumericQ[k2] && Abs[k2]<= 1 )) &&(Abs[k1]+Abs[k2]+Abs[k3]==1)&&SameQ[A,B]&&SameQ[s1,s2],
+If[((NumericQ[k1]&&Abs[k1]<=1) && (NumericQ[k2] && Abs[k2]<= 1 )&& (NumericQ[k3] && Abs[k3]<= 1 )) &&(Abs[k1]+Abs[k2]+Abs[k3]==1)&&SameQ[A,B]&&SameQ[s1,s2],
 True,
 False]];
 IfFirstOrderDEq2D[expr_]:=False;
