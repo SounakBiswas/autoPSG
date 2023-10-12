@@ -1,20 +1,28 @@
 ## Introduction
 
-This is an attempt to classify PSG (projective symmetry groups), corresponding to a given space group and an IGG. The idea is to use symbolic manipulations to automate the steps required to achieve such a classification. This project is under construction. The broad workflow plan is as follows:
+This is an attempt to classify PSG (projective symmetry groups), corresponding to a given space group and an IGG. The idea is to use symbolic manipulations to automate the steps required to achieve such a classification. This project is under construction. 
+
+## Methods and Software 
+
+Everything is written in the Wolfram Language (WL) so far. The Wolfram Language engine is free (though not open-source), and can be used with Jupyter Notebook, though the experience is nowhere close to Mathematica Notebook. The work so far uses almost no use of  *Computer Algebra*, and makes no use of the the WL's exceptional capabilities of dealing with special functions or Mathematical equations. However, it does make use of WL's powerful pattern matching functions. This, I optimistically believe, can be later translated to an open-source language like *Haskell*. The Plan is to use *Python*/*Julia* for the part of analysing ansatzes.
+
+## Workflow Plan
+The broad workflow plan is as follows:
 - [x] set up symmetry group inputs: in terms of a finite presentation and action on sites and sublattices.
 - [x] z2: solve for  phase parts 
 - [x] z2: Reduce matrix equations to minimal set 
 - [ ] Set matrices using global gauge freedom and enumerate psgs
-- [ ] solve for IGG u1
-- [ ] solve for IGG su2
-- [ ] bosons (?)
+- [ ] solve for IGG $U(1)$
+- [ ] solve for IGG $SU(2)$
+- [ ] bosonic partons (?)
 - [ ] input for lattice bonds
 - [ ] calculate ansatzes 
 
+##Issue tracker 
 
-## Methods and Software 
+-[ ] Empower Recurrence Solver to work well for Rotations and weirder Equation sets
+-[ ] Make sure the automatic IGG setting is done correctly
 
-Everything is written in the Wolfram Language (WL) so far. The Wolfram Language engine is free (though not open-source), and can be used with Jupyter Notebook, though the experience is nowhere close to Mathematica Notebook. The work so far uses almost no use of  *Computer Algebra*, and makes no use of the the WL's exceptional capabilities of dealing with special functions or Mathematical equations. However, it does make use of WL's powerful pattern matching functions. This, I optimistically believe, can be later translated to an open-source language like *Haskell*.   
 
 
 ## Demo
