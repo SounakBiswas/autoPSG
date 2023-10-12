@@ -22,6 +22,7 @@ The broad workflow plan is as follows:
 
 - [ ] Empower Recurrence Solver to work well for Rotations and weirder Equation sets
 - [ ] Make sure the automatic IGG setting is done correctly
+=======
 
 
 
