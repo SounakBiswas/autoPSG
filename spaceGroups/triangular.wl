@@ -11,8 +11,9 @@ R[{x_,y_}] := {x-y,x};
 inputRelators = {
          {Tx-1, Ty-1, Tx, Ty}, 
          {Pxy-1, Tx-1, Pxy, Ty},
-         {R-1, Ty-1, R, Ty, Tx},
+         {R-1, Tx, R, Ty},
          {Pxy,Pxy},
+         {Tx-1,Ty-1,R-1,Ty,R},
          {R,R, R, R, R,R},
          {R,Pxy,R,Pxy}
          };
