@@ -10,7 +10,7 @@ decomposeGtoFM::usage = "decompose matrices into phase part and matrix"
 phaseSolverIterate::usage = "solve for phase parts recursively"
 setIGGrules::usage = "setIGG rules"
 
-(*Begin["Private`"]*)
+Begin["Private`"]
 
 phaseSolverIterate[rels0_]:=Module[
 {rels1,rules0,rels2,elementaryFReductions,composedFReductions,FCompositionConstraints, etaRelationConstraints,FSubstRules},
@@ -272,6 +272,6 @@ eqj]
 
 SetAttributes[addToFSubstAssoc,HoldFirst];
 addToFSubstAssoc[substAssoc_,rule:Rule[F[A_][coord_],rhs_]]:=(AppendTo[substAssoc[A],rule];)
-(*End[]*)
+End[]
 
 EndPackage[]
