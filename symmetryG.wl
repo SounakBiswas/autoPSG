@@ -69,14 +69,13 @@ If[twoDim,
 ];*)
 extractCoeffs[rp_] := Module[{xp, ax, ay, az, ak},
    xp = ExpandAll[rp];
-   ax = Cases[xp, Times[(p_ : 1 ) x] -> p, {0, 1} ];
-   ay = Cases[xp, Times[(p_ : 1 ) y ] -> p, {0, 1}];
-   az = Cases[xp, Times[(p_ : 1 ) z ] -> p, {0, 1}];
-   ak = Cases[xp, p_ /; (FreeQ[p, x] && FreeQ[p, y] && FreeQ[p, z])];
+   ax = Cases[xp, Times[(p_ : 1 ), x] ->  p, {0, 1} ];
+   ay = Cases[xp, Times[(p_ : 1 ), y ] -> p, {0, 1}];
+   az = Cases[xp, Times[(p_ : 1 ), z ] -> p, {0, 1}];
    If[ax === {}, ax = 0, ax = ax[[1]]];
    If[ay === {}, ay = 0, ay = ay[[1]]];
    If[az === {}, az = 0, az = az[[1]]];
-   If[ak === {}, ak = 0, ak = ak[[1]]];
+   ak=xp-ax x-ay y-az z;
    {ax, ay, az, ak}
    ];
 makeInverse[{A_, slat_}] := 
@@ -106,6 +105,7 @@ initSG[];
 SGSet=formatInputRelator/@inputRelators;
 
 nrel=Length[SGSet]
-End[]
+End[] 
+
 EndPackage[]
 
