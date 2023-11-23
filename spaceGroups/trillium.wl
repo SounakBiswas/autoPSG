@@ -23,16 +23,15 @@ inputRelators = {
    {gc - 1, Tx - 1, gc, Tz},
    {ga - 1, gc - 1, gb - 1, Tx - 1, Ty, ga, gc},
    {gb - 1, ga - 1, Tx, Ty - 1, Tz, gb, ga},
-   {gc - 1, gb - 1, Tx - 1, Ty, ga, gb, gc, gb}
-   };
-   (*,{T-1, Tx-1,T,Tx},
+   {gc - 1, gb - 1, Tx - 1, Ty, ga, gb, gc, gb},
+   {T-1, Tx-1,T,Tx},
    {T-1, Ty-1,T,Ty},
    {T-1, Tz-1,T,Tz},
    {T-1, ga-1,T,ga},
    {T-1, gb-1,T,gb},
    {T-1, gc-1,T,gc},
    {T,T}
-   };*)
+   };
 
 Tx[{x_,y_,z_,s_}]={x+1,y,z,s}
 Ty[{x_,y_,z_,s_}]={x,y+1,z,s}
