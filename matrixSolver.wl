@@ -14,14 +14,29 @@ matrixSolverIterate::usage = "iteratively reduce sets of SU2 matrix equations"
 CancelInversesEq::usage="might help, M exp M-1--> exp"
 
 
-Begin["Private`"]
-matrixSolverIterate[rels0_]:=Module[{rels},
+(*Begin["Private`"]*)
+matrixSolverIterate[rels0_]:=Module[{rels,rels2},
   rels = replaceAllMEqsIntoAllMEqs[rels0];
   rels = reduceEtas[rels];
-  rels = performMSubstitutions[rels] // z2Simplify // DeleteTrivialEquations;
+  rels = performMSubstitutions2[rels] // z2Simplify // DeleteTrivialEquations;
   rels = reduceEtas[rels];
   rels = rels // CancelInverses;
-  If[rels==rels0, rels, matrixSolverIterate[rels]]
+  If[rels==rels0, 
+  rels
+       , 
+       matrixSolverIterate[rels]]
+  (*If[rels==rels0, 
+       
+       rels2 = performMSubstitutions[rels] // z2Simplify // DeleteTrivialEquations;
+       rels2 = reduceEtas[rels2];
+       rels2 = rels2 // CancelInverses;
+       If[rels2==rels0,
+        rels2,
+        matrixSolverIterate[rels2]
+        ]
+
+       , 
+       matrixSolverIterate[rels]]*)
 ]
 
 ifSlatGaugeSet=Association@@((#->False)&/@slatList);
@@ -77,10 +92,32 @@ getMSubstitutor[HoldPattern[Equation[SU2[M[A_][s_]],rhs_]]] :=
   ];
 getMSubstitutor[eq_Equation]=Nothing;
 
+(*Simpler substitors,single point*)
+
 getMSubstitutor2[HoldPattern[Equation[CenterDot[SU2[M[A_][s_]],y_SU2],rhs_]]]/;FreeQ[List[y],M[A][s]] := Module[{subRule},
 subRule=SU2[M[A][s]]-> rhs matrixInvert[CenterDot[y]];
 MAssoc[{A,s }]=subRule;
 subRule];
+getMSubstitutor2[HoldPattern[Equation[CenterDot[SU2[Inv[M[A_][s_]]],y_SU2],rhs_]]]/;FreeQ[List[y],M[A][s]] := 
+Module[{subRule},
+subRule=SU2[M[A][s]]-> rhs^ -1  matrixInvert[CenterDot[y]];
+MAssoc[{A,s }]=subRule;
+subRule];
+
+getMSubstitutor2[HoldPattern[Equation[SU2[Inv[M[A_][s_]]],rhs_]]] := 
+Module[{subRule},
+subRule=SU2[M[A][s]]-> rhs^ -1  SU2[\[Tau]0] ;
+MAssoc[{A,s }]=subRule;
+subRule];
+
+getMSubstitutor2[HoldPattern[Equation[SU2[M[A_][s_]],rhs_]]] := 
+Module[{subRule},
+subRule=SU2[M[A][s]]-> rhs SU2[\[Tau]0] ;
+MAssoc[{A,s }]=subRule;
+subRule];
+
+getMSubstitutor2 [eq_Equation]=Nothing;
+
 
 updateMAssoc[A_,s_,subRule_]:=
   Module[{newRHS,oldRule},
@@ -103,7 +140,20 @@ substM[eqSet_,eqno_]:=
     ]
   ];
 
+substM2[eqSet_,eqno_]:=
+  Module[{eq,subRule,newEqSet},
+    eq= eqSet[[eqno]];
+    subRule= getMSubstitutor2[eq];
+    If[Not[MatchQ[subRule,Nothing]],
+       (newEqSet=eqSet//.SubstFormInvM//.{subRule}//.DispFormInvM;
+       (updateMAssoc[#1,#2,subRule]&)@@@ Distribute[{symGenSet,slatList},List];
+        newEqSet),
+      eqSet
+    ]
+  ];
+
 performMSubstitutions[eqSet_]:= Fold[substM,eqSet,Range[1,Length[eqSet]]];
+performMSubstitutions2[eqSet_]:= Fold[substM2,eqSet,Range[1,Length[eqSet]]];
 
 substEq[HoldPattern[Equation[CenterDot[p___,y__],rhs1_]], HoldPattern[Equation[CenterDot[x___,y__,z___],rhs2_]]]/;(Length[List[y]]>Length[List[p]]):=
 Equation[CenterDot[x,matrixInvert[CenterDot[p]],z],rhs2 rhs1^-1];
@@ -138,5 +188,5 @@ CancelInversesEq[HoldPattern[Equation[CenterDot[SU2[Inv[x_]],y___,SU2[x_]],rhs_]
 CancelInversesEq[x_]:=x;
 CancelInverses[eqSet_]:= CancelInversesEq[#]&/@ eqSet
 
-End[]
+(*End[]*)
 EndPackage[]
