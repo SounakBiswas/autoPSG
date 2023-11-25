@@ -66,7 +66,7 @@ If[twoDim,
      ]};
    MapThread[func, {Take[coord2,3], Take[coord1,3]}];
    SetDelayed@@{Inv[A][{x_, y_, z_,coord2[[4]]}], {xp, yp, zp,slat}};
-];*)
+];
 extractCoeffs[rp_] := Module[{xp, ax, ay, az, ak},
    xp = ExpandAll[rp];
    ax = Cases[xp, Times[(p_ : 1 ), x] ->  p, {0, 1} ];
@@ -76,6 +76,18 @@ extractCoeffs[rp_] := Module[{xp, ax, ay, az, ak},
    If[ay === {}, ay = 0, ay = ay[[1]]];
    If[az === {}, az = 0, az = az[[1]]];
    ak=xp-ax x-ay y-az z;
+   {ax, ay, az, ak}
+   ];*)
+extractCoeffs[rp_] := Module[{xp, cxp,ax, ay, az, ak},
+   xp = ExpandAll[rp];
+   cxp = Cases[xp, (Verbatim[Plus][a___] | Times[a__] | x_?AtomQ) -> a, {0}] ;
+   ax = Cases[cxp, Times[(p_ : 1), x] -> p, {1}];
+   ay = Cases[cxp, Times[(p_: 1), y] -> p, {1}];
+   az = Cases[cxp, Times[(p_ : 1), z] -> p, {1}];
+   If[ax === {}, ax = 0, ax = ax[[1]]];
+   If[ay === {}, ay = 0, ay = ay[[1]]];
+   If[az === {}, az = 0, az = az[[1]]];
+   ak = rp - ax x - ay y - az z;
    {ax, ay, az, ak}
    ];
 makeInverse[{A_, slat_}] := 
