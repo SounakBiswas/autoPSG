@@ -1,3 +1,5 @@
+(* ::Package:: *)
+
 BeginPackage["psgSolver`phaseSolverZ2`"]
 Remove["psgSolver`phaseSolverZ2`*"]
 Needs["psgSolver`definitions`"] 
@@ -10,7 +12,7 @@ decomposeGtoFM::usage = "decompose matrices into phase part and matrix"
 phaseSolverIterate::usage = "solve for phase parts recursively"
 setIGGrules::usage = "setIGG rules"
 
-Begin["Private`"]
+(*Begin["Private`"]*)
 
 phaseSolverIterate[rels0_]:=Module[
 {rels1,rules0,rels2,elementaryFReductions,composedFReductions,FCompositionConstraints, etaRelationConstraints,FSubstRules},
@@ -145,14 +147,31 @@ Nothing]
 ]
 
 setIGGrules[rels_]:=
-Module[ {iggAssoc, setIGGGen},
+Module[ {iggAssoc, setIGGGen,ifSettable,blockGenerators, blockedGen},
 iggAssoc=Association[{}];
+blockedGen = {};
+ifSettable[lhs_]:=Module[
+{alreadySet},
+(*alreadySet= (If[ifIGGSet[#]==True,#,Nothing]&)/@symGenSet;
+Print[alreadySet];
+And @@ Join[(EvenQ[Count[lhs,G[#],{0,Infinity}, Heads->True]]& /@alreadySet),{True}]*)
+True
+];
+
+blockGenerators[lhs_,A_]:=
+(If[ OddQ[Cases[lhs,G[#],{0,Infinity}, Heads->True]]&& Not[MatchQ[A,#]], AppendTo[blockedGen,#],Nothing ]&)/@symGenSet;
+
 setIGGGen[A_,HoldPattern[Equation[lhs_,rhs_]]]:= 
 If[ ifIGGSet[A]==False 
 &&Not[KeyExistsQ[iggAssoc,rhs]]
-&& OddQ[Count[lhs,G[A],{0,Infinity}, Heads->True]],
+&& OddQ[Count[lhs,G[A],{0,Infinity}, Heads->True]]
+&& Not[MemberQ[blockedGen,A]]
+&& ifSettable[lhs],
 (ifIGGSet[A]=True;
 iggAssoc[rhs]=True;
+blockGenerators[lhs,A];
+Print["Setting:",A];
+Print[lhs];
 rhs:>1),
 Nothing];
 Join@@Function[x, setIGGGen[x,#]&/@rels]/@symGenSet
@@ -272,6 +291,6 @@ eqj]
 
 SetAttributes[addToFSubstAssoc,HoldFirst];
 addToFSubstAssoc[substAssoc_,rule:Rule[F[A_][coord_],rhs_]]:=(AppendTo[substAssoc[A],rule];)
-End[]
+(*End[]*)
 
 EndPackage[]
