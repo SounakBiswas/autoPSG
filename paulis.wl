@@ -5,11 +5,15 @@ Remove["psgSolver`paulis`*"]
 Needs["psgSolver`definitions`"] 
 
 (*CenterDot::usage = "SU2utils`CenterDot is redefined for symbolic SU2 matrix multiplicatoin"*)
-\[Tau]={SU2[\[Tau]0],SU2[\[Tau]1],SU2[\[Tau]2],SU2[\[Tau]3]};
+paulis={SU2[\[Tau]0],SU2[\[Tau]1],SU2[\[Tau]2],SU2[\[Tau]3]};
+\[Tau];
+(*\[Tau]0::usage = "lol"*)
+(*\[Tau]1::usage = "lol"*)
+(*\[Tau]2::usage = "lol"*)
+(*\[Tau]3::usage = "lol"*)
 (*Format ::usage="Redefined Format for equation and SU2 matrices"*)
 
 Begin["Private`"]
-
 (*Properties of sU2 matrices*)
 CenterDot [SU2[\[Tau]0],SU2[\[Tau]0]]:=1;
 CenterDot [SU2[\[Tau]1],SU2[\[Tau]1]]:=1;
