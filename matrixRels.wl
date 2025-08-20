@@ -3,8 +3,10 @@ Remove["psgSolver`matrixRels`*"]
 Needs["psgSolver`definitions`"]
 Needs["psgSolver`symmetryG`"]
 Needs["psgSolver`z2Utils`"]
+Needs["psgSolver`paulis`"]
 
-MatrixRelations::usage= "MatrixRelations[sgset] gives the set of psg equations from the symmetry group presentation"
+MatrixRelationsZ2::usage= "MatrixRelations[sgset] gives the set of psg equations from the symmetry group presentation"
+MatrixRelationsU1::usage= "MatrixRelations[sgset] gives the set of psg equations from the symmetry group presentation"
 
 Begin["Private`"]
 expG[a_]:=SU2[G[a]];
@@ -20,6 +22,10 @@ ToMatrixExp[gmult[a_,b__], coord_:{x,y,z,s}]:=expG[a][coord]\[CenterDot]ToMatrix
 MatrixRelationsSlat[rels_,slat_]:=ReleaseHold[( Hold[Equation[ToMatrixExp[rels[[#]],{defaultCoords,slat}], \[Eta][#]]] )&/@Range[Length[rels]]];
 MatrixRelations[rels_]:=Join@@( MatrixRelationsSlat[rels,#]&/@slatList)
 
+MatrixRelationsSlatU1[rels_,slat_]:=ReleaseHold[( Hold[Equation[ToMatrixExp[rels[[#]],{defaultCoords,slat}],                 Exp[I SU2[\[Tau]3]\[Phi][#]]]] )&/@Range[Length[rels]]];
+MatrixRelationsZ2[rels_]:=Join@@( MatrixRelationsSlat[rels,#]&/@slatList)
+
+MatrixRelationsU1[rels_]:=Join@@( MatrixRelationsSlatU1[rels,#]&/@slatList)
 
 End[]
 EndPackage[]
