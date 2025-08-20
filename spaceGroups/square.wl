@@ -17,7 +17,7 @@ inputRelators = {
          {Py-1, Ty, Py, Ty},
          {Pxy-1, Tx-1, Pxy, Ty},
          {Pxy-1, Ty-1, Pxy, Tx},
-         {Py-1,Pxy,Px,Pxy},
+         {Py-1,Pxy-1,Px,Pxy},
          {Px-1,Py-1,Px,Py},
          {Py, Py},
          {Px, Px},
