@@ -6,13 +6,15 @@ Needs["psgSolver`definitions`"]
 Needs["psgSolver`symmetryG`"] 
 Needs["psgSolver`z2Utils`"] 
 Needs["psgSolver`paulis`"] 
-FAssoc; FSubstAssoc; MAssoc; ifIGGSet; iggAssoc;
-initPSGSolver::usage="initiate solver, basic associations"
-decomposeGtoFM::usage = "decompose matrices into phase part and matrix"
+
+initPSGSolverZ2::usage="initiate solver, basic associations"
+decomposeGtoFMZ2::usage = "decompose matrices into phase part and matrix"
 phaseSolverIterate::usage = "solve for phase parts recursively"
 setIGGrules::usage = "setIGG rules"
+ApplyRules;
 
-(*Begin["Private`"]*)
+
+Begin["Private`"]
 
 phaseSolverIterate[rels0_]:=Module[
 {rels1,rules0,rels2,elementaryFReductions,composedFReductions,FCompositionConstraints, etaRelationConstraints,FSubstRules},
@@ -44,10 +46,20 @@ phaseSolverIterate[rels0_]:=Module[
     phaseSolverIterate[rels1]
     ]
 ];
+updateEtaAssoc[etaRules_]:=Module[{frep},
+frep[assoc_,key_,ruleSet_]:= Fold[ReplaceAll,assoc[key],ruleSet];
+If[Length[etaRules]!=0,
+(If[Not[KeyExistsQ[etaAssoc,#[[1]]]], AssociateTo[etaAssoc,#[[1]] -> #[[2]] ];Nothing]&)/@etaRules;,
+Nothing
+];
+If[(Length[etaRules])!=0,(etaAssoc[#]=frep[etaAssoc,#,etaRules])&/@Keys[etaAssoc]];
+Nothing 
+]
 reduceEtas[rels_] := Module[{etaSubRules, etaConstraintEqs, newRels},
    etaConstraintEqs =
     z2Simplify[Join @@ FindRelationConstraints /@ rels];
    etaSubRules = Join @@ RelationConstraintRule /@ etaConstraintEqs;
+   updateEtaAssoc[etaSubRules];
    newRels = rels //. etaSubRules // z2Simplify;
    (FAssoc[#] =
        FAssoc[#] //. etaSubRules // z2Simplify) & /@ Keys[FAssoc];
@@ -56,7 +68,7 @@ reduceEtas[rels_] := Module[{etaSubRules, etaConstraintEqs, newRels},
    DeleteTrivialEquations[newRels]
 ];
 (****************************************)
-initPSGSolver[]:=(
+initPSGSolverZ2[]:=(
    FAssoc=Association@@(#->(Null)&/@symGenSet);
    FSubstAssoc=Association@@((#->{})&/@symGenSet);
    MAssoc=Association@@(#->(Null)&/@symGenSet);
@@ -64,6 +76,7 @@ initPSGSolver[]:=(
 
    FAssoc = Association @@ (({#1, #2} ->Null) &) @@@ (Distribute[{symGenSet, slatList}, List]) ;
    MAssoc = Association @@ (({#1, #2} ->Null) &) @@@ (Distribute[{symGenSet, slatList}, List]);
+   etaAssoc=Association[];
 
 
 
@@ -86,11 +99,10 @@ initPSGSolver[]:=(
 
 nrel=Length[SGset];
 (****************************************)
-decomposeGtoFM[expr_]:= expr/.{SU2[G[A_]][{x_,y_,z_,s_}]-> F[A][{x,y,z,s}]SU2[M[A][s]],SU2[Inv[G[A_]]][{x_,y_,z_,s_}]-> Inv[F[A]][{x,y,z,s}] SU2[Inv[M[A][s]]]};
+decomposeGtoFMZ2[expr_]:= expr/.{SU2[G[A_]][{x_,y_,z_,s_}]-> F[A][{x,y,z,s}]SU2[M[A][s]],SU2[Inv[G[A_]]][{x_,y_,z_,s_}]-> Inv[F[A]][{x,y,z,s}] SU2[Inv[M[A][s]]]};
 (****************************************)
 ApplyRules[relations_,subrules_]:= (relations/.SubstFormInvF/.SubstFormInvM/.subrules/.DispFormInvF/.DispFormInvM)//z2Simplify//DeleteTrivialEquations;
 (******************************************)
-
 (*Solve First Order 2D DEq*)
 
 IfFirstOrderDEq2D[HoldPattern[Equation[Times[ Inv[F[B_]][{x1_,y1_,z1_,s1_}], F[A_][{x2_,y2_,z2_,s2_}]],rhs_]]]:=
@@ -159,7 +171,7 @@ True
 ];
 
 blockGenerators[lhs_,A_]:=
-(If[ OddQ[Cases[lhs,G[#],{0,Infinity}, Heads->True]]&& Not[MatchQ[A,#]], AppendTo[blockedGen,#],Nothing ]&)/@symGenSet;
+(If[ OddQ[Length[Cases[lhs,G[#],{0,Infinity}, Heads->True]]]&& Not[MatchQ[A,#]], AppendTo[blockedGen,#],Nothing ]&)/@symGenSet;
 
 setIGGGen[A_,HoldPattern[Equation[lhs_,rhs_]]]:= 
 If[ ifIGGSet[A]==False 
@@ -170,7 +182,7 @@ If[ ifIGGSet[A]==False
 (ifIGGSet[A]=True;
 iggAssoc[rhs]=True;
 blockGenerators[lhs,A];
-Print["Setting:",A];
+Print["Setting:",A, ", rhs:",rhs,", blocked: ",blockedGen];
 Print[lhs];
 rhs:>1),
 Nothing];
@@ -218,6 +230,7 @@ substAllMsIntoAllEqs[rels_]:= Fold[substMIntoAllEqs[#1,#2]&,rels,Range[Length[re
 
 IfFOrInvF[a_]:=MatchQ[a,F[A_]] || MatchQ[a,Inv[F[A_]]];
 (*Again assume that the symmetries don't take a site at [x,y] to [x+y,x-y]*)
+(*Unreasonable assumption, see trianguolar lattice, changes req*)
 getFSubstitutors[HoldPattern[Equation[Times[(t1_?IfFOrInvF)[{x1_,y1_,z1_,s1_}],(t2_?IfFOrInvF)[{x2_,y2_,z2_,s2_}]] ,rhs_]]]:= 
 Module[{x1n,y1n,x2n,y2n,rule1,rule2,rule3,rule4,svar,subrules,pattFunc},
        svar[Plus[Times[x, m_:1],k_:0]]:=a;
@@ -291,6 +304,8 @@ eqj]
 
 SetAttributes[addToFSubstAssoc,HoldFirst];
 addToFSubstAssoc[substAssoc_,rule:Rule[F[A_][coord_],rhs_]]:=(AppendTo[substAssoc[A],rule];)
-(*End[]*)
+
+
+End[]
 
 EndPackage[]
