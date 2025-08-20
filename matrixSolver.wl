@@ -14,7 +14,7 @@ matrixSolverIterate::usage = "iteratively reduce sets of SU2 matrix equations"
 CancelInversesEq::usage="might help, M exp M-1--> exp"
 
 
-(*Begin["Private`"]*)
+Begin["Private`"]
 matrixSolverIterate[rels0_]:=Module[{rels,rels2},
   rels = replaceAllMEqsIntoAllMEqs[rels0];
   rels = reduceEtas[rels];
@@ -188,5 +188,5 @@ CancelInversesEq[HoldPattern[Equation[CenterDot[SU2[Inv[x_]],y___,SU2[x_]],rhs_]
 CancelInversesEq[x_]:=x;
 CancelInverses[eqSet_]:= CancelInversesEq[#]&/@ eqSet
 
-(*End[]*)
+End[]
 EndPackage[]
