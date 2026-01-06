@@ -1,13 +1,13 @@
 (* ::Package:: *)
 
-BeginPackage["psgSolver`matrixSolverU1`"]
+BeginPackage["autoPSG`matrixSolverU1`"]
 
-Remove["psgSolver`matrixSolverU1`*"]
-Needs["psgSolver`definitions`"] 
-Needs["psgSolver`symmetryG`"] 
-Needs["psgSolver`z2Utils`"] 
-Needs["psgSolver`paulis`"] 
-Needs["psgSolver`phaseSolverU1`"] 
+Remove["autoPSG`matrixSolverU1`*"]
+Needs["autoPSG`definitions`"] 
+Needs["autoPSG`symmetryG`"] 
+Needs["autoPSG`z2Utils`"] 
+Needs["autoPSG`paulis`"] 
+Needs["autoPSG`phaseSolverU1`"] 
 
 (*ifSlatGaugeSet; *)
 mSolverIterateU1::usage = "iteratively reduce sets of U1 space-independent phases"

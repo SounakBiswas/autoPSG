@@ -1,5 +1,5 @@
-BeginPackage["psgSolver`z2Utils`"]
-Remove["psgSolver`z2Utils`*"]
+BeginPackage["autoPSG`z2Utils`"]
+Remove["autoPSG`z2Utils`*"]
 \[Eta]::usage = "Z2 phases"
 \[Phi]::usage = "U1 phases"
 z2Simplify::usage = "simplify expressions by reudcing phases eta[x]"

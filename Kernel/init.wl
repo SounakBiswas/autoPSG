@@ -1,8 +1,8 @@
-<<psgSolver`definitions`
-<<psgSolver`symmetryG`
-<<psgSolver`z2Utils`
-<<psgSolver`matrixRels`
-<<psgSolver`paulis`
-<<psgSolver`phaseSolverZ2`
-<<psgSolver`matrixSolver`
-<<psgSolver`display`
+<<autoPSG`definitions`
+<<autoPSG`symmetryG`
+<<autoPSG`z2Utils`
+<<autoPSG`matrixRels`
+<<autoPSG`paulis`
+<<autoPSG`phaseSolverZ2`
+<<autoPSG`matrixSolver`
+<<autoPSG`display`

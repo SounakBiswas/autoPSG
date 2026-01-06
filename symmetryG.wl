@@ -1,10 +1,10 @@
 (* ::Package:: *)
 
-BeginPackage["psgSolver`symmetryG`"]
-Remove["psgSolver`symmetryG`*"]
+BeginPackage["autoPSG`symmetryG`"]
+Remove["autoPSG`symmetryG`*"]
 (*Needs["SU2Utils"]*)
 (*List of Symmetries*)
-Needs["psgSolver`definitions`"]
+Needs["autoPSG`definitions`"]
 
 
 
@@ -21,7 +21,7 @@ twoDim;
 defaultCoords;
 defaultCoordsPattern;
 
-<<"psgSolver/input.wl"
+<<"autoPSG/input.wl"
 
 Begin["Private`"]
 

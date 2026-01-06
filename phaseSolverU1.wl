@@ -1,11 +1,11 @@
 (* ::Package:: *)
 
-BeginPackage["psgSolver`phaseSolverU1`"]
-Remove["psgSolver`phaseSolverU1`*"]
-Needs["psgSolver`definitions`"] 
-Needs["psgSolver`symmetryG`"] 
-Needs["psgSolver`z2Utils`"] 
-Needs["psgSolver`paulis`"] 
+BeginPackage["autoPSG`phaseSolverU1`"]
+Remove["autoPSG`phaseSolverU1`*"]
+Needs["autoPSG`definitions`"] 
+Needs["autoPSG`symmetryG`"] 
+Needs["autoPSG`z2Utils`"] 
+Needs["autoPSG`paulis`"] 
 
 initPSGSolverU1::usage ="initiate solver, basic associations"
 decomposeGtoFMU1::usage = "decompose matrices into phase part and matrix for U1"

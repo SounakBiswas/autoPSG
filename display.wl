@@ -1,9 +1,9 @@
 (* ::Package:: *)
-BeginPackage["psgSolver`display`"]
-Needs["psgSolver`definitions`"]
-Needs["psgSolver`symmetryG`"]
-Needs["psgSolver`paulis`"]
-Needs["psgSolver`z2Utils`"]
+BeginPackage["autoPSG`display`"]
+Needs["autoPSG`definitions`"]
+Needs["autoPSG`symmetryG`"]
+Needs["autoPSG`paulis`"]
+Needs["autoPSG`z2Utils`"]
 Begin["Private`"]
 
 Format[ Inv[F[x_]][{a_,b_,c_:None,slat_:None}],StandardForm] := 

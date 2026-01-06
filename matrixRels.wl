@@ -1,9 +1,9 @@
-BeginPackage["psgSolver`matrixRels`"]
-Remove["psgSolver`matrixRels`*"]
-Needs["psgSolver`definitions`"]
-Needs["psgSolver`symmetryG`"]
-Needs["psgSolver`z2Utils`"]
-Needs["psgSolver`paulis`"]
+BeginPackage["autoPSG`matrixRels`"]
+Remove["autoPSG`matrixRels`*"]
+Needs["autoPSG`definitions`"]
+Needs["autoPSG`symmetryG`"]
+Needs["autoPSG`z2Utils`"]
+Needs["autoPSG`paulis`"]
 
 MatrixRelationsZ2::usage= "MatrixRelations[sgset] gives the set of psg equations from the symmetry group presentation"
 MatrixRelationsU1::usage= "MatrixRelations[sgset] gives the set of psg equations from the symmetry group presentation"

@@ -1,7 +1,7 @@
 (* ::Package:: *)
 
-BeginPackage["psgSolver`definitions`"]
-Remove["psgSolver`definitions`*"]
+BeginPackage["autoPSG`definitions`"]
+Remove["autoPSG`definitions`*"]
 Inv ::usage = "wrapper head to denote inverse of a matrix or group element"
 gmult::usage = "wrapper head to denote that gmult[a,b] is a group multiplication of symmetry generators a and b"
 Equation::usage = "Equation[a,b] is an equation head, possible useful for solving equation";

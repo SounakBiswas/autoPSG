@@ -1,12 +1,12 @@
 (* ::Package:: *)
-BeginPackage["psgSolver`matrixSolver`"]
+BeginPackage["autoPSG`matrixSolver`"]
 
-Remove["psgSolver`matrixSolver`*"]
-Needs["psgSolver`definitions`"] 
-Needs["psgSolver`symmetryG`"] 
-Needs["psgSolver`z2Utils`"] 
-Needs["psgSolver`paulis`"] 
-Needs["psgSolver`phaseSolverZ2`"] 
+Remove["autoPSG`matrixSolver`*"]
+Needs["autoPSG`definitions`"] 
+Needs["autoPSG`symmetryG`"] 
+Needs["autoPSG`z2Utils`"] 
+Needs["autoPSG`paulis`"] 
+Needs["autoPSG`phaseSolverZ2`"] 
 
 ifSlatGaugeSet; slatGaugeSetDependency;
 setSlatGauges::usage = "initial setting of sublattice dependent gauges"

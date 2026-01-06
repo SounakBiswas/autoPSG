@@ -1,1 +1,1 @@
-<<"psgSolver/spaceGroups/square.wl"
+<<"autoPSG/spaceGroups/triangular.wl"

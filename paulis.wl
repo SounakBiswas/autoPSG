@@ -1,8 +1,8 @@
 (* ::Package:: *)
 
-BeginPackage["psgSolver`paulis`"]
-Remove["psgSolver`paulis`*"]
-Needs["psgSolver`definitions`"] 
+BeginPackage["autoPSG`paulis`"]
+Remove["autoPSG`paulis`*"]
+Needs["autoPSG`definitions`"] 
 
 (*CenterDot::usage = "SU2utils`CenterDot is redefined for symbolic SU2 matrix multiplicatoin"*)
 paulis={SU2[\[Tau]0],SU2[\[Tau]1],SU2[\[Tau]2],SU2[\[Tau]3]};
