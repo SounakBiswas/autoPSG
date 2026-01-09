@@ -11,14 +11,16 @@ initPSGSolverZ2::usage="initiate solver, basic associations"
 decomposeGtoFMZ2::usage = "decompose matrices into phase part and matrix"
 phaseSolverIterate::usage = "solve for phase parts recursively"
 setIGGrules::usage = "setIGG rules"
+nrel;
 ApplyRules;
+freds;
 
 
-Begin["Private`"]
 
 phaseSolverIterate[rels0_]:=Module[
 {rels1,rules0,rels2,elementaryFReductions,composedFReductions,FCompositionConstraints, etaRelationConstraints,FSubstRules},
-  rules0 = DeleteCases[Join[Values[FAssoc],Values[MAssoc]],Null];
+  (*rules0 = DeleteCases[Join[Values[FAssoc],Values[MAssoc]],Null];*)
+  rules0 = DeleteCases[Join[freds,Values[MAssoc]],Null];
   rels1=ApplyRules[rels0,rules0];
   elementaryFReductions = Join@@(ReduceF/@rels1);
   composedFReductions= FReductions[elementaryFReductions];
@@ -75,7 +77,9 @@ initPSGSolverZ2[]:=(
    ifIGGSet=Association@@(#->False&/@symGenSet);
 
    FAssoc = Association @@ (({#1, #2} ->Null) &) @@@ (Distribute[{symGenSet, slatList}, List]) ;
+   (*FAssoc = Association @@ (({#1, #2} ->(F[#1][{defaultCoordsPattern},#2]->F[#1][{defaultCoords},#2]) &) @@@ (Distribute[{symGenSet, slatList}, List]) ;*)
    MAssoc = Association @@ (({#1, #2} ->Null) &) @@@ (Distribute[{symGenSet, slatList}, List]);
+   unfixedCoordsAssoc = Association @@ (({#1, #2} ->coords) &) @@@ (Distribute[{symGenSet, slatList}, List]);
    etaAssoc=Association[];
 
 
@@ -94,14 +98,19 @@ initPSGSolverZ2[]:=(
         (  FAssoc[{Ty,#}]=(F[Ty][{x_,y_,z_,#}]-> \[Eta][1]^x); &)/@slatList;
         (  FAssoc[{Tz,#}]=(F[Tz][{x_,y_,z_,#}]-> \[Eta][2]^y \[Eta][3]^x); &)/@slatList;
        )
-   ]
+   ];
+   freds=DeleteCases[Values[FAssoc],Null];
+   nrel=Length[symGenSet];
 )
 
-nrel=Length[SGset];
 (****************************************)
 decomposeGtoFMZ2[expr_]:= expr/.{SU2[G[A_]][{x_,y_,z_,s_}]-> F[A][{x,y,z,s}]SU2[M[A][s]],SU2[Inv[G[A_]]][{x_,y_,z_,s_}]-> Inv[F[A]][{x,y,z,s}] SU2[Inv[M[A][s]]]};
 (****************************************)
-ApplyRules[relations_,subrules_]:= (relations/.SubstFormInvF/.SubstFormInvM/.subrules/.DispFormInvF/.DispFormInvM)//z2Simplify//DeleteTrivialEquations;
+ApplyRules[relations_,subrules_]:= Module[{temp}, 
+                                    temp =relations/.SubstFormInvF/.SubstFormInvM; 
+                                    temp=Fold[ReplaceAll, temp,subrules];
+                                    (temp/.DispFormInvF/.DispFormInvM)//z2Simplify//DeleteTrivialEquations];
+
 (******************************************)
 (*Solve First Order 2D DEq*)
 
@@ -148,7 +157,28 @@ tempList = tempList//.{F[A_][{0,0,0,s_}]->1,F[A_][{0,0,None,s_}]->1};
 Association[tempList]
 ]
 
+FReductions2[reductions_]:=
+Module[{tempList,rel,pred},
+    tempList=
+    (With[{reds=FilterReductions[F[#1], #2,reductions]}, 
+    If[Length[reds]!=0, 
+         pred = If[FAssoc[{#1,#2}] === Null, 
+
+                     F[#1][{defaultCoords,#2}],
+
+                     FAssoc[{#1,#2}][[2]]
+         ];
+         rel=Fold[ReplaceAll,pred,reds];
+         {#1,#2}->(F[#1][{defaultCoordsPattern,#2}]->rel),
+
+          Nothing
+    ]]& )@@@ (Distribute[{symGenSet,slatList},List]);
+    tempList = tempList//.{F[A_][{0,0,0,s_}]->1,F[A_][{0,0,None,s_}]->1};
+    Association[tempList]
+]
+
 (**** Eta Relations***)
+
 IsolateRelationExponent[expr_,a_]:=Module[
 {cases,cond},
 cases= Cases[expr,(Power[__,a]|Power[__,HoldPattern[Plus[___,a,___]]])];
@@ -217,8 +247,14 @@ RelationConstraintRule[HoldPattern[Equation[1,Times[y__]]]]:=Module[{min},min= L
 
 (*****Further substitutions by FM separation***)
 
-SplitEqMF[HoldPattern[Equation[Verbatim[Times][x___, Verbatim[CenterDot][y__] ,z___],lhs_]]]:= (nrel=nrel+1;List[Equation[Times[x,z],\[Eta][nrel] lhs],Equation[ CenterDot[y],\[Eta][nrel]]]);
-SplitEqMF[HoldPattern[Equation[lhs_,rhs_]]]:= List[Equation[lhs,rhs]];
+(*SplitEqMF[HoldPattern[Equation[Verbatim[Times][x___, Verbatim[CenterDot][y__] ,z___],lhs_]]]:= (Print["nrel=",nrel];nrel=nrel+1;List[Equation[Times[x,z],\[Eta][nrel] lhs],Equation[ CenterDot[y],\[Eta][nrel]]]);
+SplitEqMF[HoldPattern[Equation[lhs_,rhs_]]]:= List[Equation[lhs,rhs]];*)
+SplitEqMF[ HoldPattern[Equation[Verbatim[Times][a___, Verbatim[CenterDot][b__], c___], 
+              Times[lhs1_, lhs2_] /; (FreeQ[lhs1, x | y | z])]]] := 
+    (List[Equation[Times[a, c], lhs2], Equation[CenterDot[b], lhs1]]);
+
+SplitEqMF[HoldPattern[Equation[lhs_, rhs_]]] := List[Equation[lhs, rhs]];
+
 
 substMIntoEq[HoldPattern[Equation[Verbatim[CenterDot][x__],rhs1_]],HoldPattern[Equation[Verbatim[CenterDot][y___,x__,z___],rhs2_]]]:= Equation[rhs1 CenterDot[y,z],rhs2]; 
 substMIntoEq[HoldPattern[Equation[lhs_,rhs_]],HoldPattern[Equation[lhs2_,rhs2_]]]:=Equation[lhs2,rhs2]
@@ -305,6 +341,7 @@ eqj]
 SetAttributes[addToFSubstAssoc,HoldFirst];
 addToFSubstAssoc[substAssoc_,rule:Rule[F[A_][coord_],rhs_]]:=(AppendTo[substAssoc[A],rule];)
 
+Begin["Private`"]
 
 End[]
 
