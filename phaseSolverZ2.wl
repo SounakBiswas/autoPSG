@@ -165,7 +165,7 @@ Module[{tempList,rel,pred},
          pred = If[FAssoc[{#1,#2}] === Null, 
 
                      F[#1][{defaultCoords,#2}],
-
+         (**Else**)
                      FAssoc[{#1,#2}][[2]]
          ];
          rel=Fold[ReplaceAll,pred,reds];
@@ -181,11 +181,33 @@ Module[{tempList,rel,pred},
 
 IsolateRelationExponent[expr_,a_]:=Module[
 {cases,cond},
-cases= Cases[expr,(Power[__,a]|Power[__,HoldPattern[Plus[___,a,___]]])];
+cases= Cases[expr,(Power[__,a]|Power[__,HoldPattern[Plus[___,a,___]]]),{0,1}];
 cond = Times@@cases/.{Power[b_,__]->b};
 If[Length[cases]!=0,
 Equation[cond,1],
 Nothing]
+]
+FindRelationConstraints[HoldPattern[Equation[lhs_,rhs_]]]:= 
+If[ FreeQ[lhs,x]&&FreeQ[lhs,y]&& FreeQ[lhs,z] && Not[FreeQ[rhs,x] && FreeQ[rhs,y] &&FreeQ[rhs,z]],
+     {IsolateRelationExponent[rhs,x],
+     IsolateRelationExponent[rhs,y],
+     IsolateRelationExponent[rhs,x y],
+     If[Not[twoDim],
+        Unevaluated[Sequence[ 
+          IsolateRelationExponent[rhs,z],
+          IsolateRelationExponent[rhs,z x],
+          IsolateRelationExponent[rhs,z y],
+          IsolateRelationExponent[rhs,x y z]
+      ]],
+      Nothing
+     ]
+     },
+   If[SameQ[lhs,1],
+      {Equation[1,rhs]},
+
+   (*Else*)
+      Nothing
+   ]
 ]
 
 setIGGrules[rels_]:=
@@ -220,26 +242,6 @@ Join@@Function[x, setIGGGen[x,#]&/@rels]/@symGenSet
 ]
 
 
-FindRelationConstraints[HoldPattern[Equation[lhs_,rhs_]]]:= 
-If[ FreeQ[lhs,x]&&FreeQ[lhs,y]&& FreeQ[lhs,z] && Not[FreeQ[rhs,x] && FreeQ[rhs,y] &&FreeQ[rhs,z]],
-     {IsolateRelationExponent[rhs,x],
-     IsolateRelationExponent[rhs,y],
-     IsolateRelationExponent[rhs,x y],
-     If[Not[twoDim],
-        Unevaluated[Sequence[ 
-          IsolateRelationExponent[rhs,z],
-          IsolateRelationExponent[rhs,z x],
-          IsolateRelationExponent[rhs,z y],
-          IsolateRelationExponent[rhs,x y z]
-      ]],
-      Nothing
-     ]
-     },
-   If[SameQ[lhs,1],
-   {Equation[1,rhs]},
-   Nothing
-]
-]
 (*RelationConstraintRule[HoldPattern[Equation[1,Times[x_,y__]]]]:=Module[{min},min= First[Last[List[y]]]; {min->Times[y*Power[min,-1]]}];*)
 RelationConstraintRule[HoldPattern[Equation[1,x_]]] := {x->1};
 RelationConstraintRule[HoldPattern[Equation[1,Times[y__]]]]:=Module[{min},min= Last[List[y]]; {min->Times[y*Power[min,-1]]}];
@@ -268,7 +270,7 @@ IfFOrInvF[a_]:=MatchQ[a,F[A_]] || MatchQ[a,Inv[F[A_]]];
 (*Again assume that the symmetries don't take a site at [x,y] to [x+y,x-y]*)
 (*Unreasonable assumption, see trianguolar lattice, changes req*)
 getFSubstitutors[HoldPattern[Equation[Times[(t1_?IfFOrInvF)[{x1_,y1_,z1_,s1_}],(t2_?IfFOrInvF)[{x2_,y2_,z2_,s2_}]] ,rhs_]]]:= 
-Module[{x1n,y1n,x2n,y2n,rule1,rule2,rule3,rule4,svar,subrules,pattFunc},
+Module[{x1n,y1n,x2n,y2n,rule1,rule2,rule3,rule4,svar,subrules,PattFunc},
        svar[Plus[Times[x, m_:1],k_:0]]:=a;
        svar[Plus[Times[y, m_:1],k_:0]]:=b;
        svar[Plus[Times[z, m_:1],k_:0]]:=c;
@@ -290,12 +292,14 @@ Module[{x1n,y1n,x2n,y2n,rule1,rule2,rule3,rule4,svar,subrules,pattFunc},
        PattFunc[x_] := Pattern[x,_];
 
        If[MatchQ[t1,Inv[A_]],
-        rule1=Inv[ t1][ PattFunc/@{svar[x1],svar[y1],svar[z1],s1} ]-> ( t2[{#1 ,#2,#3,#4}]rhs^-1)&[x2n,y2n,z2n,s2],
-       rule1=t1[PattFunc/@{svar[x1],svar[y1],svar[z1],s1}]-> ( Inv[t2][{#1 ,#2,#3,#4}]rhs)&[x2n,y2n,z2n,s2]
+            rule1=Inv[ t1][ PattFunc/@{svar[x1],svar[y1],svar[z1],s1} ]-> ( t2[{#1 ,#2,#3,#4}]rhs^-1)&[x2n,y2n,z2n,s2],
+
+            rule1=t1[PattFunc/@{svar[x1],svar[y1],svar[z1],s1}]-> ( Inv[t2][{#1 ,#2,#3,#4}]rhs)&[x2n,y2n,z2n,s2]
        ];
        If[MatchQ[t2,Inv[A_]],
-        rule2=Inv[ t2][ PattFunc/@{svar[x2],svar[y2],svar[z2],s2} ]-> ( t1[{#1 ,#2,#3,#4}]rhs^-1)&[x1n,y1n,z1n,s1],
-       rule2=t2[PattFunc/@{svar[x2],svar[y2],svar[z2],s2}]-> ( Inv[t1][{#1 ,#2,#3,#4}]rhs)&[x1n,y1n,z1n,s1]
+            rule2=Inv[ t2][ PattFunc/@{svar[x2],svar[y2],svar[z2],s2} ]-> ( t1[{#1 ,#2,#3,#4}]rhs^-1)&[x1n,y1n,z1n,s1],
+
+            rule2=t2[PattFunc/@{svar[x2],svar[y2],svar[z2],s2}]-> ( Inv[t1][{#1 ,#2,#3,#4}]rhs)&[x1n,y1n,z1n,s1]
        ];
        ;
        List[rule1,rule2]
@@ -340,6 +344,40 @@ eqj]
 
 SetAttributes[addToFSubstAssoc,HoldFirst];
 addToFSubstAssoc[substAssoc_,rule:Rule[F[A_][coord_],rhs_]]:=(AppendTo[substAssoc[A],rule];)
+
+ExtractExponent[expr_, a_] := 
+ Module[{cases, cond}, 
+  cases = Cases[
+    expr, (Power[__, a] | 
+      Power[__, HoldPattern[Plus[___, a, ___]]]), {0, 1}];
+  cond = Times @@ cases /. {Power[b_, x__] -> b^a};
+  If[Length[cases] != 0, cond, 1]]
+SeparateExponents[rhs_] := 
+ Association @@ ((# -> ExtractExponent[rhs, #]) & /@ {x,y})
+
+
+SplitFxy[
+  HoldPattern[
+   Equation[lhs_, rhs_] /; (FreeQ[lhs, CenterDot, Heads -> True])]] :=
+ Module[ {pat, compsLhs, rels1, rels2, assoc},
+  pat = Longest[a__] b__ /; (FreeQ[Times[a], y] && FreeQ[Times[a], z]);
+  compsLhs = 
+   Cases[lhs, pat :> Sequence[Times[a], Times[b]], {0, Infinity}];
+  If[FreeQ[Times[compsLhs[[2]]], x] ,
+    assoc = SeparateExponents[rhs];
+     rels1 = Equation[Times[compsLhs[[1]]], assoc[x]];
+     rels2 = Equation[Times[compsLhs[[2]]], assoc[y]];
+     List[rels1, rels2],
+   
+   {Equation[lhs, rhs]} 
+   ]
+  ]
+SplitFxy[x_] := {x}
+
+
+
+
+
 
 Begin["Private`"]
 
