@@ -3,8 +3,8 @@ Remove["autoPSG`z2Utils`*"]
 \[Eta]::usage = "Z2 phases"
 \[Phi]::usage = "U1 phases"
 z2Simplify::usage = "simplify expressions by reudcing phases eta[x]"
-
 Begin["Private`"]
+
 SeparatePowers =
 With[{VPower=Verbatim[Power],VPlus=Verbatim[Plus],VTimes=Verbatim[Times]},
 {VPower[VTimes[a__],b_]:> Inactive[Times]@@((Power[#,b]&)/@(List[a])),
@@ -15,7 +15,7 @@ VPower[a_,VPlus[VTimes[c__/;MemberQ[List[c],VPlus,{2},Heads->True]],b__]]:> Powe
 
 z2rules={\[Eta][x_]^Times[j_?Negative,k_]-> \[Eta][x]^(-k j), 
 \[Eta][x_]^Times[j_?EvenQ ,m_:1]->1,
-\[Eta][x_]^Times[j_?OddQ  ,m_:1]->\[Eta][x],
+\[Eta][x_]^Times[j_?OddQ  ,m_:1]->\[Eta][x]^(m),
 \[Eta][x_]^Power[j_,n_]-> \[Eta][x]^ j
 };
 SeparateAndApplyZ2[expr_]:= (expr//.SeparatePowers//.z2rules//.{Inactive[Times]->Times});             
