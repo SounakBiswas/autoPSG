@@ -112,7 +112,7 @@ ApplyRules[relations_,subrules_]:= Module[{temp},
                                     (temp/.DispFormInvF/.DispFormInvM)//z2Simplify//DeleteTrivialEquations];
 
 (******************************************)
-(*Solve First Order 2D DEq*)
+(*Check if an equation o form F.F=rhs is a valid first order difference equation that can be solved*)
 
 IfFirstOrderDEq2D[HoldPattern[Equation[Times[ Inv[F[B_]][{x1_,y1_,z1_,s1_}], F[A_][{x2_,y2_,z2_,s2_}]],rhs_]]]:=
 Module[{k1,k2,k3,l1,l2,c1,c2,c3},
@@ -314,9 +314,149 @@ newRels[[relNum]]=rels[[relNum]];
 newRels];
 substAllMsIntoAllEqs[rels_]:= Fold[substMIntoAllEqs[#1,#2]&,rels,Range[Length[rels]]];
 
+
+SetAttributes[addToFSubstAssoc,HoldFirst];
+addToFSubstAssoc[substAssoc_,rule:Rule[F[A_][coord_],rhs_]]:=(AppendTo[substAssoc[A],rule];)
+
+ExtractExponent[expr_, a_] := 
+ Module[{cases, cond}, 
+     cases = Cases[expr, (Power[__, a] | Power[__, HoldPattern[Plus[___, a, ___]]]), {0, 1}];
+     cond = Times @@ cases /. {Power[b_, x__] -> b^a};
+     If[Length[cases] != 0, 
+         cond, 
+         1
+     ]
+ ]
+SeparateExponents[rhs_] := 
+ Association @@ ((# -> ExtractExponent[rhs, #]) & /@ {x,y})
+
+
+(*This is now only for 2D unfortunately*)
+SplitFxy[
+  HoldPattern[
+   Equation[lhs_, rhs_] /; (FreeQ[lhs, CenterDot, Heads -> True])]] :=
+ Module[ {pat, compsLhs, rels1, rels2, assoc},
+  pat = Longest[a__] b__ /; (FreeQ[Times[a], y] && FreeQ[Times[a], z]);
+  compsLhs = 
+   Cases[lhs, pat :> Sequence[Times[a], Times[b]], {0, Infinity}];
+  If[FreeQ[Times[compsLhs[[2]]], x] ,
+    assoc = SeparateExponents[rhs];
+     rels1 = Equation[Times[compsLhs[[1]]], assoc[x]];
+     rels2 = Equation[Times[compsLhs[[2]]], assoc[y]];
+     List[rels1, rels2],
+   
+   {Equation[lhs, rhs]} 
+   ]
+  ]
+SplitFxy[x_] := {x}
+
+
+(* relabel terms like F(x,0)F(x+y,0) to F(x,0)F(y,0)*)
+extractCoeffs[rp_] := 
+  Module[{xp, cxp, ax, ay, az, ak}, xp = ExpandAll[rp];
+      cxp = Cases[xp, (Verbatim[Plus][a___] | Times[a__] | x_?AtomQ) -> a, {0}];
+      ax = Cases[cxp, Times[(p_ : 1), x] -> p, {1}];
+      ay = Cases[cxp, Times[(p_ : 1), y] -> p, {1}];
+      az = Cases[cxp, Times[(p_ : 1), z] -> p, {1}];
+      If[ax === {}, ax = 0, ax = ax[[1]]];
+      If[ay === {}, ay = 0, ay = ay[[1]]];
+      If[az === {}, az = 0, az = az[[1]]];
+      ak = rp - ax x - ay y - az z;
+      {ax, ay, ak}
+  ];
+(*2dimensional only so far*)
+getInvRules[newcoords_] := 
+  Module[{coord1, coord2, func, rpp}, coord1 = {x, y};
+      coord2 = newcoords;
+      func[{xp_, yp_}] := 
+      Module[{m, mI, rp, a, b, c}, rp = {Null, Null, Null};
+          a = extractCoeffs[xp];
+          b = extractCoeffs[yp];
+          m = {Take[a, 2], Take[b, 2]};
+          mI = Inverse[m];
+          rp = mI . {x - a[[3]], y - b[[3]]};
+          rp
+      ];
+      rpp = func[coord2];
+      {x -> rpp[[1]], y -> rpp[[2]]}
+  ];
+(*delete duplicates upto a minus sign*)
+uniques[{x_}] := {x};
+uniques[{}] := Nothing;
+uniques[syms_] := 
+    Join[{syms[[1]]}, If[ syms[[1]] === -#, Nothing, #] & /@ uniques[Drop[syms, 1]]];
+
+relabelIndices[eq_Equation] := Module[{labels, uLabels, rules},
+    (*collect arguments x,y,x+y etc appearing in equations*)
+    labels = (eq[[1]] // Cases[x_ -> x]) // 
+      Cases[F[A_][{x__}] -> x] //. {x__Integer + y___ -> y} // 
+        DeleteDuplicates // DeleteCases[x_Integer] // DeleteCases[None];
+    uLabels = uniques[labels];
+    If[Length[uLabels] == nDim  && Length[Complement[{x, y}, uLabels]] != 0, 
+     eq /. getInvRules[uLabels], 
+     eq
+    ]
+                       
+]
+
+RuleFromSolved[HoldPattern[Equation[(t1_?IfFOrInvF)[{x1_, y1_, z1_, s1_}], rhs_]]] := 
+    Module[{x1n, y1n, x2n, y2n, rule1, rule2, rule3, rule4, svar, subrules, PattFunc},
+         svar[0] = 0;
+         svar[Plus[Times[x, m_ : 1], k_ : 0]] := a;
+         svar[Plus[Times[y, m_ : 1], k_ : 0]] := b;
+         svar[Plus[Times[z, m_ : 1], k_ : 0]] := c;
+         svar[m_] := m;
+         subrules[Plus[Times[x, m_ : 1], k_ : 0]] := x -> m^-1 (a - k);
+         subrules[Plus[Times[y, m_ : 1], k_ : 0]] := y -> m^-1 (b - k);
+         subrules[Plus[Times[z, m_ : 1], k_ : 0]] := y -> m^-1 (c - k);
+         subrules[0] = Nothing;
+         subrules[x_Integer] = Nothing;
+         subrules[None] := Nothing;
+         PattFunc[None] := None;
+         PattFunc[0] := 0;
+         PattFunc[m_ /; MemberQ[slatList, m]] := m;
+         PattFunc[x_] := Pattern[x, _];
+         If[ MatchQ[t1, Inv[A_]], 
+             rule1 = Inv[t1][PattFunc /@ {svar[x1], svar[y1], svar[z1], 
+                  s1}] -> ((rhs^-1) /. {subrules[x1], subrules[y1], subrules[z1]}),
+             rule1 = t1[PattFunc /@ {svar[x1], svar[y1], svar[z1], 
+                  s1}] -> (rhs /. {subrules[x1], subrules[y1], subrules[z1]})
+         ];
+         
+         List[rule1]
+    ]
+
+AlreadySolved[HoldPattern[Equation[(t1_?IfFOrInvF)[{x_, y_, z_,slat_}], rhs_]]] := True
+AlreadySolved[x_] := False
+
+(*Remove redudant phases--- setting the IGG-- must think about U(1) generalisation*)
+
+removableEtas[]:=
+Module[{gauge,etaGauges,etas,checks},
+    gauge[{x_, y_, z_, s_}] = \[Eta][X]^x \[Eta][Y]^y \[Eta][X + Y]^(x + y);
+    etaGauges = {\[Eta][X], \[Eta][Y], \[Eta][X + Y]};
+    etas = Cases[FAssoc, \[Eta][x_] -> \[Eta][x], {0, Infinity}] // DeleteDuplicates;
+    checks=Module[{tmat1,tmat2,tmp,mtmp,f},
+        f=Function[p,
+        ((FAssoc[p][[2]] gauge[{x, y, None, None}] gauge[Inv[p[[1]]][{x, y, None, p[[2]]}]]) // z2Simplify) ];
+        tmp = f/@ Distribute[{symGenSet, slatList}, List];
+        mtmp = tmp /. {\[Eta][x_] -> Exp[\[Eta][x]]} // PowerExpand;
+        mtmp = Cases[mtmp, Exp[x_] -> x];
+        t1 = Table[Coefficient[mtmp[[j]], etas[[i]]], {i, 1, Length[etas]}, {j, 1, Length[mtmp]}];
+        t2 = Table[Coefficient[mtmp[[j]], etaGauges[[i]]], {i, 1, Length[etaGauges]}, {j, 1, Length[mtmp]}];
+        tmat = t1[[ConstantArray[#, Length[etaGauges]]]];
+        tmat2 = t2 - tmat;
+        Or @@ Table[And @@ Table[FreeQ[tmat2[[j]], i], {i, {defaultCoords}}], {j, 1, Length[etas]}]
+    ]& /@ Range[Length[etas]];
+    If[checks[[#]],etas[[#]]-> 1,Nothing]&/@Range[Length[etas]]
+] 
+
+(*substitute F equations into others to get solvable equations*)
+
 IfFOrInvF[a_]:=MatchQ[a,F[A_]] || MatchQ[a,Inv[F[A_]]];
 (*Again assume that the symmetries don't take a site at [x,y] to [x+y,x-y]*)
-(*Unreasonable assumption, see trianguolar lattice, changes req*)
+(*Unreasonable assumption, see triangular lattice, changes req*)
+(* One could try more general substitutors from full F equations*)
 getFSubstitutors[HoldPattern[Equation[Times[(t1_?IfFOrInvF)[{x1_,y1_,z1_,s1_}],(t2_?IfFOrInvF)[{x2_,y2_,z2_,s2_}]] ,rhs_]]]:= 
 Module[{x1n,y1n,x2n,y2n,rule1,rule2,rule3,rule4,svar,subrules,PattFunc},
        svar[Plus[Times[x, m_:1],k_:0]]:=a;
@@ -354,18 +494,21 @@ Module[{x1n,y1n,x2n,y2n,rule1,rule2,rule3,rule4,svar,subrules,PattFunc},
 ]
 
 getFSubstitutors[HoldPattern[x__Equation]]:=Nothing
-substituteFRule[F1_,F2_,rhs_,rule_,subpart_]:=Module[{newF,newEq},
-Which[subpart==1,
-(newF=F1//.SubstFormInvF/.rule//.DispFormInvF;
-newEq=Equation[Times[newF,F2],rhs];),
-subpart==2,
-(newF=F2//.SubstFormInvF/.rule//.DispFormInvF;
-newEq=Equation[Times[F1,newF],rhs];)
-];
-If[IfFirstOrderDEq2D[newEq],
-newEq,
-Nothing
-]]
+substituteFRule[F1_,F2_,rhs_,rule_,subpart_]:=
+    Module[{newF,newEq},
+         Which[
+             subpart==1,
+                 (newF=F1//.SubstFormInvF/.rule//.DispFormInvF;
+                 newEq=Equation[Times[newF,F2],rhs];),
+             subpart==2,
+                 (newF=F2//.SubstFormInvF/.rule//.DispFormInvF;
+                 newEq=Equation[Times[F1,newF],rhs];)
+         ];
+         If[IfFirstOrderDEq2D[newEq],
+             newEq,
+             Nothing
+         ]
+    ]
 
 solveByFSubstitutions[FSubstAssoc_,HoldPattern[eq:Equation[Times[(F1:F[A_][coord1_]|Inv[F[A_]][coord1_]),(F2:F[B_][coord2_]|Inv[F[B_]][coord2_])],rhs_]]]:=
 Module[{newList},
@@ -389,114 +532,6 @@ If[Length[newList]!=0,
 First[newList],
 eqj]
 ]
-
-SetAttributes[addToFSubstAssoc,HoldFirst];
-addToFSubstAssoc[substAssoc_,rule:Rule[F[A_][coord_],rhs_]]:=(AppendTo[substAssoc[A],rule];)
-
-ExtractExponent[expr_, a_] := 
- Module[{cases, cond}, 
-  cases = Cases[
-    expr, (Power[__, a] | 
-      Power[__, HoldPattern[Plus[___, a, ___]]]), {0, 1}];
-  cond = Times @@ cases /. {Power[b_, x__] -> b^a};
-  If[Length[cases] != 0, cond, 1]]
-SeparateExponents[rhs_] := 
- Association @@ ((# -> ExtractExponent[rhs, #]) & /@ {x,y})
-
-
-(*This is now only for 2D unfortunately*)
-SplitFxy[
-  HoldPattern[
-   Equation[lhs_, rhs_] /; (FreeQ[lhs, CenterDot, Heads -> True])]] :=
- Module[ {pat, compsLhs, rels1, rels2, assoc},
-  pat = Longest[a__] b__ /; (FreeQ[Times[a], y] && FreeQ[Times[a], z]);
-  compsLhs = 
-   Cases[lhs, pat :> Sequence[Times[a], Times[b]], {0, Infinity}];
-  If[FreeQ[Times[compsLhs[[2]]], x] ,
-    assoc = SeparateExponents[rhs];
-     rels1 = Equation[Times[compsLhs[[1]]], assoc[x]];
-     rels2 = Equation[Times[compsLhs[[2]]], assoc[y]];
-     List[rels1, rels2],
-   
-   {Equation[lhs, rhs]} 
-   ]
-  ]
-SplitFxy[x_] := {x}
-
-
-(*** relabel terms like F(x,0)F(x+y,0) to F(x,0)F(y,0)***)
-extractCoeffs[rp_] := 
-  Module[{xp, cxp, ax, ay, az, ak}, xp = ExpandAll[rp];
-   cxp = 
-    Cases[xp, (Verbatim[Plus][a___] | Times[a__] | x_?AtomQ) -> a, {0}];
-   ax = Cases[cxp, Times[(p_ : 1), x] -> p, {1}];
-   ay = Cases[cxp, Times[(p_ : 1), y] -> p, {1}];
-   az = Cases[cxp, Times[(p_ : 1), z] -> p, {1}];
-   If[ax === {}, ax = 0, ax = ax[[1]]];
-   If[ay === {}, ay = 0, ay = ay[[1]]];
-   If[az === {}, az = 0, az = az[[1]]];
-   ak = rp - ax x - ay y - az z;
-   {ax, ay, ak}];
-getInvRules[newcoords_] := 
-  Module[{coord1, coord2, func, rpp}, coord1 = {x, y};
-   coord2 = newcoords;
-   func[{xp_, yp_}] := 
-    Module[{m, mI, rp, a, b, c}, rp = {Null, Null, Null};
-     a = extractCoeffs[xp];
-     b = extractCoeffs[yp];
-     m = {Take[a, 2], Take[b, 2]};
-     mI = Inverse[m];
-     rp = mI . {x - a[[3]], y - b[[3]]};
-     rp];
-   rpp = func[coord2];
-   {x -> rpp[[1]], y -> rpp[[2]]}];
-uniques[{x_}] := {x};
-uniques[{}] := Nothing;
-uniques[syms_] := 
-  Join[{syms[[1]]}, 
-   If[ syms[[1]] === -#, Nothing, #] & /@ uniques[Drop[syms, 1]]];
-relabelIndices[eq_Equation] := Module[{labels, uLabels, rules},
-  labels = (eq[[1]] // Cases[x_ -> x]) // 
-       Cases[F[A_][{x__}] -> x] //. {x__Integer + y___ -> y} // 
-      DeleteDuplicates // DeleteCases[x_Integer] // DeleteCases[None];
-   uLabels = uniques[labels];
-  If[Length[uLabels] == 2  && 
-    Length[Complement[{x, y}, uLabels]] != 0, 
-   eq /. getInvRules[uLabels], eq]
-                     
-  ]
-
-RuleFromSolved[HoldPattern[Equation[(t1_?IfFOrInvF)[{x1_, y1_, z1_, s1_}], rhs_]]] := 
-    Module[{x1n, y1n, x2n, y2n, rule1, rule2, rule3, rule4, svar, subrules, PattFunc},
-         svar[0] = 0;
-         svar[Plus[Times[x, m_ : 1], k_ : 0]] := a;
-         svar[Plus[Times[y, m_ : 1], k_ : 0]] := b;
-         svar[Plus[Times[z, m_ : 1], k_ : 0]] := c;
-         svar[m_] := m;
-         subrules[Plus[Times[x, m_ : 1], k_ : 0]] := x -> m^-1 (a - k);
-         subrules[Plus[Times[y, m_ : 1], k_ : 0]] := y -> m^-1 (b - k);
-         subrules[Plus[Times[z, m_ : 1], k_ : 0]] := y -> m^-1 (c - k);
-         subrules[0] = Nothing;
-         subrules[x_Integer] = Nothing;
-         subrules[None] := Nothing;
-         PattFunc[None] := None;
-         PattFunc[0] := 0;
-         PattFunc[m_ /; MemberQ[slatList, m]] := m;
-         PattFunc[x_] := Pattern[x, _];
-         If[ MatchQ[t1, Inv[A_]], 
-             rule1 = Inv[t1][PattFunc /@ {svar[x1], svar[y1], svar[z1], 
-                  s1}] -> ((rhs^-1) /. {subrules[x1], subrules[y1], subrules[z1]}),
-             rule1 = t1[PattFunc /@ {svar[x1], svar[y1], svar[z1], 
-                  s1}] -> (rhs /. {subrules[x1], subrules[y1], subrules[z1]})
-         ];
-         
-         List[rule1]
-    ]
-
-AlreadySolved[HoldPattern[Equation[(t1_?IfFOrInvF)[{x_, y_, z_,slat_}], rhs_]]] := True
-AlreadySolved[x_] := False
-
-
 
 Begin["Private`"]
 

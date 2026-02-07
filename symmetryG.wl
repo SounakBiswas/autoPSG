@@ -18,6 +18,7 @@ initSG::usage="calculate inverses, pad for missing dimensions and sublattices"
 makeInverse::usage="dfsd"
 noBasis;
 twoDim;
+nDim;
 defaultCoords;
 defaultCoordsPattern;
 
@@ -41,9 +42,12 @@ If[twoDim,
    (addZ[#]&/@symGenSet;
    defaultCoords=Sequence[x, y, None];
    defaultCoordsPattern=Sequence[x_,y_,None];
+   nDim=2;
    ),
    (defaultCoords=Sequence[x,y,z];
-   defaultCoordsPattern=Sequence[x_,y_,z_];)
+   defaultCoordsPattern=Sequence[x_,y_,z_];
+   nDim=3;
+   )
   ];
   If[noBasis,
      addSlat[#]&/@symGenSet;
