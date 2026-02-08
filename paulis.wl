@@ -7,10 +7,10 @@ Needs["autoPSG`definitions`"]
 (*CenterDot::usage = "SU2utils`CenterDot is redefined for symbolic SU2 matrix multiplicatoin"*)
 paulis={SU2[\[Tau]0],SU2[\[Tau]1],SU2[\[Tau]2],SU2[\[Tau]3]};
 \[Tau];
-(*\[Tau]0::usage = "lol"*)
-(*\[Tau]1::usage = "lol"*)
-(*\[Tau]2::usage = "lol"*)
-(*\[Tau]3::usage = "lol"*)
+\[Tau]0::usage = "pauli mats"
+\[Tau]1::usage = "pauli mats"
+\[Tau]2::usage = "pauli mats"
+\[Tau]3::usage = "pauli mats"
 (*Format ::usage="Redefined Format for equation and SU2 matrices"*)
 
 Begin["Private`"]
