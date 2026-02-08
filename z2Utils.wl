@@ -11,9 +11,11 @@ With[{VPower=Verbatim[Power],VPlus=Verbatim[Plus],VTimes=Verbatim[Times]},
  VPower[VPower[a_,b_],c_]:> Power[a,Times[b,c]], 
 VPower[a__,VPlus[b__]]:>Inactive[Times]@@((Power[a,#]&)/@List[b]), 
 VPower[a_,VTimes[c__/;MemberQ[List[c],VPlus,{2},Heads->True]]]:>  Power[a,Distribute[Times[c]]],
+VPower[a_,b_]:>Power[a,Expand[b]],
 VPower[a_,VPlus[VTimes[c__/;MemberQ[List[c],VPlus,{2},Heads->True]],b__]]:> Power[a,Map[Distribute,Plus[b,Times[c]],Infinity]]}];  
 
-z2rules={\[Eta][x_]^Times[j_?Negative,k_]-> \[Eta][x]^(-k j), 
+
+z2rules={\[Eta][x_]^Times[j_?(Negative && IntegerQ),k_?AtomQ]-> \[Eta][x]^(-k j), 
 \[Eta][x_]^Times[j_?EvenQ ,m_:1]->1,
 \[Eta][x_]^Times[j_?OddQ  ,m_:1]->\[Eta][x]^(m),
 \[Eta][x_]^Power[j_,n_]-> \[Eta][x]^ j
