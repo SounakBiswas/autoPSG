@@ -31,6 +31,15 @@ CenterDot [SU2[\[Tau]1],SU2[\[Tau]3]]:=-I SU2[\[Tau]2];
 CenterDot [SU2[x_],SU2[Inv[x_]]]:=1;
 CenterDot [SU2[Inv[x_]],SU2[x_]]:=1;
 CenterDot[x___,SU2[\[Tau]0],y___]:=CenterDot[x,y];
+(*CenterDot [Power[SU2[\[Tau]0],2]]:=1;
+CenterDot [Power[SU2[\[Tau]1],2]]:=1;
+CenterDot [Power[SU2[\[Tau]2],2]]:=1;
+CenterDot [Power[SU2[\[Tau]3],2]]:=1;
+
+CenterDot [Power[SU2[Inv[\[Tau]0]],2]]:=1;
+CenterDot [Power[SU2[Inv[\[Tau]1]],2]]:=1;
+CenterDot [Power[SU2[Inv[\[Tau]2]],2]]:=1;
+CenterDot [Power[SU2[Inv[\[Tau]3]],2]]:=1;*)
 
 Equation[SU2[\[Tau]0],rhs_]:=Equation[1,rhs]
 
@@ -44,6 +53,14 @@ SU2[Inv[\[Tau]0]]=SU2[\[Tau]0]
 SU2[Inv[\[Tau]1]]=SU2[\[Tau]1]
 SU2[Inv[\[Tau]2]]=SU2[\[Tau]2]
 SU2[Inv[\[Tau]3]]=SU2[\[Tau]3]
+Power[SU2[\[Tau]0],m_?EvenQ] ^:=1
+Power[SU2[\[Tau]1],m_?EvenQ] ^:=1
+Power[SU2[\[Tau]2],m_?EvenQ] ^:=1
+Power[SU2[\[Tau]3],m_?EvenQ] ^:=1
+Power[SU2[\[Tau]0],m_?OddQ] ^:=SU2[\[Tau]0]
+Power[SU2[\[Tau]1],m_?OddQ] ^:=SU2[\[Tau]1]
+Power[SU2[\[Tau]2],m_?OddQ] ^:=SU2[\[Tau]2]
+Power[SU2[\[Tau]3],m_?OddQ] ^:=SU2[\[Tau]3]
 
 End[]
 EndPackage[]

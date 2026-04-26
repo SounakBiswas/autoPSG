@@ -22,7 +22,7 @@ e::usage ="group identity"
 u12pibyk::usage = "u1 phase mod 2 pi"
 
 (*general things needed in all solvers, perhaps move somewhere else later*)
-FAssoc; FSubstAssoc; MAssoc; ifIGGSet; iggAssoc; 
+FAssoc; FSubstAssoc; MAssoc; ifIGGSet; iggAssoc;
 phiAssoc;etaAssoc;
 (*only for U1*)
 NAssoc;
