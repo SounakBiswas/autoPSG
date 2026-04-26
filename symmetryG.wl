@@ -35,11 +35,19 @@ Module[{y},
 
 
 addZ[T_]:= (T[{x_,y_,z_}]:=Append[T[{x,y}],z];);
+addOnlyZ[T_]:= (T[{x_,y_,z_,slat_}]:=Insert[T[{x,y,slat}],z,3];);
+addBoth[T_]:= (T[{x_,y_,z_,slat_}]:=Join[T[{x,y}],{z,slat}];);
 addSlat[T_]:= (T[{x_,y_,z_,slat_}]:=Append[T[{x,y,z}],slat];);
 
 initSG[]:= (
 If[twoDim,
-   (addZ[#]&/@symGenSet;
+   (
+   If[noBasis,
+    Print["here"];
+    addBoth[#]&/@symGenSet;,
+    Print["here"];
+    addOnlyZ[#]&/@symGenSet;
+   ];
    defaultCoords=Sequence[x, y, None];
    defaultCoordsPattern=Sequence[x_,y_,None];
    nDim=2;
@@ -47,10 +55,10 @@ If[twoDim,
    (defaultCoords=Sequence[x,y,z];
    defaultCoordsPattern=Sequence[x_,y_,z_];
    nDim=3;
+   If[noBasis,
+      addSlat[#]&/@symGenSet;
+   ];
    )
-  ];
-  If[noBasis,
-     addSlat[#]&/@symGenSet;
   ];
   makeInverse[#]&/@ (Distribute[{symGenSet,slatList},List]);
 )
