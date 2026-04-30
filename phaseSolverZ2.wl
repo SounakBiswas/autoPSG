@@ -635,9 +635,71 @@ If[Length[newList]!=0,
 First[newList],
 eqj]
 ]
+getBasisExpansion[expr_]:=Module[{xmax,ymax,zmax,xbases,ybases,zbases,ceffs,ceffs2},
+xmax=Exponent[expr,x];
+ymax=Exponent[expr,y];
+zmax=Exponent[expr,z];
+ceffs=CoefficientList[expr,{x,y,z}];
+ceffs2=Table[Factorial[p] Factorial[q]Factorial[r]Sum[ceffs[[1+a]][[1+b]][[1+c]]StirlingS2[a,p]StirlingS2[b,q]StirlingS2[c,r],{a,p,xmax},{b,q,ymax},{c,r,zmax}],{p,0,xmax},{q,0,ymax},{r,0,zmax}];
+(*Print["expr=",expr];
+Print[ceffs2];*)
+Drop[Flatten[ceffs2],1]
 
+]
+getConst[g_,slat_,temp_]:=(temp[{g,slat}])//.{x->0,y->0,z->0};
+getConstraints[g_,temp_]:=Module[{keys,l1,l2},
+keys=({g,#}&/@slatList);
+l1=Join@@(getBasisExpansion[#]&/@(temp[#]&/@keys));
+l2=(getConst[g,slatList[[#]],temp]-getConst[g,slatList[[#+1]],temp])&/@Range[Length[slatList]-1];
+(*Print["g=",g];
+Print["l1=",l1];
+Print["l2=",l2];*)
+(Join[DeleteDuplicates[l1],DeleteDuplicates[l2]])
+];
+eliminateRedundantPhases[rels_] := Module[{W,temp,func,k,ceffs,eqs,rref,
+ngaugevars,fullvars,Eliminatable, leadingPos,getRel,constrs1,constrs2,rels2},
+W[{x_,y_,z_,\[Alpha]_}]:=\[Eta][X]^x \[Eta][Y]^y \[Eta][\[Alpha]];
+temp=<||>;
+func[{g_,slat_}]:= W[{x,y,z,slat}] FAssoc[{g,slat}][[2]] W[Inv[g][{x,y,z,slat}]]//z2Simplify;
+Scan[AssociateTo[temp,#->PowerExpand[Log[func[#]]]]&,Keys[FAssoc]];
+temp=temp//.{Log[\[Eta][x_]]->\[Eta][x]}; 
+vars=Cases[Values[FAssoc],\[Eta][x_]->\[Eta][x],Infinity]//DeleteDuplicates;
+fullvars=Join[{\[Eta][X],\[Eta][Y],\[Eta][Z]},\[Eta][#]&/@slatList,vars];
+ngaugevars=3+Length[slatList];
+eqs=Join@@(getConstraints[#,temp]&/@symGenSet);
+eqs=DeleteDuplicates[eqs];
+{k,ceffs}=CoefficientArrays[eqs,fullvars];
+ceffs=Normal[ceffs];
+eqs=(#==0)&/@eqs;
+DeleteElements[eqs,{True}];
+rref=RowReduce[ceffs,Modulus->2];
+Eliminatable=<||>;
+AssociateTo[Eliminatable,#->True]&/@vars;
+leadingPos[row_]:=If[MemberQ[row,1],Position[row,1][[1]][[1]],0];
+getRel[row_]:=Module[{lpos,relvars,selvars},
+ lpos=leadingPos[row];
+ If[leadingPos[row]>ngaugevars,
+
+     relvars=fullvars[[lpos;;]];
+     selvars=fullvars[[Sequence@@Position[row,1]]];
+     (AssociateTo[Eliminatable,#->False])&/@selvars;
+   If[Plus@@(row[[lpos;;]])!=1,
+    Equation[1,Times@@relvars]
+    ,
+    Nothing
+   ]
+,Nothing]
+];
+constrs1=getRel/@rref;
+constrs2=If[Eliminatable[#],
+Equation[1,#],Nothing]&/@vars;
+rels2=Join[rels,constrs1,constrs2];
+reduceEtas[rels2]]
 Begin["Private`"]
 
 End[]
 
 EndPackage[]
+
+
+
