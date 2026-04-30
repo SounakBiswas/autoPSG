@@ -20,8 +20,8 @@ The broad workflow plan is as follows:
 
 ## Issue tracker 
 
-- [ ] Empower Recurrence Solver to work well for Rotations and weirder Equation sets
-- [ ] Make sure the automatic IGG setting is done correctly
+- [x] Empower Recurrence Solver to work well for Rotations and weirder Equation sets
+- [x] Make sure the automatic IGG setting is done correctly
 =======
 
 
