@@ -30,8 +30,9 @@ phaseSolverIterate[rels0_]:=Module[
   ];
   rels1=Join@@(SplitEqMF/@rels1);
   rels1 = Join @@ (SplitFxy /@ rels1);
-  rels1=relabelIndices /@ rels1;
   elementaryFReductions = Join@@(ReduceF/@rels1);
+  (*Print["elem Reds="];
+  Print[elementaryFReductions];*)
   composedFReductions= FReductions[elementaryFReductions];
   (*Print["Reductions:"];
   Print[Values[composedFReductions]//Column];*)
@@ -55,7 +56,6 @@ phaseSolverIterate[rels0_]:=Module[
 
 
         rels2 = Join @@ (SplitFxy /@ rels2);
-        rels2=relabelIndices /@ rels2;
         elementaryFReductions = Join@@(ReduceF/@rels2);
         composedFReductions= FReductions[elementaryFReductions];
         Scan[(AssociateTo[FAssoc,#->composedFReductions[#]]&),Keys[composedFReductions]];
@@ -145,130 +145,84 @@ ApplyRules[relations_,subrules_]:= Module[{temp},
 (******************************************)
 (*Check if an equation o form F.F=rhs is a valid first order difference equation that can be solved*)
 
-IfFirstOrderDEq2D[HoldPattern[Equation[Times[ Inv[F[B_]][{x1_,y1_,z1_,s1_}], F[A_][{x2_,y2_,z2_,s2_}]],rhs_]]]:=
+extractCoeffs[rp_]:=
+Module[{xp,cxp,ax,ay,az,ak},
+    xp=ExpandAll[rp];
+    cxp=Cases[xp,(Verbatim[Plus][a___]|Times[a__]|x_?AtomQ)->a,{0}];
+    ax=Cases[cxp,Times[(p_:1),x]:>p,{1}];
+    ay=Cases[cxp,Times[(p_:1),y]:>p,{1}];
+    az=Cases[cxp,Times[(p_:1),z]:>p,{1}];
+    If[ax==={},ax=0,ax=ax[[1]]];
+    If[ay==={},ay=0,ay=ay[[1]]];
+    If[az==={},az=0,az=az[[1]]];
+    ak=rp-ax x-ay y-az z;
+    {ax,ay,az,ak}
+    ];
+(*2dimensional only so far*)
+getInvRules[newcoords_]:=
+Module[{coord1,coord2,ncoords,func,rpp},coord1={x,y,z};
+    coord2=newcoords;
+    ncoords=Length[coord2];
+    func[coords_]:=
+    Module[{m,mI,rp,a,b,c},rp={Null,Null,Null};
+        a=extractCoeffs[#]&/@coords;
+        m=a[[All,1;;3]];
+        mI=PseudoInverse[m];
+        rp=mI . (Take[coord1,ncoords]-a[[1;;ncoords,4]]);
+        rp
+    ];
+    rpp=func[coord2];
+    {x->rpp[[1]],y ->rpp[[2]], z->rpp[[3]]}
+    ];
+
+
+relabelRules[{x_,y_,z_,s_}]:=
+Module[{labels,uLabels,rules},(*collect arguments x,y,x+y etc appearing in equations*)
+labels={x,y,z}//DeleteCases[None];
+If[Length[labels]!=0,getInvRules[labels],{}]
+];
+
+IfFirstOrderDEq2D[HoldPattern[Equation[Times[Inv[F[B_]][{x1_,y1_,z1_,s1_}],F[A_][{x2_,y2_,z2_,s2_}]],rhs_]]]:=
 Module[{subcoords,k1,k2,k3,l1,l2,c1,c2,c3,c4},
-    
-    k1=x2-x1; k2=y2-y1; k3=z2-z1;
+    k1=x2-x1;k2=y2-y1;k3=z2-z1;
     l1=Level[{x1,y1,z1},{-1}]//DeleteCases[x_Integer];
     l2=Level[{x2,y2,z2},{-1}]//DeleteCases[x_Integer];
-    c1=(NumericQ[k1]&&Abs[k1]<=1) && (NumericQ[k2] && Abs[k2]<= 1 )&& (NumericQ[k3] && Abs[k3]<= 1 ) &&(Abs[k1]+Abs[k2]+Abs[k3]==1);
+    c1=(NumericQ[k1]&&Abs[k1]<=1)&&(NumericQ[k2]&&Abs[k2]<=1)&&(NumericQ[k3]&&Abs[k3]<=1)&&(Abs[k1]+Abs[k2]+Abs[k3]==1);
     c2=SameQ[A,B]&&SameQ[s1,s2];
-    c3=DuplicateFreeQ[l1] && DuplicateFreeQ[l2];
+    If[c1&&c2,True,False]
+    ];
 
-    
-    If[c1 && c2 && c3, 
-        True,
-        False
-    ]
-];
 IfFirstOrderDEq2D[expr_]:=False;
 
-(*assume solvable*)
-(* helper functions to expand exp(log a + log b) *)
-SetAttributes[expExpand, HoldAllComplete];
-texp[Times[a_, x_Plus]] := Times @@ texp /@ (Times[a, #] & /@ x);
-texp[Times[x_Plus]] := Times @@ texp /@ x;
-(*expExpand[ex_]:=ReleaseHold[Hold[ex]/.Exp[x_]:>texp[x]];*)
-expExpand[ex_] := ex /. Exp[x_] :> texp[x] /. {texp -> Exp};
-FirstOrderDEqSolve2D[
-  HoldPattern[
-   Equation[Inv[F[A_]][{x1_, y1_, z1_, s_}] F[A_][{x2_, y2_, z2_, s_}],
-     p_]]] := 
- Module[{k1 = x2 - x1, k2 = y2 - y1, k3 = z2 - z1, expr, a, b, c, 
-   rules, rules2, at, bt, ct, range, coeffs, powers, newrhs, sol, c1, 
-   c2, c3, tmp, ca, cb}, rules = {};
+FirstOrderDEqSolve2D[HoldPattern[Equation[Inv[F[A_]][coord1_] F[A_][coord2_],p_]]]:=
+Module[{k,r1,r2,invRules,newrhs,sol,clhs,crhs,s,expr},
+    invRules=relabelRules[coord1];
+    r1=coord1/.invRules;
+    r2=coord2/.invRules;
+    k=coord1-coord2;
+    expr=p/.invRules;
+    s=coord1[[4]];
+    clhs={x_,y_,z_,s};
+    crhs={x,y,z,s};
+    (*clhs={a_,b_,c_,s};
+    crhs={a,b,c,s};*)
+    If[r1[[#]]==0,crhs[[#]]=0;clhs[[#]]=0;]&/@Range[3];
+    If[Abs[k[[1]]]==1,
+        crhs[[1]]=0;
+        sol=RSolve[{Z[(r2[[1]])]-Z[r1[[1]]]==PowerExpand[Log[expr]],Z[0]==0},Z[x],x];sol,
+    (*Else If *)
+    If[Abs[k[[2]]]==1,
+        crhs[[2]]=0;
+        sol=RSolve[{Z[(r2[[2]])]-Z[r1[[2]]]==PowerExpand[Log[expr]],Z[0]==0},Z[y],y],
+    (*Else*)
+        crhs[[3]]=0;
+        sol=RSolve[{Z[(r2[[3]])]-Z[r1[[3]]]==PowerExpand[Log[expr]],Z[0]==0},Z[z],z]
+    ]];
+    newrhs=Exp[sol[[1]][[1]][[2]]];
+    {Rule[F[A][clhs],F[A][crhs]Simplify[newrhs]]}
+];
 
-   invRules=relabelRules[{x1,y1,z1,s}];
-  (If[MemberQ[x1, #, {0, Infinity}], 
-       AppendTo[rules, # -> at];]; &) /@ {x, y, z};
-  (If[MemberQ[y1, #, {0, Infinity}], 
-       AppendTo[rules, # -> bt];]; &) /@ {x, y, z}; 
-  (If[MemberQ[z1, #, {0, Infinity}], 
-       AppendTo[rules, # -> ct];]; &) /@ {x, y, z};
-  c1 = x1 /. {rules};
-  c2 = y1 /. {rules};
-  ca = Cases[c1, (a_ : 1) at + (c_ : 0) -> Sequence[a, c], {0, 1}];
-  cb = Cases[c2, (a_ : 1) bt + (c_ : 0) -> Sequence[a, c], {0, 1}];
-  expr = p //. rules;
-  If[Abs[k1] == 1,
-   expr = expr //. {at -> a};
-   If[Not[FreeQ[c2, bt]],
-    expr = expr //. {bt -> (1/cb[[1]]) b - cb[[2]]};
-    ];
-   sol = 
-    RSolve[{Z[(x2 /. rules /. {at -> a})] - 
-        Z[x1 /. rules /. {at -> a}] == Log[expr], Z[0] == 0}, Z[a], a];
-   newrhs = Exp[sol[[1]][[1]][[2]]];
-   
-   If[Not[FreeQ[c2, bt]],
-    {Rule @@ {F[A][{a_, b_, c_, s}], F[A][{0, b, c, s}] newrhs}},
-    
-    {Rule @@ {F[A][{a_, y1, c_, s}], F[A][{0, y2, c, s}] newrhs}}
-    ],
-   If[Abs[k2] == 1,
-    expr = expr //. {bt -> b};
-    If[Not[FreeQ[c1, at]],
-     expr = expr //. {at -> (1/ca[[1]]) a - ca[[2]]};
-     ];
-    sol = 
-     RSolve[{Z[(y2 /. rules /. {bt -> b})] - 
-         Z[y1 /. rules /. {bt -> b}] == Log[expr], Z[0] == 0}, Z[b], 
-      b];
-    newrhs = Exp[sol[[1]][[1]][[2]]];
-    
-    If[Not[FreeQ[c1, at]],
-     {Rule @@ {F[A][{a_, b_, c_, s}], F[A][{a, 0, c, s}] newrhs}},
-     {Rule @@ {F[A][{x1, b_, c_, s}], F[A][{x2, 0, c, s}] newrhs}}
-     ]
-    ]
-   ](*Rsolve seems to return things in a weird {{x->y}} format*)
-  ]
 
-       (*FirstOrderDEqSolve2Dalt[ HoldPattern[Equation[Inv[F[A_]][{x1_, y1_, z1_, s_}] F[A_][{x2_, y2_, z2_, s_}],p_]]] := 
-    Module[{k1 = x2 - x1, k2 = y2 - y1, k3 = z2 - z1, expr, a, b, c, 
-         rules, rules2, range, coeffs, powers, newrhs, sol}, rules = {};
-         (If[MemberQ[x1, #, {0, Infinity}], 
-              AppendTo[rules, # -> a];]; 
-         &) /@ {x, y, z};
-         (If[MemberQ[y1, #, {0, Infinity}], 
-              AppendTo[rules, # -> b];]; 
-         &) /@ {x, y, z};
-         (If[MemberQ[z1, #, {0, Infinity}], 
-              AppendTo[rules, # -> c];]; 
-         &) /@ {x, y, z};
-         
-         range = Range[0, 5];
-         expr = p //. rules;
-         If[Abs[k1] == 1,
-              sol = RSolve[{Z[(x2 /. rules)] - Z[x1 /. rules] == Log[expr], Z[0] == 0}, Z[a], a];,
-
-              If[Abs[k2] == 1,
-                   sol = RSolve[{Z[(y2 /. rules)] - Z[y1 /. rules] == Log[expr], Z[0] == 0}, Z[b], b];,
-                   If[Abs[k3] == 1,
-                        sol =  RSolve[{Z[(z2 /. rules)] - Z[z1 /. rules] == Log[expr], Z[0] == 0}, Z[c], c];
-                        ]
-                   ]
-              ];
-         (*Rsolve seems to return things in a weird {{x->y}} format*)
-         newrhs = Exp[sol[[1]][[1]][[2]]];
-         If[Abs[k1] == 1, 
-             {Rule @@ {F[A][{a_, b_, c_, s}], F[A][{0, b, c, s}] newrhs}}, 
-             If[Abs[k2] == 1, 
-                 {Rule @@ {F[A][{a_, b_, c_, s}], F[A][{a, 0, c, s}] newrhs}},
-                 If[Abs[k3] == 1, 
-                     {Rule @@ {F[A][{a_, b_, c_, s}], F[A][{a, b, 0, s}] newrhs}}
-                 ]
-             ]
-         ]
-    ];
-
-*)
-relabelRules[(t_?IfFOrInvF)[{x_, y_, z_, s_}]] := 
- Module[{labels, uLabels, rules},(*collect arguments x,y,x+
-  y etc appearing in equations*)
-  labels = {x, y, z} // DeleteCases[0] // DeleteCases[None];
-  Print[labels, {x, y}];
-  If[Length[labels] == nDim, getInvRules[labels], {}]]
 
 ReduceF[HoldPattern[x_Equation]]:=
 Module[{rel,sol,sym,slat},
@@ -488,19 +442,6 @@ uniques[{}] := Nothing;
 uniques[syms_] := 
     Join[{syms[[1]]}, If[ syms[[1]] === -#, Nothing, #] & /@ uniques[Drop[syms, 1]]];
 
-relabelIndices[eq_Equation] := Module[{labels, uLabels, rules},
-    (*collect arguments x,y,x+y etc appearing in equations*)
-    labels = (eq[[1]] // Cases[x_ -> x] // 
-      Cases[F[A_][{x__}] -> x]) //. {x__Integer + y___ :> Plus[y]} // 
-        DeleteDuplicates // DeleteCases[x_Integer] // DeleteCases[None];
-    uLabels = uniques[labels];
-    If[Length[labels]==0,uLabels={},uLabels=Complement[uniques[labels],slatList]];
-    If[Length[uLabels] == nDim  && Length[Complement[{x, y}, uLabels]] != 0, 
-     eq2=eq /. getInvRules[uLabels]; If[gendoc,Print["relabel", eq, "to ", eq2]]; eq2, 
-     eq
-    ]
-                       
-]
 
 RuleFromSolved[HoldPattern[Equation[(t1_?IfFOrInvF)[{x1_, y1_, z1_, s1_}], rhs_]]] := 
     Module[{x1n, y1n, x2n, y2n, rule1, rule2, rule3, rule4, svar, subrules, PattFunc},
@@ -700,6 +641,4 @@ Begin["Private`"]
 End[]
 
 EndPackage[]
-
-
 
