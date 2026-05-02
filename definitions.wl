@@ -26,6 +26,7 @@ FAssoc; FSubstAssoc; MAssoc; ifIGGSet; iggAssoc;
 phiAssoc;etaAssoc;
 (*only for U1*)
 NAssoc;
+gendoc=False;
 
 IGG::usage="variable, u1 or z2"
 
@@ -93,9 +94,9 @@ SU2[Inv[SU2[M[A_][slat_]]]] -> SU2[Inv[M[A][slat]]];
 Inv[Inv[F[A_]]]:= F[A]
 SU2[Inv[Inv[A_]]]:=SU2[A]
 SU2[Inv[Verbatim[Times][SU2[x_],y__]]]:= Power[Times[y],-1] SU2[Inv[x]]
-SU2[Verbatim[Times][SU2[x_],y__]]:= Times[y] SU2[x]
-SU2[Inv[Verbatim[Times][CenterDot[x__],y__]]]:= Power[Times[y],-1] SU2[Inv[CenterDot[x]]]
-SU2[Inv[Verbatim[CenterDot][x_,y__]]]:= CenterDot[SU2[Inv[CenterDot[y]]],SU2[Inv[x]]]
+SU2[Verbatim[Times][SU2[x_],y__]]/;FreeQ[y,SU2]:= Times[y] SU2[x]
+SU2[Inv[Verbatim[Times][CenterDot[x__],y__]]]/;FreeQ[y,SU2]:= Power[Times[y],-1] SU2[Inv[CenterDot[x]]]
+SU2[Inv[Verbatim[CenterDot][x_,y__]]]/;FreeQ[y,SU2]:= CenterDot[SU2[Inv[CenterDot[y]]],SU2[Inv[x]]]
 CenterDot[pref___, Power[E, Complex[0,x_] (pref1_:1) SU2[k_]], Power[E,Complex[0,y_] (pref2_:1) SU2[k_]], suff___]:= CenterDot[pref, Exp[ Complex[0,1]*(x pref1 + y pref2) SU2[k]], suff] 
 
 (*power for SU2 matrices*)
