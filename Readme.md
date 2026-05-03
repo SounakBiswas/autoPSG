@@ -11,7 +11,7 @@ The broad workflow plan is as follows:
 - [x] set up symmetry group inputs: in terms of a finite presentation and action on sites and sublattices.
 - [x] z2: solve for  phase parts 
 - [x] z2: Reduce matrix equations to minimal set 
-- [ ] Set matrices using global gauge freedom and enumerate psgs
+- [x] Set matrices using global gauge freedom and enumerate psgs
 - [ ] solve for IGG $U(1)$
 - [ ] solve for IGG $SU(2)$
 - [ ] bosonic partons (?)
@@ -22,6 +22,7 @@ The broad workflow plan is as follows:
 
 - [x] Empower Recurrence Solver to work well for Rotations and weirder Equation sets
 - [x] Make sure the automatic IGG setting is done correctly
+- [ ] Generalise SplitFxy to Fxyz
 =======
 
 
