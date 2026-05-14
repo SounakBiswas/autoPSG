@@ -15,15 +15,22 @@ The broad workflow plan is as follows:
 - [ ] solve for IGG $U(1)$
 - [ ] solve for IGG $SU(2)$
 - [ ] bosonic partons (?)
-- [ ] input for lattice bonds
-- [ ] calculate ansatzes 
+- [x] input for lattice bonds
+- [x] calculate ansatzes 
 
 ## Issue tracker 
 
 - [x] Empower Recurrence Solver to work well for Rotations and weirder Equation sets
 - [x] Make sure the automatic IGG setting is done correctly
+- [ ] Deal with duplicate solutions in matrix solver.
+- [ ] Implement SplitEqMF correctly
 - [ ] Generalise SplitFxy to Fxyz
+
+## Other todolist
+- [ ] implement camel case for variable names
+
 =======
+
 
 
 
